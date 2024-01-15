@@ -5,6 +5,7 @@ import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.CategoryDTO;
 import com.example.suma.exceptions.*;
 import com.example.suma.mediator.CategoryMediator;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "api/v1/category")
 @RequiredArgsConstructor
+@Tag(name = "Category")
 public class CategoryController {
 
     private final CategoryMediator categoryMediator;
@@ -35,7 +37,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getCategory(){
+    public ResponseEntity<List<CategoryDTO>> getCategory(@RequestParam String type,@RequestParam(required = false) String name, @RequestParam boolean bySupercategory){
         return ResponseEntity.ok(categoryMediator.getCategory());
     }
 
