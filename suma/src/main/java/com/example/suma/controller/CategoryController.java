@@ -3,10 +3,7 @@ package com.example.suma.controller;
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.CategoryDTO;
-import com.example.suma.exceptions.CategoryAlreadyExistException;
-import com.example.suma.exceptions.CategoryDontExistException;
-import com.example.suma.exceptions.SupercategoryDontExistException;
-import com.example.suma.exceptions.SupercategoryNotEmptyException;
+import com.example.suma.exceptions.*;
 import com.example.suma.mediator.CategoryMediator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -32,6 +32,11 @@ public class CategoryController {
     @GetMapping("{uuid}")
     public ResponseEntity<CategoryDTO> getCategory(@PathVariable String uuid){
        return ResponseEntity.ok(categoryMediator.getCategory(uuid));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryDTO>> getCategory(){
+        return ResponseEntity.ok(categoryMediator.getCategory());
     }
 
     @PatchMapping()
@@ -77,5 +82,11 @@ public class CategoryController {
     public Response handleSupercategoryNotEmptyException(
             SupercategoryNotEmptyException ex) {
         return new Response(Code.C4);
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UuidNullException.class)
+    public Response handleUuidNullException(
+            UuidNullException ex) {
+        return new Response(ex.getMessage(),Code.E1);
     }
 }

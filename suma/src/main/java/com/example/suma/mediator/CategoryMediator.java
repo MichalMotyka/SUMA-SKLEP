@@ -3,10 +3,14 @@ package com.example.suma.mediator;
 import com.example.suma.entity.Category;
 import com.example.suma.entity.dto.CategoryDTO;
 import com.example.suma.exceptions.CategoryAlreadyExistException;
+import com.example.suma.exceptions.UuidNullException;
 import com.example.suma.service.CategoryService;
 import com.example.suma.translators.CategoryDtoToCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -26,7 +30,15 @@ public class CategoryMediator {
        return translatorCategory.translateCategory(category);
     }
 
+    public List<CategoryDTO> getCategory(){
+        List<Category> category = categoryService.getCategory();
+        return category.stream().map(translatorCategory::translateCategory).collect(Collectors.toList());
+    }
+
     public void updateCategory(CategoryDTO categoryDTO) {
+        if (categoryDTO.getUuid() == null){
+            throw new UuidNullException("Nie przekazano identyfikatora kategorii");
+        }
         categoryService.updateCategory(categoryDTO);
     }
 }

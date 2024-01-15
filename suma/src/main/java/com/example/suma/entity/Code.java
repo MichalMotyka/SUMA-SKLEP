@@ -11,7 +11,7 @@ public enum Code {
     C1("Przekazane dane kategorii są nieprawidłowe"),
     C2("Kategoria o wskazanej nazwie już istnieje"),
     C3("Wskazana nadkategoria nie istnieje"),
-    C4("Nie można zmienić kategorie na podkategorie jeśli sama posiada już przypisane do siebie podkategorie. Proszę odpiąć podkategorie"),
+    C4("Nie można zmienić kategorii na podkategorie, jeśli sama posiada już przypisane do siebie podkategorie. Proszę odpiąć te podkategorie przed dokonaniem zmiany."),
     E1("Błąd danych");
 
     public final String label;

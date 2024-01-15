@@ -10,6 +10,7 @@ import com.example.suma.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,19 +41,29 @@ public class CategoryService {
     public void updateCategory(CategoryDTO categoryDTO) {
         categoryRepository.findCategoryByUuid(categoryDTO.getUuid()).ifPresentOrElse(value->{
             if(categoryDTO.getName()!= null && !categoryDTO.getName().equals(value.getName())){
-                value.setName(categoryDTO.getName());
+                categoryRepository.findCategoryByName(categoryDTO.getName()).ifPresentOrElse(var ->{
+                    throw new CategoryAlreadyExistException();
+                },() -> {value.setName(categoryDTO.getName());});
             }
 
-            if (categoryDTO.getSupercategory() != null && !categoryDTO.getSupercategory().equals(value.getSupercategory().getUuid())){
+            else if ((value.getSupercategory() == null && categoryDTO.getSupercategory() != null) ||
+                    (value.getSupercategory() != null && !categoryDTO.getSupercategory().equals(value.getSupercategory().getUuid()))){
                 if (!value.getSubcategoriesy().isEmpty()){
                     throw new SupercategoryNotEmptyException();
                 }
-                categoryRepository.findCategoryByUuid(categoryDTO.getUuid()).ifPresentOrElse(value::setSupercategory,
+                categoryRepository.findCategoryByUuid(categoryDTO.getSupercategory()).ifPresentOrElse(category -> {
+                        value.setSupercategory(category);
+                        value.setSubcategory(true);
+                    },
                         ()-> {throw new CategoryDontExistException();});
             }
             categoryRepository.save(value);
         },()->{
             throw new CategoryDontExistException();
         });
+    }
+
+    public List<Category> getCategory() {
+        return categoryRepository.findAll();
     }
 }
