@@ -25,4 +25,8 @@ public class CategoryMediator {
        Category category = categoryService.getCategoryByUuid(uuid);
        return translatorCategory.translateCategory(category);
     }
+
+    public void updateCategory(CategoryDTO categoryDTO) {
+        categoryService.updateCategory(categoryDTO);
+    }
 }

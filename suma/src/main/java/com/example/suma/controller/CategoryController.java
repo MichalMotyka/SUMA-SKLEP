@@ -6,6 +6,7 @@ import com.example.suma.entity.dto.CategoryDTO;
 import com.example.suma.exceptions.CategoryAlreadyExistException;
 import com.example.suma.exceptions.CategoryDontExistException;
 import com.example.suma.exceptions.SupercategoryDontExistException;
+import com.example.suma.exceptions.SupercategoryNotEmptyException;
 import com.example.suma.mediator.CategoryMediator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,12 @@ public class CategoryController {
     @GetMapping("{uuid}")
     public ResponseEntity<CategoryDTO> getCategory(@PathVariable String uuid){
        return ResponseEntity.ok(categoryMediator.getCategory(uuid));
+    }
+
+    @PatchMapping()
+    public ResponseEntity<Response> updateCategory(@RequestBody CategoryDTO categoryDTO){
+        categoryMediator.updateCategory(categoryDTO);
+        return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -63,5 +70,12 @@ public class CategoryController {
     public Response handleSupercategoryDontExistException(
             SupercategoryDontExistException ex) {
         return new Response(Code.C3);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SupercategoryNotEmptyException.class)
+    public Response handleSupercategoryNotEmptyException(
+            SupercategoryNotEmptyException ex) {
+        return new Response(Code.C4);
     }
 }

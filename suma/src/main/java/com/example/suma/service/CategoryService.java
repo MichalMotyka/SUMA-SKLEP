@@ -1,9 +1,11 @@
 package com.example.suma.service;
 
 import com.example.suma.entity.Category;
+import com.example.suma.entity.dto.CategoryDTO;
 import com.example.suma.exceptions.CategoryAlreadyExistException;
 import com.example.suma.exceptions.CategoryDontExistException;
 import com.example.suma.exceptions.SupercategoryDontExistException;
+import com.example.suma.exceptions.SupercategoryNotEmptyException;
 import com.example.suma.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,24 @@ public class CategoryService {
 
     public void validateCategory(String name){
         categoryRepository.findCategoryByName(name).ifPresent(var ->{throw new CategoryAlreadyExistException();});
+    }
+
+    public void updateCategory(CategoryDTO categoryDTO) {
+        categoryRepository.findCategoryByUuid(categoryDTO.getUuid()).ifPresentOrElse(value->{
+            if(categoryDTO.getName()!= null && !categoryDTO.getName().equals(value.getName())){
+                value.setName(categoryDTO.getName());
+            }
+
+            if (categoryDTO.getSupercategory() != null && !categoryDTO.getSupercategory().equals(value.getSupercategory().getUuid())){
+                if (!value.getSubcategoriesy().isEmpty()){
+                    throw new SupercategoryNotEmptyException();
+                }
+                categoryRepository.findCategoryByUuid(categoryDTO.getUuid()).ifPresentOrElse(value::setSupercategory,
+                        ()-> {throw new CategoryDontExistException();});
+            }
+            categoryRepository.save(value);
+        },()->{
+            throw new CategoryDontExistException();
+        });
     }
 }
