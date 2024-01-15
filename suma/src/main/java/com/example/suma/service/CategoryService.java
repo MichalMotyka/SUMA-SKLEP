@@ -2,6 +2,7 @@ package com.example.suma.service;
 
 import com.example.suma.entity.Category;
 import com.example.suma.entity.dto.CategoryDTO;
+import com.example.suma.entity.dto.FilterType;
 import com.example.suma.exceptions.CategoryAlreadyExistException;
 import com.example.suma.exceptions.CategoryDontExistException;
 import com.example.suma.exceptions.SupercategoryDontExistException;
@@ -63,7 +64,22 @@ public class CategoryService {
         });
     }
 
-    public List<Category> getCategory() {
+    public List<Category> getCategory(FilterType type, String name, boolean bySupercategory) {
+        if (type == FilterType.ALL && name != null){
+            return categoryRepository.findCategoriesByName(name);
+        } else if (type == FilterType.SUBCATEGORY) {
+            if (name == null){
+               return categoryRepository.findCategoryByIsSubcategory(true);
+            }else if (bySupercategory){
+               return categoryRepository.findCategoryBySupercategory(name);
+            }
+            return categoryRepository.findCategoryByNameAndIsSubcategory(name,true);
+        }else if(type == FilterType.CATEGORY){
+            if (name == null){
+                categoryRepository.findCategoryByIsSubcategory(false);
+            }
+            return categoryRepository.findCategoryByNameAndIsSubcategory(name,false);
+        }
         return categoryRepository.findAll();
     }
 }

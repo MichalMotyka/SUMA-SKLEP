@@ -3,6 +3,7 @@ package com.example.suma.controller;
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.CategoryDTO;
+import com.example.suma.entity.dto.FilterType;
 import com.example.suma.exceptions.*;
 import com.example.suma.mediator.CategoryMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+
 
 
 @RestController
@@ -37,8 +38,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getCategory(@RequestParam String type,@RequestParam(required = false) String name, @RequestParam boolean bySupercategory){
-        return ResponseEntity.ok(categoryMediator.getCategory());
+    public ResponseEntity<List<CategoryDTO>> getCategory(@RequestParam FilterType type, @RequestParam(required = false) String name, @RequestParam boolean bySupercategory){
+        return ResponseEntity.ok(categoryMediator.getCategory(type,name,bySupercategory));
     }
 
     @PatchMapping()

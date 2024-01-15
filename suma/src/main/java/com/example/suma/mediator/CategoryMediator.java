@@ -2,7 +2,7 @@ package com.example.suma.mediator;
 
 import com.example.suma.entity.Category;
 import com.example.suma.entity.dto.CategoryDTO;
-import com.example.suma.exceptions.CategoryAlreadyExistException;
+import com.example.suma.entity.dto.FilterType;
 import com.example.suma.exceptions.UuidNullException;
 import com.example.suma.service.CategoryService;
 import com.example.suma.translators.CategoryDtoToCategory;
@@ -30,8 +30,8 @@ public class CategoryMediator {
        return translatorCategory.translateCategory(category);
     }
 
-    public List<CategoryDTO> getCategory(){
-        List<Category> category = categoryService.getCategory();
+    public List<CategoryDTO> getCategory(FilterType type, String name, boolean bySupercategory){
+        List<Category> category = categoryService.getCategory(type,name,bySupercategory);
         return category.stream().map(translatorCategory::translateCategory).collect(Collectors.toList());
     }
 
