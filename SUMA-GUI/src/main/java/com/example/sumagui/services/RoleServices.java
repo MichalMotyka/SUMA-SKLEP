@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.sumagui.excetpions.ErrorInterceptor;
+import com.example.sumagui.utils.AccountController;
 import com.example.sumagui.utils.ConfigController;
 import com.google.gson.Gson;
 import lombok.extern.log4j.Log4j2;
@@ -34,6 +35,7 @@ public class RoleServices {
         log.debug("CALL --role API");
         Request request = new Request.Builder()
                 .url(url)
+                .header("Authorization", AccountController.getInstance().getToken())
                 .get().build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()){

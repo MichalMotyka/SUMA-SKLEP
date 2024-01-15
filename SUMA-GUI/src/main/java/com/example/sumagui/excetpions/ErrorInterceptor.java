@@ -19,7 +19,9 @@ public class ErrorInterceptor implements Interceptor {
             Request request = chain.request();
             response = chain.proceed(request);
 
-            if (response.code() >= 400){
+            if (response.code() == 403) {
+                ErrorView.createView("Skontaktuj się z administratorem","Nie jesteś autoryzowany do operacji");
+            }else if (response.code() >= 400){
                 Gson gson = new Gson();
                 com.example.sumagui.entity.Response res = gson.fromJson(response.body().string(), com.example.sumagui.entity.Response.class);
                 ErrorView.createView(res.getCode(), res.getMessage());

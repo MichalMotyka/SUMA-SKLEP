@@ -17,7 +17,7 @@ public class ConfigController {
 
     private void loadProperties() {
         try{
-            String filePath = "src/main/resources/application.properties"; // Zmień na właściwą ścieżkę do pliku properties
+            String filePath = "SUMA-GUI/src/main/resources/application.properties"; // Zmień na właściwą ścieżkę do pliku properties
             input = new FileInputStream(filePath);
             properties.load(input);
         }catch (IOException e){

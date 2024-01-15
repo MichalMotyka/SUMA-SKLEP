@@ -40,6 +40,7 @@ public class UserService {
         log.debug("CALL --register user API");
         Request request = new Request.Builder()
                 .url(url)
+                .header("Authorization",AccountController.getInstance().getToken())
                 .post(RequestBody.create(MediaType.parse("application/json"),body))
                 .build();
 
@@ -75,7 +76,6 @@ public class UserService {
         try(Response response = client.newCall(request).execute()){
             if (response.isSuccessful()){
                 log.debug("STOP --getUsers");
-                System.out.println(response.body().string());
                 return true;
             }
             log.debug("STOP --getUsers");
