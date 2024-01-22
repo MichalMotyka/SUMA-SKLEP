@@ -11,21 +11,21 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
-
 
 @RestController
 @RequestMapping(value = "api/v1/category")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600,allowCredentials="true")
 @Tag(name = "Category")
 public class CategoryController {
 
     private final CategoryMediator categoryMediator;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Response> createCategory(@Valid @RequestBody CategoryDTO category){
         categoryMediator.createCategory(category);
@@ -42,9 +42,17 @@ public class CategoryController {
         return ResponseEntity.ok(categoryMediator.getCategory(type,name,bySupercategory));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping()
     public ResponseEntity<Response> updateCategory(@RequestBody CategoryDTO categoryDTO){
         categoryMediator.updateCategory(categoryDTO);
+        return ResponseEntity.ok(new Response(Code.SUCCESS));
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("{uuid}")
+    public ResponseEntity<Response> deleteCategory(@PathVariable String uuid){
+        categoryMediator.deleteCategory(uuid);
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 

@@ -1,0 +1,22 @@
+<form [formGroup]="formGroup">
+  <div class="container mt-4">
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Numer kategori</span>
+      <input class="form-control" type="text" formControlName="uuid"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Nazwa</span>
+      <input class="form-control" type="text"  formControlName="name"/>
+    </div>
+    <mat-form-field>
+      <mat-label>Nadkategorie</mat-label>
+      <mat-select  [formControlName]="'superCategory'" [compareWith]="compareCategoryObjects">
+        <mat-option>{{null}}</mat-option>
+        <mat-option *ngFor="let c of category" [value]="c.value" >{{c.viewValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <button [hidden]="viewMode" class="btn btn-success m-3" [disabled]="formGroup?.invalid" (click)="commit()">Zatwierdź</button>
+  <button class="btn btn-danger m-3" mat-dialog-close="kontrahent-form">Anuluj</button>
+</form>

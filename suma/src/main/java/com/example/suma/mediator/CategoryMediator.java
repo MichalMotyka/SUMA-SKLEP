@@ -41,4 +41,8 @@ public class CategoryMediator {
         }
         categoryService.updateCategory(categoryDTO);
     }
+
+    public void deleteCategory(String uuid) {
+        categoryService.deleteCategory(uuid);
+    }
 }

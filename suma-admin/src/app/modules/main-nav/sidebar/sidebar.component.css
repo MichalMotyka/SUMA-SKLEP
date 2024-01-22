@@ -1,0 +1,21 @@
+#container {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  background: darkgreen;
+  margin: auto auto;
+}
+#name {
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 36px;
+  line-height: 100px;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;}

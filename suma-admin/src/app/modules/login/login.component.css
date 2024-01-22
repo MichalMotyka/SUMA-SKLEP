@@ -1,0 +1,10 @@
+.background-image-login{
+  background-image:url('https://cdn.wallpapersafari.com/43/49/zrM8Kq.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.form-border{
+  padding: 5%;
+  background-color:whitesmoke
+}

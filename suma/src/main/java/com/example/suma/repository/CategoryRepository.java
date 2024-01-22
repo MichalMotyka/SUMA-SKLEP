@@ -18,9 +18,13 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
 
     List<Category> findCategoryByNameAndIsSubcategory(String name,boolean subcategory);
 
-    List<Category> findCategoryByIsSubcategory(boolean subcategory);
+    @Query(nativeQuery = true,value = "SELECT * from suma.category where is_subcategory = :subcategory")
+    List<Category> findCategoryByIsSubcategory(@Param("subcategory") boolean subcategory);
     List<Category> findCategoriesByName(String name);
 
     @Query(nativeQuery = true,value = "SELECT c.* from suma.category c JOIN suma.category super ON c.supercategory = super.id WHERE super.name = :supercategoryName")
     List<Category> findCategoryBySupercategory(@Param("supercategoryName") String name);
+
+    @Query(nativeQuery = true,value = "SELECT c.* from suma.category WHERE super.id = :supercategoryId")
+    List<Category> findCategoryBySupercategoryId(@Param("supercategoryId") long id);
 }

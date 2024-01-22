@@ -76,10 +76,20 @@ public class CategoryService {
             return categoryRepository.findCategoryByNameAndIsSubcategory(name,true);
         }else if(type == FilterType.CATEGORY){
             if (name == null){
-                categoryRepository.findCategoryByIsSubcategory(false);
+               return categoryRepository.findCategoryByIsSubcategory(false);
             }
             return categoryRepository.findCategoryByNameAndIsSubcategory(name,false);
         }
         return categoryRepository.findAll();
+    }
+
+    public void deleteCategory(String uuid) {
+        categoryRepository.findCategoryByUuid(uuid).ifPresentOrElse(value->{
+            if (categoryRepository.findCategoryBySupercategoryId(value.getId()).isEmpty()){
+                categoryRepository.delete(value);
+            }else{
+                throw new SupercategoryNotEmptyException();
+            }
+        },()->{throw new CategoryDontExistException();});
     }
 }

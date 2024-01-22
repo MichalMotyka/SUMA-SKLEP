@@ -1,11 +1,9 @@
 package com.example.suma.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -14,6 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "category",schema = "suma")
 @Entity
+@EqualsAndHashCode
 public class Category {
     @Id
     @GeneratedValue(generator = "category_id_seq", strategy = GenerationType.SEQUENCE)
@@ -23,8 +22,8 @@ public class Category {
     private String name;
     @Column(name = "is_subcategory")
     private boolean isSubcategory;
-    @OneToMany(mappedBy="supercategory",fetch = FetchType.LAZY)
-    private Set<Category> subcategoriesy;
+    @OneToMany(mappedBy="supercategory",fetch = FetchType.EAGER)
+    private List<Category> subcategoriesy;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "supercategory")
     private Category supercategory;

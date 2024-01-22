@@ -25,4 +25,13 @@ public class SettingsView {
         newStage.setScene(newScene);
         newStage.show();
     }
+
+    @FXML
+    protected void onCategoryAddButtonClick() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("category-view.fxml"));
+        Scene newScene = new Scene(fxmlLoader.load());
+        Stage newStage = new Stage();
+        newStage.setScene(newScene);
+        newStage.show();
+    }
 }
