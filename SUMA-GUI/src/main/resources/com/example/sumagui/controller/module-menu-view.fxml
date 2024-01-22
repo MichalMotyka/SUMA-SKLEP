@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sumagui.controller.ModuleMenuView">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="600.0" spacing="10.0">
+          <padding>
+              <Insets right="20.0" top="10.0" />
+          </padding>
+         <children>
+            <ImageView fx:id="minimize" fitHeight="23.0" fitWidth="21.0" onMouseClicked="#onMinimizeButtonClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../static/minimize-sign.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+             <ImageView fx:id="close" fitHeight="17.0" fitWidth="45.0" onMouseClicked="#onCloseButtonClick" pickOnBounds="true" preserveRatio="true">
+                 <image>
+                     <Image url="@../../../../static/close.png" />
+                 </image>
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor>
+                 <effect>
+                     <Blend />
+                 </effect>
+             </ImageView>
+         </children>
+      </HBox>
+       <Label alignment="CENTER" prefHeight="130.0" prefWidth="310.0" text="Magazyn" textAlignment="CENTER">
+           <style>-fx-background-color: darkblue; -fx-padding: 50px 100px;-fx-text-fill: white;-fx-background-radius:
+               20px;-fx-font-size: 20px;-fx-cursor: HAND
+           </style>
+       </Label>
+       <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onSettingsButtonClick" prefHeight="130.0" prefWidth="308.0" text="Ustawienia" textAlignment="CENTER">
+           <style>-fx-background-color: darkgreen; -fx-padding: 50px 100px;-fx-text-fill: white;-fx-background-radius:
+               20px;-fx-font-size: 20px;-fx-cursor: HAND
+           </style>
+       </Label>
+   </children>
+</VBox>

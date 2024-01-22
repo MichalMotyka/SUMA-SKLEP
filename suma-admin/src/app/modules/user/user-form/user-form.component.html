@@ -1,0 +1,71 @@
+<form [formGroup]="formGroup">
+  <div class="container">
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Numer Klienta</span>
+      <input type="text" class="form-control" placeholder="000000000" aria-label="Username" [(ngModel)]="numerKlienta"
+             [ngModelOptions]="{standalone: true}"
+             [disabled]="true" aria-describedby="addon-wrapping">
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Nazwa</span>
+      <input type="text" class="form-control" placeholder="Nazwa" aria-label="Username" formControlName="name"
+             aria-describedby="addon-wrapping">
+    </div>
+    <span *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched" class="input-group flex-nowrap mb-2" style="color:red;">Nazwa kontrahenta nie może być pusta</span>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Pesel</span>
+      <input type="text" #peselInput class="form-control" placeholder="Pesel" (input)="onPeselCheanged(nipInput)"
+             [ngModelOptions]="{standalone: true}"
+             [disabled]="viewMode" [(ngModel)]="pesel" aria-label="Username" aria-describedby="addon-wrapping">
+      <span class="input-group-text">NIP</span>
+      <input type="text" #nipInput class="form-control" (input)="onNipCheanged(peselInput)" [disabled]="viewMode"
+             [ngModelOptions]="{standalone: true}"
+             [(ngModel)]="nip" placeholder="NIP" aria-label="Username" aria-describedby="addon-wrapping">
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">PPE</span>
+      <input type="text" class="form-control" placeholder="0000000000" aria-label="Username" [disabled]="true"
+             [ngModelOptions]="{standalone: true}"
+             [(ngModel)]="ppe" aria-describedby="addon-wrapping">
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+    <span class="input-group-text me-5">
+      <span class="me-2">Prosument</span>
+      <mat-checkbox disabled></mat-checkbox>
+    </span>
+      <span class="input-group-text">Saldo</span>
+      <input type="text" class="form-control text-end " [(ngModel)]="saldo" [disabled]="viewMode" placeholder="0.00"
+             [ngModelOptions]="{standalone: true}"
+             aria-label="Username" disabled="true"
+             aria-describedby="addon-wrapping">
+    </div>
+    <label class="mb-1">Adres</label>
+    <span *ngIf="formGroup.get('adres')?.invalid && formGroup.get('adres')?.touched" class="input-group flex-nowrap mb-2" style="color:red;">Adres nie może być pusta</span>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Ulica</span>
+      <input type="text" class="form-control" placeholder="Ulica" formControlName="ul"
+             aria-label="Username" aria-describedby="addon-wrapping">
+    </div>
+    <span *ngIf="formGroup.get('ul')?.invalid && formGroup.get('ul')?.touched" class="input-group flex-nowrap mb-2" style="color:red;">Nazwa ulicy nie może być pusta</span>
+    <hr>
+    <label class="mb-1">Adres korespodencyjny</label>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Adres</span>
+<!--      <input class="typeahead-format" type="text" class="form-control"-->
+<!--             formControlName="koresadres"-->
+<!--             [ngbTypeahead]="search"-->
+<!--             [resultFormatter]="formatter"/>-->
+    </div>
+    <span *ngIf="formGroup.get('koresadres')?.invalid && formGroup.get('koresadres')?.touched" class="input-group flex-nowrap mb-2" style="color:red;">Adres nie może być pusta</span>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Ulica</span>
+      <input type="text" class="form-control" placeholder="Ulica" aria-label="Username"
+             formControlName="koresul"
+             aria-describedby="addon-wrapping">
+    </div>
+    <span *ngIf="formGroup.get('koresul')?.invalid && formGroup.get('koresul')?.touched" class="input-group flex-nowrap mb-2" style="color:red;">Nazwa ulicy nie może być pusta</span>
+  </div>
+</form>
+
+<button [hidden]="viewMode" class="btn btn-success m-3" [disabled]="formGroup?.invalid" (click)="save()">Zatwierdź</button>
+<button class="btn btn-danger m-3" mat-dialog-close="kontrahent-form">Anuluj</button>

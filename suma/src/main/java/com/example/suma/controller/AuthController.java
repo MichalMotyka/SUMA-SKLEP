@@ -7,6 +7,9 @@ import com.example.suma.entity.dto.UserDTO;
 import com.example.suma.exceptions.UserAlreadyExistException;
 import com.example.suma.exceptions.UserDontExistException;
 import com.example.suma.mediator.AuthMediator;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +28,20 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/auth")
+@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600,allowCredentials="true")
+@Tag(name = "Auth")
 public class AuthController {
 
     private final AuthMediator authMediator;
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> test(HttpServletResponse response,@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> login(HttpServletResponse response,@RequestBody UserDTO userDTO){
         return ResponseEntity.ok(authMediator.login(response,userDTO));
+    }
+
+    @PostMapping("/logged-in")
+    public ResponseEntity<UserDTO> loggedId(HttpServletRequest request){
+        return ResponseEntity.ok(authMediator.loggedIn(request));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

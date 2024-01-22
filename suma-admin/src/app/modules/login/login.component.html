@@ -1,0 +1,15 @@
+<div class="modal-fullscreen position-absolute background-image-login">
+  <div class="position-relative top-50 start-50 translate-middle border border-info col-lg-3 form-border">
+    <form onsubmit="return false">
+      <div class="mb-5">
+        <label class="form-label position-relative top-50 start-50 translate-middle">Login</label>
+        <input type="login" class="form-control" [(ngModel)]="user.login" name="login">
+      </div>
+      <div class="mb-3">
+        <label class="form-label position-relative top-50 start-50 translate-middle">Password</label>
+        <input type="password" class="form-control" [(ngModel)]="user.password" name="password">
+      </div>
+      <button type="submit" (click)="login()" class="btn position-relative top-50 start-50 translate-middle mt-5 btn-primary">Zaloguj</button>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 package com.example.suma.security;
 
 
+import com.example.suma.service.CookiService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +23,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
+    private final CookiService cookiService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+        if (request.getCookies() == null){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        String authHeader = Arrays.stream(request.getCookies()).filter(value -> value.getName().equals("Authorization")).findFirst().get().getValue();
         String token = null;
         String username = null;
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
+        if (authHeader != null) {
+            token = authHeader;
             username = jwtService.extractUsername(token);
         }
 
@@ -38,7 +45,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                response.addHeader("Authorization","Bearer "+jwtService.generateToken(username));
+
+                response.addCookie(cookiService.generateCookie("Authorization",jwtService.generateToken(username),40000));
             }
         }
         filterChain.doFilter(request, response);
