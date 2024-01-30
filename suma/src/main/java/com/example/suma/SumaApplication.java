@@ -9,10 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class SumaApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SumaApplication.class, args);
     }
-
-
 }

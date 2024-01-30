@@ -1,31 +1,26 @@
-package com.example.suma.entity;
+package com.example.suma.entity.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import com.example.suma.entity.Category;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
-@Entity
-public class Product {
-    @Id
-    private long id;
+public class ProductDTO {
     private String uuid;
     private String name;
     private String description;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Category category;
+    private CategoryDTO category;
     private long available;
     private long count;
     private double price;
     private String mainImg;
     private List<String> images;
     private boolean active;
-    @Column(name = "create_date")
-    private LocalDate createDate;
 }

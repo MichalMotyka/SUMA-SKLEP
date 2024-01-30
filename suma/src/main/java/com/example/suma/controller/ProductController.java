@@ -1,21 +1,48 @@
 package com.example.suma.controller;
 
+import com.example.suma.entity.Code;
+import com.example.suma.entity.Response;
+import com.example.suma.entity.dto.ProductDTO;
+import com.example.suma.mediator.ProductMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/product")
 @CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600,allowCredentials="true")
-@Tag(name = "Auth")
+@Tag(name = "Products")
 public class ProductController {
 
+    private final ProductMediator productMediator;
 
-    public ResponseEntity<?> createProduct(){
-        return null;
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping
+    public ResponseEntity<Response> createProduct(@RequestBody ProductDTO productDTO){
+        productMediator.createProduct(productDTO);
+        return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductDTO>> getAllProducts(){
+        return ResponseEntity.ok(productMediator.getAllProducts());
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getProducts(@RequestParam String search,
+                                         @RequestParam int page,
+                                         @RequestParam int limit,
+                                         @RequestParam String sort,
+                                         @RequestParam String order,
+                                         @RequestParam String category,
+                                         @RequestParam Double price_min,
+                                         @RequestParam Double price_max){
+        return ResponseEntity.ok(productMediator.getProducts(search,page,limit,sort,order,category,price_min,price_max));
+    }
+
 }
