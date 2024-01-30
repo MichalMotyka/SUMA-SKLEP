@@ -35,7 +35,7 @@ public class WebSecurity {
         http.csrf().disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**").permitAll()
+                                .requestMatchers("api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**","api/v1/product").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
