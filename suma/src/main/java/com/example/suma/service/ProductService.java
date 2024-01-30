@@ -2,6 +2,7 @@ package com.example.suma.service;
 
 
 import com.example.suma.entity.Product;
+import com.example.suma.entity.dto.Sort;
 import com.example.suma.repository.CategoryRepository;
 import com.example.suma.repository.ProductRepository;
 import jakarta.persistence.criteria.*;
@@ -34,25 +35,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public List<Product> getProducts(String search, int page, int limit, String sort,String order, String category,Double price_min,Double price_max) {
+    public List<Product> getProducts(String search, int page, int limit, Sort sort, com.example.suma.entity.dto.Order order, String category, Double price_min, Double price_max) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
-        if (!order.isEmpty() && !sort.isEmpty()) {
-            String column = null;
-            switch (sort) {
-                case "name":
-                    column = "name";
-                    break;
-                case "category":
-                    column = "category";
-                    break;
-                default:
-                    column = "price";
-                    break;
-            }
+        if (order != null && sort != null) {
+            String column = sort.getLabel();
             Order orderQuery;
-            if (order.equals("desc")){
+            if (order.getLabel().equals("desc")){
                 orderQuery =  criteriaBuilder.desc(root.get(column));
             }else {
                 orderQuery =  criteriaBuilder.asc(root.get(column));

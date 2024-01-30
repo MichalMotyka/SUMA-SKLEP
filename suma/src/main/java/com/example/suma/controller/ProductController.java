@@ -2,7 +2,9 @@ package com.example.suma.controller;
 
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
+import com.example.suma.entity.dto.Order;
 import com.example.suma.entity.dto.ProductDTO;
+import com.example.suma.entity.dto.Sort;
 import com.example.suma.mediator.ProductMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +36,14 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getProducts(@RequestParam String search,
+    public ResponseEntity<?> getProducts(@RequestParam(required = false) String search,
                                          @RequestParam int page,
                                          @RequestParam int limit,
-                                         @RequestParam String sort,
-                                         @RequestParam String order,
-                                         @RequestParam String category,
-                                         @RequestParam Double price_min,
-                                         @RequestParam Double price_max){
+                                         @RequestParam Sort sort,
+                                         @RequestParam Order order,
+                                         @RequestParam(required = false) String category,
+                                         @RequestParam(required = false) Double price_min,
+                                         @RequestParam(required = false) Double price_max){
         return ResponseEntity.ok(productMediator.getProducts(search,page,limit,sort,order,category,price_min,price_max));
     }
 

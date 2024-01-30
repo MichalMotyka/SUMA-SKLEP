@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+
+    postgres:
+      image: "postgres:13"
+      environment:
+        POSTGRES_DB: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+      ports:
+        - "5432:5432"
+
+    suma:
+      build:
+        context: ./suma
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      ports:
+        - "8080:8080"
+      depends_on:
+        - postgres
+
+    suma-admin:
+      build:
+        context: ./suma-admin
+      ports:
+        - "4200:4200"
+      depends_on:
+        - suma

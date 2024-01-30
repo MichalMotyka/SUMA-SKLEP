@@ -1,7 +1,9 @@
 package com.example.suma.mediator;
 
 import com.example.suma.entity.Product;
+import com.example.suma.entity.dto.Order;
 import com.example.suma.entity.dto.ProductDTO;
+import com.example.suma.entity.dto.Sort;
 import com.example.suma.service.ProductService;
 import com.example.suma.translators.ProductDtoToProduct;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,7 @@ public class ProductMediator {
     }
 
 
-    public List<ProductDTO> getProducts(String search, int page, int limit, String sort, String order, String category, Double priceMin, Double priceMax) {
+    public List<ProductDTO> getProducts(String search, int page, int limit, Sort sort, Order order, String category, Double priceMin, Double priceMax) {
         List<Product> products = productService.getProducts(search, page, limit, sort, order, category, priceMin, priceMax);
         return products.stream().map(productDtoToProduct::toProductDTO).collect(Collectors.toList());
     }

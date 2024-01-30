@@ -29,6 +29,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import { CategoryDeleteComponent } from './modules/category/category-delete/category-delete.component';
+import { ProductComponent } from './modules/product/product.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -44,7 +45,8 @@ import { CategoryDeleteComponent } from './modules/category/category-delete/cate
     UserForm,
     CategoryComponent,
     CategoryFormComponent,
-    CategoryDeleteComponent
+    CategoryDeleteComponent,
+    ProductComponent
   ],
   imports: [
     CommonModule,
