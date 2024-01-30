@@ -25,7 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
     private final CookiService cookiService;
-    private final String[] excludedEndpoints = new String[]{"api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**"};
+    private final String[] excludedEndpoints = new String[]{"api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**","api/v1/product"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

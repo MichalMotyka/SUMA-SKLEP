@@ -12,5 +12,6 @@ CREATE TABLE product(
     mainImg text,
     images text[],
     active boolean,
-    create_date date
+    create_date date,
+    FOREIGN KEY (category) REFERENCES category(id)
 )
