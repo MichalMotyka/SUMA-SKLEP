@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   elements: MenuElements[] = [
     new MenuElements("Użytkownicy", "uzytkownicy"),
     new MenuElements("Kategorie", "kategorie"),
+    new MenuElements("Produkty", "produkty"),
 ];
   name!: string
   roleName!: string;
@@ -52,8 +53,8 @@ export class SidebarComponent implements OnInit {
       //this.dialog.open(AdministratorComponent)
     } else if (operaion == "Kategorie") {
       this.router.navigate(["panel/kategorie"])
-    } else if (operaion == "Taryfa") {
-      this.router.navigate(["main/tariff"])
+    } else if (operaion == "Produkty") {
+      this.router.navigate(["panel/produkty"])
     } else if (operaion == "Cennik") {
       this.router.navigate(["main/price"])
     } else if (operaion == "Umowy") {
