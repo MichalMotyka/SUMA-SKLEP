@@ -34,14 +34,14 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getProducts(@RequestParam String search,
+    public ResponseEntity<?> getProducts(@RequestParam(required = false) String search,
                                          @RequestParam int page,
                                          @RequestParam int limit,
                                          @RequestParam String sort,
                                          @RequestParam String order,
-                                         @RequestParam String category,
-                                         @RequestParam Double price_min,
-                                         @RequestParam Double price_max){
+                                         @RequestParam(required = false) String category,
+                                         @RequestParam(required = false) Double price_min,
+                                         @RequestParam(required = false) Double price_max){
         return ResponseEntity.ok(productMediator.getProducts(search,page,limit,sort,order,category,price_min,price_max));
     }
 

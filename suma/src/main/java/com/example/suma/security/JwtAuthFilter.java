@@ -31,11 +31,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        String authHeader = Arrays.stream(request.getCookies()).filter(value -> value.getName().equals("Authorization")).findFirst().get().getValue();
+        final String[] authHeader = {null};
+        Arrays.stream(request.getCookies()).filter(value -> value.getName().equals("Authorization")).findFirst().ifPresent(value->{
+            authHeader[0] = value.getValue();
+        });
         String token = null;
         String username = null;
-        if (authHeader != null) {
-            token = authHeader;
+        if (authHeader[0] != null) {
+            token = authHeader[0];
             username = jwtService.extractUsername(token);
         }
 
