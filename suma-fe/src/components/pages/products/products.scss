@@ -1,0 +1,49 @@
+.filtering {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .filtering-box {
+        display: flex;
+        align-items: center;
+
+        .slider-btn {
+            margin: 0 20px;
+            padding: 10px 10px;
+            border: transparent;
+            background-color: whitesmoke;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.253);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .slider {
+            width: 300px;
+
+            .slider-info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+
+.filter-container {
+    display: flex;
+    align-items: center;
+}
+
+.filter-label {
+    margin-right: 10px;
+}
+
+.filter-select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}

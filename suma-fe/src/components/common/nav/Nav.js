@@ -47,9 +47,6 @@ function Nav (data) {
     }
   }, [])
 
-  console.log(data)
-  console.log(subCategoryToggles)
-
   return (
     <nav className='nav ' ref={dropdownRef} onClick={handleLinkClick}>
       <TopNav />
@@ -62,7 +59,7 @@ function Nav (data) {
                 <Link
                   className='drop-category'
                   onClick={e => {
-                    e.stopPropagation() // prevent the nav onClick from firing
+                    e.stopPropagation()
                     handleSubCategories(menuItem.uuid)
                   }}
                 >
@@ -83,7 +80,7 @@ function Nav (data) {
                         to={'/products'}
                         className='sub-category'
                         onClick={e => {
-                          e.stopPropagation() // prevent the nav onClick from firing
+                          e.stopPropagation()
                           handleLinkClick()
                         }}
                       >
