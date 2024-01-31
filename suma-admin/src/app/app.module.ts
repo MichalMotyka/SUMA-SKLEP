@@ -30,6 +30,9 @@ import {MatInputModule} from "@angular/material/input";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import { CategoryDeleteComponent } from './modules/category/category-delete/category-delete.component';
 import { ProductComponent } from './modules/product/product.component';
+import { ProductFormComponent } from './modules/product/product-form/product-form.component';
+import {MatButtonModule} from "@angular/material/button";
+import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -46,7 +49,8 @@ import { ProductComponent } from './modules/product/product.component';
     CategoryComponent,
     CategoryFormComponent,
     CategoryDeleteComponent,
-    ProductComponent
+    ProductComponent,
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +70,11 @@ import { ProductComponent } from './modules/product/product.component';
     ReactiveFormsModule,
     MatSelectModule,
     MatInputModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatButtonModule,
+    CdkVirtualScrollViewport,
+    CdkVirtualForOf,
+    CdkFixedSizeVirtualScroll
   ],
   providers: []
 })
