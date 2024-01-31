@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/v1/category")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600,allowCredentials="true")
 @Tag(name = "Category")
 public class CategoryController {
 
