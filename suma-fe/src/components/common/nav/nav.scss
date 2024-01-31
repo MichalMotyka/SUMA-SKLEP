@@ -1,0 +1,59 @@
+.nav-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+    border-radius: 4px;
+    margin: 10px 0;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
+
+    .navigation {
+        a {
+            padding: 10px 10px;
+            color: black;
+            transition: color .3s;
+        }
+
+        a:hover {
+            color: rgb(197, 11, 11);
+        }
+
+        .sub-list {
+            position: absolute;
+            width: 200px;
+            background-color: whitesmoke;
+            border-radius: 4px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
+
+            li {
+                padding: 5px;
+            }
+
+            a {
+                padding: 10px 2px;
+                color: black;
+                transition: color .3s;
+            }
+
+            a:hover {
+                color: rgb(197, 11, 11);
+            }
+        }
+
+        .drop-category {
+            display: flex;
+            align-items: center;
+        }
+
+        .sub-category {
+            color: lime;
+        }
+
+        .main-category {
+            color: black;
+        }
+    }
+}
