@@ -1,0 +1,23 @@
+.top-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .cart-btn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        padding: 10px 20px;
+        border: 1px solid rgba(44, 44, 44, 0.192);
+        background-color: whitesmoke;
+        border-radius: 4px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
+        transition: background-color .3s;
+    }
+    .cart-btn:hover{
+        background-color: #2ecc707c;
+   
+    }
+}
+
