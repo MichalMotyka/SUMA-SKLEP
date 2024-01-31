@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
+@Table(name = "product",schema = "suma")
 @Entity
 public class Product {
     @Id
@@ -19,10 +19,12 @@ public class Product {
     private String name;
     private String description;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category")
     private Category category;
     private long available;
     private long count;
     private double price;
+    @Column(name = "main_img")
     private String mainImg;
     private List<String> images;
     private boolean active;

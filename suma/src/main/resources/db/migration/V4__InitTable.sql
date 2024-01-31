@@ -9,7 +9,7 @@ CREATE TABLE product(
     available bigint,
     count bigint,
     price decimal(10,2),
-    mainImg text,
+    main_img text,
     images text[],
     active boolean,
     create_date date,
