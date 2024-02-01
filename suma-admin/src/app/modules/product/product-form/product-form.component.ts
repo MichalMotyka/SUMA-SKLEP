@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./product-form.component.scss']
 })
 export class ProductFormComponent {
-  items = Array.from({length: 10}).map((_, i) => `Item #${i}`);
+  items =[1,2,3]
 
   onFileSelected($event: Event) {
 
