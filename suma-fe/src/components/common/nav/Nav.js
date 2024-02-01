@@ -3,39 +3,34 @@ import './nav.scss'
 import { useState, useEffect, useRef } from 'react'
 import TopNav from './topnav/TopNav'
 import { MdArrowDownward } from 'react-icons/md'
+import { useContext } from 'react'
+import { CategoryContext } from '../../auth/context/useContext'
 
 function Nav (data) {
+  const { setPassCategory } = useContext(CategoryContext)
+
   const [subCategoryToggles, setSubCategoryToggles] = useState({})
   const dropdownRef = useRef(null)
 
   function handleSubCategories (uuid) {
     setSubCategoryToggles(prevToggles => {
-      const newToggles = { ...prevToggles } // copy previous state
+      const newToggles = { ...prevToggles }
 
-      // if the clicked category is already open, close it
       if (newToggles[uuid]) {
         newToggles[uuid] = false
       } else {
-        // close all categories
         Object.keys(newToggles).forEach(key => {
           newToggles[key] = false
         })
-        // open the clicked category
+
         newToggles[uuid] = true
       }
 
       return newToggles
     })
   }
-
-  // Add this function
-  function handleLinkClick () {
-    setSubCategoryToggles({})
-  }
-
   useEffect(() => {
     function handleClickOutside (event) {
-      // Check if the clicked element is outside the menu
       if (!dropdownRef.current || !dropdownRef.current.contains(event.target)) {
         setSubCategoryToggles({})
       }
@@ -47,8 +42,16 @@ function Nav (data) {
     }
   }, [])
 
+  function handleLinkClick () {
+    setSubCategoryToggles({})
+  }
+
+  const handlePassCategory = uuid => {
+    setPassCategory(uuid)
+  }
+
   return (
-    <nav className='nav ' ref={dropdownRef} onClick={handleLinkClick}>
+    <nav className='nav' ref={dropdownRef} onClick={handleLinkClick}>
       <TopNav />
 
       <div className='nav-menu '>
@@ -82,6 +85,7 @@ function Nav (data) {
                         onClick={e => {
                           e.stopPropagation()
                           handleLinkClick()
+                          handlePassCategory(subCategory.uuid)
                         }}
                       >
                         {subCategory.name}
@@ -91,7 +95,11 @@ function Nav (data) {
                 </ul>
               </div>
             ) : (
-              <Link to={'/products'} className='main-category'>
+              <Link
+                to={'/products'}
+                className='main-category'
+                onClick={() => handlePassCategory(menuItem.uuid)}
+              >
                 {menuItem.name}
               </Link>
             )}

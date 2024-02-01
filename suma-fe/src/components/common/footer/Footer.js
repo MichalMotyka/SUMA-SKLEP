@@ -5,6 +5,7 @@ import './footer.scss'
 function Footer () {
   return (
     <footer className='footer'>
+      <hr></hr>
       <div className='footer-content'>
         <div className='footer-section'>
           <h2>Linki</h2>

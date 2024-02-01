@@ -11,6 +11,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-y: scroll;
+  font-size: 0.9rem;
+
 
 }
 
@@ -20,7 +22,9 @@ body {
   margin: 0 auto;
   min-height: 100vh;
   max-width: 1280px;
-padding: 0 10px;
+  padding: 0 10px;
+  background-color: rgba(206, 206, 206, 0.055);
+  
 
 }
 
