@@ -7,6 +7,7 @@ import com.example.suma.entity.dto.ProductDTO;
 import com.example.suma.entity.dto.Sort;
 import com.example.suma.mediator.ProductMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,8 +43,9 @@ public class ProductController {
                                          @RequestParam Order order,
                                          @RequestParam(required = false) String category,
                                          @RequestParam(required = false) Double price_min,
-                                         @RequestParam(required = false) Double price_max){
-        return ResponseEntity.ok(productMediator.getProducts(search,page,limit,sort,order,category,price_min,price_max));
+                                         @RequestParam(required = false) Double price_max,
+                                         HttpServletResponse response){
+        return ResponseEntity.ok(productMediator.getProducts(response,search,page,limit,sort,order,category,price_min,price_max));
     }
 
 }

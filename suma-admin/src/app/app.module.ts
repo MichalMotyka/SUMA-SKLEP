@@ -33,6 +33,7 @@ import { ProductComponent } from './modules/product/product.component';
 import { ProductFormComponent } from './modules/product/product-form/product-form.component';
 import {MatButtonModule} from "@angular/material/button";
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -67,6 +68,7 @@ import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} fr
     MatPaginatorModule,
     MatTableModule,
     MatCheckboxModule,
+    MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatInputModule,

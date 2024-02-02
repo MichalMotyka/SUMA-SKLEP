@@ -6,6 +6,7 @@ import com.example.suma.entity.dto.ProductDTO;
 import com.example.suma.entity.dto.Sort;
 import com.example.suma.service.ProductService;
 import com.example.suma.translators.ProductDtoToProduct;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -31,8 +32,9 @@ public class ProductMediator {
     }
 
 
-    public List<ProductDTO> getProducts(String search, int page, int limit, Sort sort, Order order, String category, Double priceMin, Double priceMax) {
+    public List<ProductDTO> getProducts(HttpServletResponse response, String search, int page, int limit, Sort sort, Order order, String category, Double priceMin, Double priceMax) {
         List<Product> products = productService.getProducts(search, page, limit, sort, order, category, priceMin, priceMax);
+        response.addHeader("X-Total-Count", String.valueOf(productService.totalCountProduct()));
         return products.stream().map(productDtoToProduct::toProductDTO).collect(Collectors.toList());
     }
 }
