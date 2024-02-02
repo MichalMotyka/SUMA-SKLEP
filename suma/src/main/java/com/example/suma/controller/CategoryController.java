@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getCategory(@RequestParam FilterType type, @RequestParam(required = false) String name, @RequestParam boolean bySupercategory){
+    public ResponseEntity<List<CategoryDTO>> getCategory(@RequestParam FilterType type, @RequestParam(required = false) String name, @RequestParam(required = false) boolean bySupercategory){
         return ResponseEntity.ok(categoryMediator.getCategory(type,name,bySupercategory));
     }
 

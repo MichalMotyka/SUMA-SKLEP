@@ -79,6 +79,8 @@ public class CategoryService {
                return categoryRepository.findCategoryByIsSubcategory(false);
             }
             return categoryRepository.findCategoryByNameAndIsSubcategory(name,false);
+        } else if (type == FilterType.ASSIGNABLE) {
+            return  categoryRepository.findCategoryAssignable();
         }
         return categoryRepository.findAll();
     }
