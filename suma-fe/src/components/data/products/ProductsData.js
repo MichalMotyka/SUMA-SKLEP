@@ -1,15 +1,12 @@
 import ProductsFiltering from '../productsFiltering/ProductsFiltering'
-
-import './productsdata.scss'
-
 import { useEffect, useState } from 'react'
-
 import { useContext } from 'react'
 import { CategoryContext } from '../../auth/context/useContext'
+import './productsdata.scss'
 
 function ProductsData () {
-  const { passCategory } = useContext(CategoryContext)
   const [productsList, setProductsList] = useState([])
+  const { passCategory } = useContext(CategoryContext)
 
   useEffect(() => {
     fetch(
@@ -21,14 +18,14 @@ function ProductsData () {
 
   return (
     <section>
-      <ProductsFiltering />
+      <ProductsFiltering data={passCategory} />
       {productsList.length > 0 ? (
         <h2 style={{ textAlign: 'center' }}>{productsList[0].category.name}</h2>
       ) : null}
       <div className='products-list'>
         <ul className='product-ul'>
           {productsList.map(product => (
-            <li className='product-box'>
+            <li key={product.uuid} className='product-box'>
               <img
                 className='product-main-img'
                 src={product.mainImg}
@@ -36,10 +33,10 @@ function ProductsData () {
                 width={350}
               />
               <div className='product-desc'>
-                <span>{product.name}</span>
-
-                <span>{product.price} zł</span>
+                <span className='product-name'>{product.name}</span>
+                <span className='product-price'>{product.price} zł</span>
               </div>
+              <hr></hr>
               <p>{product.description}</p>
               <div className='product-buy'>
                 <p>Dostępność: {product.available}</p>

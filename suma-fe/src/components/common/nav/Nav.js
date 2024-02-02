@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import { CategoryContext } from '../../auth/context/useContext'
 
 function Nav (data) {
+  // state jest lifted up bo usecontexty skad wysylane sa dane i pobierane.
   const { setPassCategory } = useContext(CategoryContext)
 
   const [subCategoryToggles, setSubCategoryToggles] = useState({})
@@ -80,7 +81,7 @@ function Nav (data) {
                       }
                     >
                       <Link
-                        to={'/products'}
+                        to={'/produkty'}
                         className='sub-category'
                         onClick={e => {
                           e.stopPropagation()
@@ -96,7 +97,7 @@ function Nav (data) {
               </div>
             ) : (
               <Link
-                to={'/products'}
+                to={'/produkty'}
                 className='main-category'
                 onClick={() => handlePassCategory(menuItem.uuid)}
               >

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import Search from '../../search/Search'
+import Search from '../../search/search/Search'
 import ShopLogo from '../images/shoplogo.webp'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { BsTelephoneOutbound } from 'react-icons/bs'
@@ -22,7 +22,7 @@ function TopNav () {
         </span>
       </div>
       <Search />
-      <Link to='/cart' className='cart-btn'>
+      <Link to='/koszyk' className='cart-btn'>
         <MdAddShoppingCart /> Twój Koszyk (4)
       </Link>
     </div>

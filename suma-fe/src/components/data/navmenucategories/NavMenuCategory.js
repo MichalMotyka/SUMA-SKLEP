@@ -6,8 +6,6 @@ import Nav from '../../common/nav/Nav'
 function MenuCategory () {
   const [data, setData] = useState([])
 
-  console.log('TUTAJ', data)
-
   useEffect(() => {
     const fetchData = async () => {
       try {
