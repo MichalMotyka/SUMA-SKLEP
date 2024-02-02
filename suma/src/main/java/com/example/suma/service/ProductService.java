@@ -36,6 +36,10 @@ public class ProductService {
     }
 
     public List<Product> getProducts(String search, int page, int limit, Sort sort, com.example.suma.entity.dto.Order order, String category, Double price_min, Double price_max) {
+        CriteriaQuery<Product> query = prepareQuery(search, page, limit, sort, order, category, price_min, price_max);
+        return entityManager.createQuery(query).setFirstResult((page-1)*limit).setMaxResults(limit).getResultList();
+    }
+    public CriteriaQuery<Product> prepareQuery(String search, int page, int limit, Sort sort, com.example.suma.entity.dto.Order order, String category, Double price_min, Double price_max){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -52,10 +56,11 @@ public class ProductService {
         if (page <= 0) page = 1;
         List<Predicate> predicates = prepareQuery(category,search,price_min,price_max,criteriaBuilder,root);
         query.where(predicates.toArray(new Predicate[0]));
-        return entityManager.createQuery(query).setFirstResult((page-1)*limit).setMaxResults(limit).getResultList();
+        return query;
     }
-    public long totalCountProduct(){
-        return productRepository.countAllByActiveIsTrue();
+    public long totalCountProduct(String search, int page, int limit, Sort sort, com.example.suma.entity.dto.Order order, String category, Double price_min, Double price_max){
+        CriteriaQuery<Product> query = prepareQuery(search, page, limit, sort, order, category, price_min, price_max);
+        return entityManager.createQuery(query).getResultStream().count();
     }
     private List<Predicate> prepareQuery(String category,String search,Double price_min,Double price_max,CriteriaBuilder criteriaBuilder,Root<Product> root){
         List<Predicate> predicates = new ArrayList<>();
