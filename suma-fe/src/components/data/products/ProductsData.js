@@ -7,14 +7,32 @@ import './productsdata.scss'
 function ProductsData () {
   const [productsList, setProductsList] = useState([])
   const { passCategory } = useContext(CategoryContext)
+  const [xTotalCount, setXTotalCount] = useState(0)
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/product?page=1&limit=9&sort=PRICE&order=DESC&category=${passCategory}`
+      `http://localhost:8080/api/v1/product?page=1&limit=9&sort=PRICE&order=DESC&category=${passCategory}`,
+      {
+        headers: {
+          'X-Total-Count': true
+        }
+      }
     )
-      .then(response => response.json())
+      .then(response => {
+        const xTotalCountHeader = response.headers.get('X-Total-Count')
+
+        if (xTotalCountHeader) {
+          setXTotalCount(parseInt(xTotalCountHeader))
+        }
+
+        return response.json()
+      })
       .then(data => setProductsList(data))
+      .catch(error => console.log(error))
   }, [passCategory])
+
+  console.log(productsList)
+  console.log('ile total', xTotalCount)
 
   return (
     <section>

@@ -11,6 +11,7 @@ function SearchResults () {
     )
       .then(response => response.json())
       .then(data => setSearchResults(data))
+      .catch(error => console.log(error))
   }, [searchValue])
 
   console.log(searchResults)
