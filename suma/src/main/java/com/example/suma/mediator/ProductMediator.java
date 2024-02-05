@@ -31,10 +31,9 @@ public class ProductMediator {
         return products.stream().map(productDtoToProduct::toProductDTO).collect(Collectors.toList());
     }
 
-
     public List<ProductDTO> getProducts(HttpServletResponse response, String search, int page, int limit, Sort sort, Order order, String category, Double priceMin, Double priceMax) {
         List<Product> products = productService.getProducts(search, page, limit, sort, order, category, priceMin, priceMax);
-        response.addHeader("X-Total-Count", String.valueOf(productService.totalCountProduct()));
+        response.addHeader("X-Total-Count", String.valueOf(productService.totalCountProduct(search, page, limit, sort, order, category, priceMin, priceMax)));
         return products.stream().map(productDtoToProduct::toProductDTO).collect(Collectors.toList());
     }
 }
