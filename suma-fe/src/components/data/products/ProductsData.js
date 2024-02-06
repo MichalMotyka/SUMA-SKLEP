@@ -1,43 +1,96 @@
 import ProductsFiltering from '../productsFiltering/ProductsFiltering'
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { CategoryContext } from '../../auth/context/useContext'
+import ProductPagination from './ProductPagination'
 import './productsdata.scss'
 
 function ProductsData () {
   const [productsList, setProductsList] = useState([])
   const { passCategory } = useContext(CategoryContext)
+  const [xTotalCount, setXTotalCount] = useState(0)
+  const [page, setPage] = useState(1)
+  const productLimit = 9
+
+  // price filter
+  const [priceMin, setPriceMin] = useState(0)
+  const [priceMax, setPriceMax] = useState(500)
+
+  // name filter A-Z
+
+  const [filterType, setFilterType] = useState({
+    sortType: 'NAME',
+    orderType: 'ASC'
+  })
+
+  console.log(filterType)
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/product?page=1&limit=9&sort=PRICE&order=DESC&category=${passCategory}`
+      `http://localhost:8080/api/v1/product?page=${page}&limit=${productLimit}&sort=${filterType.sortType}&order=${filterType.orderType}&category=${passCategory}&price_min=${priceMin}&price_max=${priceMax}`,
+      {
+        headers: {
+          'X-Total-Count': true
+        }
+      }
     )
-      .then(response => response.json())
+      .then(response => {
+        const xTotalCountHeader = response.headers.get('X-Total-Count')
+
+        if (xTotalCountHeader) {
+          setXTotalCount(parseInt(xTotalCountHeader))
+        }
+
+        return response.json()
+      })
       .then(data => setProductsList(data))
-  }, [passCategory])
+      .catch(error => console.log(error))
+  }, [passCategory, page, priceMin, priceMax, filterType])
+
+  console.log(xTotalCount)
 
   return (
     <section>
-      <ProductsFiltering data={passCategory} />
+      <ProductsFiltering
+        data={passCategory}
+        props={{ setPriceMin, setPriceMax, filterType, setFilterType }}
+      />
+
       {productsList.length > 0 ? (
-        <h2 style={{ textAlign: 'center' }}>{productsList[0].category.name}</h2>
+        <h2 style={{ textAlign: 'center' }}>
+          Kategoria:{' '}
+          {productsList[0].category.name.charAt(0).toUpperCase() +
+            productsList[0].category.name.slice(1).toLowerCase()}
+        </h2>
       ) : null}
+
+      {xTotalCount ? (
+        <ProductPagination
+          props={{ page, setPage, xTotalCount, productLimit }}
+        />
+      ) : (
+        <p className='products-none'>
+          W tej kategorii obecnie nie ma produktów.
+        </p>
+      )}
+
       <div className='products-list'>
         <ul className='product-ul'>
           {productsList.map(product => (
             <li key={product.uuid} className='product-box'>
-              <img
-                className='product-main-img'
-                src={product.mainImg}
-                alt={product.name}
-                width={350}
-              />
+              <Link className='product-info' to='/produkt'>
+                <img
+                  className='product-img'
+                  src={product.mainImg}
+                  alt={product.name}
+                />
+              </Link>
               <div className='product-desc'>
                 <span className='product-name'>{product.name}</span>
                 <span className='product-price'>{product.price} zł</span>
               </div>
-              <hr></hr>
-              <p>{product.description}</p>
+              <hr className='product-line'></hr>
               <div className='product-buy'>
                 <p>Dostępność: {product.available}</p>
                 <button className='product-btn'>Dodaj do koszyka</button>
@@ -46,6 +99,12 @@ function ProductsData () {
           ))}
         </ul>
       </div>
+
+      {xTotalCount > 9 ? (
+        <ProductPagination
+          props={{ page, setPage, xTotalCount, productLimit }}
+        />
+      ) : null}
     </section>
   )
 }

@@ -7,10 +7,10 @@ import { useContext } from 'react'
 import { CategoryContext } from '../../auth/context/useContext'
 
 function Nav (data) {
-  // state jest lifted up bo usecontexty skad wysylane sa dane i pobierane.
   const { setPassCategory } = useContext(CategoryContext)
 
   const [subCategoryToggles, setSubCategoryToggles] = useState({})
+  const [activeCategory, setActiveCategory] = useState(null)
   const dropdownRef = useRef(null)
 
   function handleSubCategories (uuid) {
@@ -29,7 +29,10 @@ function Nav (data) {
 
       return newToggles
     })
+
+    setActiveCategory(uuid)
   }
+
   useEffect(() => {
     function handleClickOutside (event) {
       if (!dropdownRef.current || !dropdownRef.current.contains(event.target)) {
@@ -49,6 +52,7 @@ function Nav (data) {
 
   const handlePassCategory = uuid => {
     setPassCategory(uuid)
+    setActiveCategory(uuid)
   }
 
   return (
@@ -61,7 +65,9 @@ function Nav (data) {
             {menuItem.subcategoriesy.length > 0 ? (
               <div className=''>
                 <Link
-                  className='drop-category'
+                  className={`drop-category ${
+                    menuItem.uuid === activeCategory ? 'active' : ''
+                  }`}
                   onClick={e => {
                     e.stopPropagation()
                     handleSubCategories(menuItem.uuid)
@@ -81,8 +87,10 @@ function Nav (data) {
                       }
                     >
                       <Link
-                        to={'/produkty'}
-                        className='sub-category'
+                        to={'/kategoria'}
+                        className={`sub-category ${
+                          subCategory.uuid === activeCategory ? 'active' : ''
+                        }`}
                         onClick={e => {
                           e.stopPropagation()
                           handleLinkClick()
@@ -97,8 +105,10 @@ function Nav (data) {
               </div>
             ) : (
               <Link
-                to={'/produkty'}
-                className='main-category'
+                to={'/kategoria'}
+                className={`main-category ${
+                  menuItem.uuid === activeCategory ? 'active' : ''
+                }`}
                 onClick={() => handlePassCategory(menuItem.uuid)}
               >
                 {menuItem.name}

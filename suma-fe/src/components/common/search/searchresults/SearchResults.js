@@ -1,6 +1,6 @@
 import { CategoryContext } from '../../../auth/context/useContext'
 import { useContext, useEffect, useState } from 'react'
-import './searchresults.scss'
+import { Link } from 'react-router-dom'
 
 function SearchResults () {
   const { searchValue } = useContext(CategoryContext)
@@ -11,14 +11,13 @@ function SearchResults () {
     )
       .then(response => response.json())
       .then(data => setSearchResults(data))
+      .catch(error => console.log(error))
   }, [searchValue])
-
-  console.log(searchResults)
 
   return (
     <>
-      <h2 style={{ textAlign: 'center' }}>
-        Wyniki wyszukiwania dla {searchValue}
+      <h2 style={{ textAlign: 'center', marginTop: '10px' }}>
+        Wyniki wyszukiwania {searchValue}
       </h2>
 
       <section>
@@ -26,18 +25,18 @@ function SearchResults () {
           <ul className='product-ul'>
             {searchResults.map(product => (
               <li key={product.uuid} className='product-box'>
-                <img
-                  className='product-main-img'
-                  src={product.mainImg}
-                  alt={product.name}
-                  width={350}
-                />
+                <Link className='product-info' to='/produkt'>
+                  <img
+                    className='product-img'
+                    src={product.mainImg}
+                    alt={product.name}
+                  />
+                </Link>
                 <div className='product-desc'>
                   <span className='product-name'>{product.name}</span>
                   <span className='product-price'>{product.price} zł</span>
                 </div>
-                <hr></hr>
-                <p>{product.description}</p>
+                <hr className='product-line'></hr>
                 <div className='product-buy'>
                   <p>Dostępność: {product.available}</p>
                   <button className='product-btn'>Dodaj do koszyka</button>

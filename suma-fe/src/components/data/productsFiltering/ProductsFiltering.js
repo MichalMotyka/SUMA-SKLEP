@@ -3,17 +3,40 @@ import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import './productsfiltering.scss'
 
-const ProductsFiltering = () => {
-  const [range, setRange] = useState([50, 250])
+const ProductsFiltering = props => {
+  const [range, setRange] = useState([0, 250])
 
-  const [filtering, setFiltering] = useState('')
+  const setPriceMin = props.props.setPriceMin
+  const setPriceMax = props.props.setPriceMax
+  const setFilterType = props.props.setFilterType
+  const filterType = props.props.filterType
 
   const handleRangeChange = value => {
     setRange(value)
   }
 
+  const handleSetFiltering = () => {
+    setPriceMin(range[0])
+    setPriceMax(range[1])
+  }
+
   const handleFilterChange = e => {
-    setFiltering(e.target.value)
+    const [sortType, orderType] = e.target.value.split(' ')
+
+    setFilterType({
+      sortType: sortType,
+      orderType: orderType
+    })
+  }
+
+  const handleFilterReset = () => {
+    setRange([0, 250])
+    setPriceMin(0)
+    setPriceMax(250)
+    setFilterType({
+      sortType: 'NAME',
+      orderType: 'ASC'
+    })
   }
 
   return (
@@ -24,7 +47,7 @@ const ProductsFiltering = () => {
             <label htmlFor='priceRange'>Zakres cenowy:</label>
             <Slider
               min={0}
-              max={1000}
+              max={500}
               value={range}
               onChange={handleRangeChange}
               range
@@ -35,7 +58,12 @@ const ProductsFiltering = () => {
               </span>
             </div>
           </div>
-          <button className='slider-btn'>Filtruj produkty</button>
+          <button className='slider-btn' onClick={handleSetFiltering}>
+            Filtruj produkty
+          </button>
+          <button className='filtering-reset-btn' onClick={handleFilterReset}>
+            Resetuj filtrowanie
+          </button>
         </div>
 
         <div className='filter-container'>
@@ -44,14 +72,14 @@ const ProductsFiltering = () => {
           </label>
           <select
             id='filterSelect'
-            value={filtering}
+            value={`${filterType.sortType} ${filterType.orderType}`}
             onChange={handleFilterChange}
             className='filter-select'
           >
-            <option value='NameAsc'>Nazwa, A do Z</option>
-            <option value='NameDesc'>Nazwa, Z do A</option>
-            <option value='PriceDesc'>Cena, malejąco</option>
-            <option value='PriceAsc'>Cena, rosnąco</option>
+            <option value='NAME ASC'>Nazwa, A do Z</option>
+            <option value='NAME DESC'>Nazwa, Z do A</option>
+            <option value='PRICE DESC'>Cena, malejąco</option>
+            <option value='PRICE ASC'>Cena, rosnąco</option>
           </select>
         </div>
       </div>

@@ -9,7 +9,7 @@
     margin-bottom: 5px;
     border: 1px solid rgba(0, 0, 0, 0.11);
     background-color: whitesmoke;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);     
     z-index: 50;
 
     .navigation {
@@ -17,31 +17,34 @@
             padding: 10px 10px;
             color: black;
             transition: color .3s;
+            font-weight: bold;
         }
 
         a:hover {
-            color: rgb(197, 11, 11);
+            color:rgb(45, 122, 45);           
+            
         }
-
+        
         .sub-list {
             position: absolute;
             width: 200px;
             background-color: whitesmoke;
             border-radius: 4px;
             box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
-
+            
             li {
                 padding: 5px;
             }
-
+            
             a {
                 padding: 10px 2px;
                 color: black;
                 transition: color .3s;
             }
-
+            
             a:hover {
-                color: rgb(197, 11, 11);
+          
+                color:rgb(45, 122, 45);           
             }
         }
 
@@ -58,4 +61,9 @@
             color: black;
         }
     }
+}
+
+.active {
+   
+    color:rgb(46, 158, 46)   !important;
 }

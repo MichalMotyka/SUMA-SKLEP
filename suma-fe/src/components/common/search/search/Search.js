@@ -8,7 +8,6 @@ function Search () {
   const { searchValue, setSearchValue } = useContext(CategoryContext)
   const navigate = useNavigate()
 
-  console.log(searchValue)
   const handleSearch = e => {
     e.preventDefault()
     navigate('/szukaj')
