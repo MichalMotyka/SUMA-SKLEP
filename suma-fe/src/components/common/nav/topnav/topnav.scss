@@ -10,10 +10,20 @@
     }
 
     .contact{
-        width: 250px;      
+        width: 310px;      
         display: flex;
         align-items: center;
         justify-content: space-between;
+        font-size: 1.1rem;
+        .contact-tel, .contact-email{
+            display: flex;
+            align-items: center;
+            justify-content: center;           
+        }      
+        .contact-icon {           
+         margin-right: 3px;
+        }
+
     }
 
     .cart-btn {
@@ -25,7 +35,7 @@
       
         background-color: whitesmoke;
         border-radius: 4px;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);     
         transition: background-color .3s;
         border: 1px solid rgba(0, 0, 0, 0.226);
     }

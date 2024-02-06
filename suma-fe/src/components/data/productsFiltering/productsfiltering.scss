@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 0.9rem;
 
     .filtering-box {
         display: flex;
@@ -12,21 +13,42 @@
             padding: 10px 10px;
             border: transparent;
             background-color: whitesmoke;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.253);
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);     
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 0.9rem;
+            transition: background-color .3s;
+            &:hover {
+                background-color: rgb(233, 233, 233);    
+            }
         }
 
         .slider {
             width: 300px;
-
             .slider-info {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
             }
         }
+
+      .filtering-reset-btn{
+        margin: 0 20px;
+        padding: 10px 10px;
+        border: 1px solid transparent;
+        background-color: whitesmoke;    
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);     
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color .3s;
+
+        &:hover {
+            background-color: rgb(233, 233, 233);   
+                        transition: background-color .3s;
+ 
+        }
+      }  
     }
 }
 
@@ -42,7 +64,7 @@
 
 .filter-select {
     padding: 8px;
-    font-size: 16px;
+    font-size: 0.9rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;

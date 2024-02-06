@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+suma/src/main/resources/db/migration/V5__InitData.sql

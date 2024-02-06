@@ -13,7 +13,10 @@ body {
   overflow-y: scroll;
   font-size: 0.9rem;
 
+}
 
+.section-title{
+  text-align: center;
 }
 
 .wrapper {
@@ -23,17 +26,13 @@ body {
   min-height: 100vh;
   max-width: 1280px;
   padding: 0 10px;
-  background-color: rgba(206, 206, 206, 0.055);
-  
-
-}
-
-
-
-footer {
-  margin-top: auto;
 }
 
 a {
   text-decoration: none;
 }
+
+footer {
+  margin-top: auto;
+}
+

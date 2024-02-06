@@ -1,1 +1,3 @@
 .idea
+../suma/src/main/resources/db/migration/V5__InitData.sql
+suma/src/main/resources/db/migration/V5__InitData.sql
