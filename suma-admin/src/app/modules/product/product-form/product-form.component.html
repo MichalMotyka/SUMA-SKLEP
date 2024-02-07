@@ -5,23 +5,23 @@
 <form class="example-form" [formGroup]="formGroup">
   <div class="container mt-4">
     <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text">Numer produktu</span>
+      <label class="input-group-text">Numer produktu</label>
       <input class="form-control" type="text" formControlName="uuid"/>
     </div>
     <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text">Nazwa produktu</span>
-      <input class="form-control" type="text" formControlName="name"/>
+      <label for="pname" class="input-group-text">Nazwa produktu</label>
+      <input class="form-control" id="pname" type="text" formControlName="name"/>
     </div>
     <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text">Ilość dotępna</span>
+      <label class="input-group-text">Ilość dotępna</label>
       <input class="form-control" type="number" min="0" formControlName="available"/>
     </div>
     <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text">Stan magazynowy</span>
-      <input class="form-control" type="number" min="0" formControlName="quantity"/>
+      <label for="quantity" class="input-group-text">Stan magazynowy</label>
+      <input class="form-control" id="quantity" type="number" min="0" formControlName="quantity"/>
     </div>
     <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text">Cena</span>
+      <label class="input-group-text">Cena</label>
       <input class="form-control" type="number" min="0" formControlName="price"/>
     </div>
     <div class="form-group mb-3">
@@ -36,7 +36,7 @@
     </section>
     <div class="file-upload input-group flex-nowrap mb-3">
       <input class="form-control" type="text" placeholder="Grafika główna" formControlName="mainImage"/>
-      <button mat-mini-fab color="primary" class="upload-btn"
+      <button [disabled]="viewMode" mat-mini-fab color="primary" class="upload-btn"
               (click)="fileUpload.click()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
           <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
