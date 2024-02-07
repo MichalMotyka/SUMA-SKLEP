@@ -24,7 +24,8 @@ function ProductsData () {
     orderType: 'ASC'
   })
 
-  console.log(filterType)
+  // product uuid
+  const { setProductUuid } = useContext(CategoryContext)
 
   useEffect(() => {
     fetch(
@@ -48,7 +49,10 @@ function ProductsData () {
       .catch(error => console.log(error))
   }, [passCategory, page, priceMin, priceMax, filterType])
 
-  console.log(xTotalCount)
+  const handleProductDetails = uuid => {
+    console.log('KURŁA')
+    setProductUuid(uuid)
+  }
 
   return (
     <section>
@@ -79,7 +83,11 @@ function ProductsData () {
         <ul className='product-ul'>
           {productsList.map(product => (
             <li key={product.uuid} className='product-box'>
-              <Link className='product-info' to='/produkt'>
+              <Link
+                className='product-info'
+                to='/produkt'
+                onClick={() => handleProductDetails(product.uuid)}
+              >
                 <img
                   className='product-img'
                   src={product.mainImg}
