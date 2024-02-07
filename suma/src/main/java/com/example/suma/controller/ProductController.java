@@ -23,7 +23,7 @@ public class ProductController {
     private final ProductMediator productMediator;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Response> createProduct(@RequestBody ProductDTO productDTO){
         productMediator.createProduct(productDTO);
         return ResponseEntity.ok(new Response(Code.SUCCESS));
@@ -46,6 +46,11 @@ public class ProductController {
                                          @RequestParam(required = false) Double price_max,
                                          HttpServletResponse response){
         return ResponseEntity.ok(productMediator.getProducts(response,search,page,limit,sort,order,category,price_min,price_max));
+    }
+
+    @GetMapping("{uuid}")
+    public ResponseEntity<ProductDTO> getProductByUuid(@PathVariable String uuid){
+        return ResponseEntity.ok(productMediator.getAllProductByUuid(uuid));
     }
 
 }

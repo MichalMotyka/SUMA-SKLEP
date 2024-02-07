@@ -3,6 +3,9 @@ package com.example.suma.service;
 
 import com.example.suma.entity.Product;
 import com.example.suma.entity.dto.Sort;
+import com.example.suma.exceptions.CategoryDontExistException;
+import com.example.suma.exceptions.ProductAlreadyExistException;
+import com.example.suma.exceptions.ProductDontExistException;
 import com.example.suma.repository.CategoryRepository;
 import com.example.suma.repository.ProductRepository;
 import jakarta.persistence.criteria.*;
@@ -28,7 +31,13 @@ public class ProductService {
         product.setCount(0);
         product.setAvailable(0);
         product.setUuid(UUID.randomUUID().toString());
-        productRepository.save(product);
+        categoryRepository.findCategoryByUuid(product.getCategory().getUuid())
+                .ifPresentOrElse(product::setCategory,()->{throw new CategoryDontExistException();});
+       if (productRepository.findProductByNameAndActiveTrue(product.getName()).isEmpty()){
+            productRepository.save(product);
+        }else {
+           throw new ProductAlreadyExistException();
+        }
     }
 
     public List<Product> getAll() {
@@ -37,6 +46,7 @@ public class ProductService {
 
     public List<Product> getProducts(String search, int page, int limit, Sort sort, com.example.suma.entity.dto.Order order, String category, Double price_min, Double price_max) {
         CriteriaQuery<Product> query = prepareQuery(search, page, limit, sort, order, category, price_min, price_max);
+        if (page <= 0) page = 1;
         return entityManager.createQuery(query).setFirstResult((page-1)*limit).setMaxResults(limit).getResultList();
     }
     public CriteriaQuery<Product> prepareQuery(String search, int page, int limit, Sort sort, com.example.suma.entity.dto.Order order, String category, Double price_min, Double price_max){
@@ -53,7 +63,6 @@ public class ProductService {
             }
             query.orderBy(orderQuery);
         }
-        if (page <= 0) page = 1;
         List<Predicate> predicates = prepareQuery(category,search,price_min,price_max,criteriaBuilder,root);
         query.where(predicates.toArray(new Predicate[0]));
         return query;
@@ -78,5 +87,9 @@ public class ProductService {
         }
         predicates.add(criteriaBuilder.isTrue(root.get("active")));
         return predicates;
+    }
+
+    public Product getProductByUuid(String uuid) {
+       return productRepository.findProductByUuid(uuid).orElseThrow();
     }
 }

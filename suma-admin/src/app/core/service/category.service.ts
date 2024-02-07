@@ -17,7 +17,7 @@ export class Category {
   constructor(
     public uuid: string | null,
     public name: string | null,
-    public subcategories: Category[],
+    public subcategories: Category[] | null,
     public supercategory: string | null
   ) {}
 
