@@ -4,6 +4,7 @@ import com.example.suma.entity.Product;
 import com.example.suma.entity.dto.Order;
 import com.example.suma.entity.dto.ProductDTO;
 import com.example.suma.entity.dto.Sort;
+import com.example.suma.exceptions.ProductDontExistException;
 import com.example.suma.service.ProductService;
 import com.example.suma.translators.ProductDtoToProduct;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,5 +36,14 @@ public class ProductMediator {
         List<Product> products = productService.getProducts(search, page, limit, sort, order, category, priceMin, priceMax);
         response.addHeader("X-Total-Count", String.valueOf(productService.totalCountProduct(search, page, limit, sort, order, category, priceMin, priceMax)));
         return products.stream().map(productDtoToProduct::toProductDTO).collect(Collectors.toList());
+    }
+
+    public ProductDTO getAllProductByUuid(String uuid) {
+        try{
+            Product product = productService.getProductByUuid(uuid);
+            return productDtoToProduct.toProductDTO(product);
+        }catch (Exception e){
+            throw new ProductDontExistException();
+        }
     }
 }
