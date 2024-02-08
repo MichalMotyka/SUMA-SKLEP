@@ -49,8 +49,7 @@ function ProductsData () {
       .catch(error => console.log(error))
   }, [passCategory, page, priceMin, priceMax, filterType])
 
-  const handleProductDetails = uuid => {
-    console.log('KURŁA')
+  const handleProductDetails = uuid => {  
     setProductUuid(uuid)
   }
 
@@ -98,7 +97,7 @@ function ProductsData () {
                 <span className='product-name'>{product.name}</span>
                 <span className='product-price'>{product.price} zł</span>
               </div>
-              <hr className='product-line'></hr>
+              <hr className='hr-line'></hr>
               <div className='product-buy'>
                 <p>Dostępność: {product.available}</p>
                 <button className='product-btn'>Dodaj do koszyka</button>

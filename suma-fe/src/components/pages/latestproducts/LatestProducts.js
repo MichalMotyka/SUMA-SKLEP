@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { CategoryContext } from '../../auth/context/useContext'
+
 import './latestproducts.scss'
 
 function LatestProducts () {
   const [latestProducts, setLatestProducts] = useState([])
+  const { setProductUuid } = useContext(CategoryContext)
 
   useEffect(() => {
     fetch(
@@ -14,6 +17,10 @@ function LatestProducts () {
       .catch(error => console.log(error))
   }, [])
 
+  const handleProductDetails = uuid => {
+    setProductUuid(uuid)
+  }
+
   return (
     <section>
       <h2 className='section-title'>Najnowsze produkty</h2>
@@ -21,7 +28,11 @@ function LatestProducts () {
         <ul className='product-ul'>
           {latestProducts.map(product => (
             <li key={product.uuid} className='product-box'>
-              <Link className='product-info' to='/produkt'>
+              <Link
+                className='product-info'
+                onClick={() => handleProductDetails(product.uuid)}
+                to='/produkt'
+              >
                 <img
                   className='product-img'
                   src={product.mainImg}
