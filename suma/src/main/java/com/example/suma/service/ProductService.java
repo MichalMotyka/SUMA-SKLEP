@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +32,7 @@ public class ProductService {
         product.setCount(0);
         product.setAvailable(0);
         product.setUuid(UUID.randomUUID().toString());
+        product.setCreateDate(LocalDate.now());
         categoryRepository.findCategoryByUuid(product.getCategory().getUuid())
                 .ifPresentOrElse(product::setCategory,()->{throw new CategoryDontExistException();});
        if (productRepository.findProductByNameAndActiveTrue(product.getName()).isEmpty()){
