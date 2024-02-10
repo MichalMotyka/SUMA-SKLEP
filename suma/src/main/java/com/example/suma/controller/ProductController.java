@@ -5,10 +5,14 @@ import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.Order;
 import com.example.suma.entity.dto.ProductDTO;
 import com.example.suma.entity.dto.Sort;
+import com.example.suma.exceptions.CategoryDontExistException;
+import com.example.suma.exceptions.ProductAlreadyExistException;
+import com.example.suma.exceptions.ProductMaxSixPropertiesException;
 import com.example.suma.mediator.ProductMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +55,21 @@ public class ProductController {
     @GetMapping("{uuid}")
     public ResponseEntity<ProductDTO> getProductByUuid(@PathVariable String uuid){
         return ResponseEntity.ok(productMediator.getAllProductByUuid(uuid));
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProductMaxSixPropertiesException.class)
+    public Response handleProductMaxSixPropertiesException(
+            ProductMaxSixPropertiesException ex) {
+        return new Response(Code.P1);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    public Response handleProductAlreadyExistException(
+            ProductAlreadyExistException ex) {
+        return new Response(Code.P2);
     }
 
 }

@@ -1,12 +1,11 @@
 package com.example.suma.entity.dto;
 
-import com.example.suma.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -23,4 +22,5 @@ public class ProductDTO {
     private String mainImg;
     private List<String> images;
     private boolean active;
+    private List<Properties> properties;
 }

@@ -13,5 +13,6 @@ CREATE TABLE product(
     images text[],
     active boolean,
     create_date date,
+    properties jsonb,
     FOREIGN KEY (category) REFERENCES category(id)
 )

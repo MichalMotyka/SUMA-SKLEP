@@ -2,9 +2,12 @@ package com.example.suma.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -32,4 +35,6 @@ public class Product {
     private boolean active;
     @Column(name = "create_date")
     private LocalDate createDate;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private List<Map<String,String>> properties;
 }

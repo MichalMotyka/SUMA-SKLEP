@@ -5,6 +5,7 @@ import com.example.suma.entity.dto.Order;
 import com.example.suma.entity.dto.ProductDTO;
 import com.example.suma.entity.dto.Sort;
 import com.example.suma.exceptions.ProductDontExistException;
+import com.example.suma.exceptions.ProductMaxSixPropertiesException;
 import com.example.suma.service.ProductService;
 import com.example.suma.translators.ProductDtoToProduct;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +24,9 @@ public class ProductMediator {
 
 
     public void createProduct(ProductDTO productDTO){
+        if (productDTO.getProperties().size() > 6){
+            throw new ProductMaxSixPropertiesException();
+        }
         Product product = productDtoToProduct.toProduct(productDTO);
         productService.create(product);
     }
