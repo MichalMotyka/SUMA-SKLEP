@@ -2,15 +2,22 @@ import { CategoryContext } from '../../../auth/context/useContext'
 import { useContext, useEffect, useState } from 'react'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { BsZoomIn } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
+import { TbArrowBackUp } from 'react-icons/tb'
+import { MdOutlineArrowForwardIos } from 'react-icons/md'
+import { MdOutlineArrowBackIos } from 'react-icons/md'
 
 import './card.scss'
 
 function Card () {
   const { productUuid } = useContext(CategoryContext)
+  const { setPassCategory } = useContext(CategoryContext)
+
   const [mainImg, setMainImg] = useState('')
   const [productDetails, setProductDetails] = useState([])
   const [productCounter, setProductCounter] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0) // Added state to track current image index
 
   console.log(productDetails)
 
@@ -39,14 +46,36 @@ function Card () {
     setIsModalOpen(false)
   }
 
+  const handleGoBack = uuid => {
+    setPassCategory(uuid)
+  }
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex(prevIndex =>
+      prevIndex === 0 ? productDetails.images.length - 1 : prevIndex - 1
+    )
+  }
+
+  const handleNextImage = () => {
+    setCurrentImageIndex(prevIndex =>
+      prevIndex === productDetails.images.length - 1 ? 0 : prevIndex + 1
+    )
+  }
+
   return Object.keys(productDetails).length > 0 ? (
     <section>
       <div className='prod-box'>
         <div className='prod-info'>
-          <div>
+          <div className='prod-top'>
+            <Link
+              className='go-back-btn'
+              to='/kategoria'
+              onClick={() => handleGoBack(productDetails.category.uuid)}
+            >
+              <TbArrowBackUp />
+            </Link>
             <h2 className='prod-name'>{productDetails.name}</h2>
           </div>
-          {/* <p>{productDetails.description}</p> */}
           <hr className='hr-line' />
           <p>{productDetails.description}</p>
           <hr className='hr-line' />
@@ -56,7 +85,6 @@ function Card () {
               <span>Dostępnych: {productDetails.available}</span>
             </div>
             <div className='prod-btns'>
-              {' '}
               <button
                 disabled={productCounter <= 1}
                 className='prod-btn'
@@ -80,18 +108,6 @@ function Card () {
           </div>
         </div>
 
-        {/* 
-        <div>
-       
-          <img
-            className='prod-main-img'
-            src={mainImg}
-            alt='main product'
-            onClick={openModal}
-            style={{ cursor: 'zoom-in' }}
-          />
-        </div> */}
-
         <figure>
           <img
             className='prod-main-img'
@@ -100,20 +116,23 @@ function Card () {
             onClick={openModal}
             style={{ cursor: 'zoom-in' }}
           />
-          <figcaption className='img-caption'>
+          <figcaption className='img-caption' onClick={openModal}>
             Kliknij aby powiększyć
             <BsZoomIn style={{ marginLeft: '5px' }} />
           </figcaption>
         </figure>
 
         <div className='prod-carusel'>
-          {productDetails.images.map(images => (
+          {productDetails.images.map((image, index) => (
             <img
+              key={index}
               className='prod-side-img'
-              src={images}
+              src={image}
               alt='product'
-              width={125}
-              onClick={() => setMainImg(images)}
+              onClick={() => {
+                setMainImg(image)
+                setCurrentImageIndex(index)
+              }}
             />
           ))}
         </div>
@@ -125,11 +144,18 @@ function Card () {
             <span className='close' onClick={closeModal}>
               &times;
             </span>
-            <img
-              src={mainImg}
-              alt='modal'
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            />
+            <div className='modal-image-container'>
+              <button className='prev-button' onClick={handlePrevImage}>
+                <MdOutlineArrowBackIos />
+              </button>
+              <img
+                src={productDetails.images[currentImageIndex]}
+                alt='modal zoomed in product'
+              />
+              <button className='next-button' onClick={handleNextImage}>
+                <MdOutlineArrowForwardIos />
+              </button>
+            </div>
           </div>
         </div>
       )}
