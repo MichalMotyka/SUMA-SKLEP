@@ -44,11 +44,10 @@ function SearchResults () {
                 </Link>
                 <div className='product-desc'>
                   <span className='product-name'>{product.name}</span>
-                  <span className='product-price'>{product.price} zł</span>
                 </div>
-                <hr className='product-line'></hr>
+                <hr className='hr-line'></hr>
                 <div className='product-buy'>
-                  <p>Dostępność: {product.available}</p>
+                  <span className='product-price'>{product.price}zł</span>
                   <button className='product-btn'>Dodaj do koszyka</button>
                 </div>
               </li>

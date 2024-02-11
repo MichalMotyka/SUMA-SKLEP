@@ -64,20 +64,29 @@ function Card () {
 
   return Object.keys(productDetails).length > 0 ? (
     <section>
+      <Link
+        className='go-back-btn'
+        to='/kategoria'
+        onClick={() => handleGoBack(productDetails.category.uuid)}
+      >
+        <TbArrowBackUp />
+        <span className='go-back-span'>Wstecz</span>
+      </Link>
       <div className='prod-box'>
         <div className='prod-info'>
           <div className='prod-top'>
-            <Link
-              className='go-back-btn'
-              to='/kategoria'
-              onClick={() => handleGoBack(productDetails.category.uuid)}
-            >
-              <TbArrowBackUp />
-            </Link>
             <h2 className='prod-name'>{productDetails.name}</h2>
           </div>
           <hr className='hr-line' />
           <p>{productDetails.description}</p>
+          <ul className='product-properties'>
+            {productDetails.properties.map(properties => (
+              <li className='product-properties-item'>
+                <span className='product-prop-span'> {properties.name}</span> -{' '}
+                <span> {properties.value}</span>
+              </li>
+            ))}
+          </ul>
           <hr className='hr-line' />
           <div className='prod-cta'>
             <div>

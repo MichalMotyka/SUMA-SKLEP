@@ -1,11 +1,25 @@
+.go-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 10px;
+    font-size: 2rem;
+    color: black;
+    padding-top:5px ;
+    transition: color .3s;
+    &:hover {
+        color: rgb(19, 78, 19);
+    }
+    .go-back-span{
+        font-size: 1rem;
+    }
+}
+
 .prod-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 35px 0;
-
-
-
+    padding: 10px 0 25px 0;
 
     .prod-info {
         display: flex;
@@ -15,25 +29,23 @@
         width: 40%;
         text-align: left;
 
+        .product-properties{
+           padding-left: 20px; 
+           margin: -10px 0;
+      
+          .product-prop-span{
+          font-weight: bold;
+          }
+            }
+
         .prod-top {
             display: flex;
-            align-items: center;
-
-            .go-back-btn {
-                margin-right: 10px;
-                font-size: 2rem;
-                color: black;
-                padding-top:5px ;
-                transition: color .3s;
-                &:hover {
-                    color: rgb(19, 78, 19);
-                }
-            }
+            align-items: center;          
 
         }
 
         .prod-name {
-            font-size: 2.2rem;
+            font-size: 2rem;
         }
 
         .prod-price {
