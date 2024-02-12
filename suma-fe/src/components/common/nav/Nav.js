@@ -74,7 +74,7 @@ function Nav (data) {
                   }}
                 >
                   {menuItem.name}
-                  <MdArrowDownward />
+                  <MdArrowDownward className='nav-down-icon' />
                 </Link>
                 <ul className='sub-list'>
                   {menuItem.subcategoriesy.map(subCategory => (

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 function SearchResults () {
   const { searchValue } = useContext(CategoryContext)
   const [searchResults, setSearchResults] = useState([])
+  const { setProductUuid } = useContext(CategoryContext)
+
   useEffect(() => {
     fetch(
       `http://localhost:8080/api/v1/product?search=${searchValue}&page=1&limit=10&sort=NAME&order=DESC`
@@ -13,6 +15,10 @@ function SearchResults () {
       .then(data => setSearchResults(data))
       .catch(error => console.log(error))
   }, [searchValue])
+
+  const handleProductDetails = uuid => {
+    setProductUuid(uuid)
+  }
 
   return (
     <>
@@ -25,7 +31,11 @@ function SearchResults () {
           <ul className='product-ul'>
             {searchResults.map(product => (
               <li key={product.uuid} className='product-box'>
-                <Link className='product-info' to='/produkt'>
+                <Link
+                  className='product-info'
+                  to='/produkt'
+                  onClick={() => handleProductDetails(product.uuid)}
+                >
                   <img
                     className='product-img'
                     src={product.mainImg}
@@ -34,11 +44,10 @@ function SearchResults () {
                 </Link>
                 <div className='product-desc'>
                   <span className='product-name'>{product.name}</span>
-                  <span className='product-price'>{product.price} zł</span>
                 </div>
-                <hr className='product-line'></hr>
+                <hr className='hr-line'></hr>
                 <div className='product-buy'>
-                  <p>Dostępność: {product.available}</p>
+                  <span className='product-price'>{product.price} zł</span>
                   <button className='product-btn'>Dodaj do koszyka</button>
                 </div>
               </li>

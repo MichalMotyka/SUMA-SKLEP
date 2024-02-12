@@ -8,33 +8,32 @@ function Footer () {
       <hr></hr>
       <div className='footer-content'>
         <div className='footer-section'>
-          <h2>Linki</h2>
+          <h2 className='footer-title'>Linki</h2>
           <ul>
             <li>
-              <Link href='/'>Strona główna</Link>
+              <Link to='/'>Strona główna</Link>
             </li>
             <li>
-              <a href='/produkty'>Produkty</a>
-            </li>
-            <li>
-              <a href='/o-nas'>O nas</a>
-            </li>
-            <li>
-              <a href='/kontakt'>Kontakt</a>
+              <Link to='/koszyk'>Koszyk</Link>
             </li>
           </ul>
         </div>
         <div className='footer-section'>
-          <h2>Kontakt</h2>
-          <p>Adres: ul. Przykładowa 123, 00-000 Warszawa</p>
+          <h2 className='footer-title'>Kontakt:</h2>
+          <p>Email: kontakt@sklepinternetowy.pl</p>
+          <p>Telefon: +48 123 456 789</p>
+        </div>
+        <div className='footer-section'>
+          <h2 className='footer-title'>Dane firmy</h2>
+          <p>NIP: 6060093787</p>
+          <p>REGON: 302841208</p>
           <p>Email: kontakt@sklepinternetowy.pl</p>
           <p>Telefon: +48 123 456 789</p>
         </div>
       </div>
+      <hr></hr>
       <div className='footer-bottom'>
-        <p>
-          &copy; 2024 e-wianki | Cooding Raccoons | Wszelkie prawa zastrzeżone.
-        </p>
+        <p>&copy; 2024 e-wianki | Cooding Raccoons |</p>
       </div>
     </footer>
   )

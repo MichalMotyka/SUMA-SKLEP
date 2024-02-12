@@ -36,3 +36,7 @@ footer {
   margin-top: auto;
 }
 
+
+.hr-line {
+  border: 1px solid rgba(0, 0, 0, 0.205);
+}

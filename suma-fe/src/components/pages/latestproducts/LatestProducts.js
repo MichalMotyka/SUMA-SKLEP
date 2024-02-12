@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { CategoryContext } from '../../auth/context/useContext'
+
 import './latestproducts.scss'
 
 function LatestProducts () {
   const [latestProducts, setLatestProducts] = useState([])
+  const { setProductUuid } = useContext(CategoryContext)
 
   useEffect(() => {
     fetch(
@@ -14,14 +17,23 @@ function LatestProducts () {
       .catch(error => console.log(error))
   }, [])
 
+  const handleProductDetails = uuid => {
+    setProductUuid(uuid)
+  }
+
   return (
     <section>
       <h2 className='section-title'>Najnowsze produkty</h2>
+
       <div className='products-list'>
         <ul className='product-ul'>
           {latestProducts.map(product => (
             <li key={product.uuid} className='product-box'>
-              <Link className='product-info' to='/produkt'>
+              <Link
+                className='product-info'
+                to='/produkt'
+                onClick={() => handleProductDetails(product.uuid)}
+              >
                 <img
                   className='product-img'
                   src={product.mainImg}
@@ -30,11 +42,10 @@ function LatestProducts () {
               </Link>
               <div className='product-desc'>
                 <span className='product-name'>{product.name}</span>
-                <span className='product-price'>{product.price} zł</span>
               </div>
-              <hr className='product-line'></hr>
+              <hr className='hr-line'></hr>
               <div className='product-buy'>
-                <p>Dostępność: {product.available}</p>
+                <span className='product-price'>{product.price} zł</span>
                 <button className='product-btn'>Dodaj do koszyka</button>
               </div>
             </li>
