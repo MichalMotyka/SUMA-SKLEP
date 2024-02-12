@@ -41,7 +41,7 @@ public class WebSecurity {
         http.cors().and().csrf().disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**","api/v1/product","api/v1/product/*").permitAll()
+                                .requestMatchers("api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**","api/v1/product","api/v1/product/*","api/v1/basket").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
