@@ -1,6 +1,7 @@
 import { CategoryContext } from '../../../auth/context/useContext'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { IoInformation } from 'react-icons/io5'
 
 function SearchResults () {
   const { searchValue } = useContext(CategoryContext)
@@ -23,7 +24,7 @@ function SearchResults () {
   return (
     <>
       <h2 style={{ textAlign: 'center', marginTop: '10px' }}>
-        Wyniki wyszukiwania {searchValue}
+        Wyniki wyszukiwania dla: {searchValue}
       </h2>
 
       <section>
@@ -36,19 +37,24 @@ function SearchResults () {
                   to='/produkt'
                   onClick={() => handleProductDetails(product.uuid)}
                 >
+                  <IoInformation className='product-info-icon' />
                   <img
                     className='product-img'
                     src={product.mainImg}
                     alt={product.name}
                   />
                 </Link>
+
                 <div className='product-desc'>
                   <span className='product-name'>{product.name}</span>
                 </div>
-                <hr className='hr-line'></hr>
+                <hr className='hr-line product-line'></hr>
                 <div className='product-buy'>
+                  <span className='product-available'>
+                    Dostępnych: {product.available}
+                  </span>
                   <span className='product-price'>{product.price} zł</span>
-                  <button className='product-btn'>Dodaj do koszyka</button>
+                  {/* <button className='product-btn'>Dodaj do koszyka</button> */}
                 </div>
               </li>
             ))}

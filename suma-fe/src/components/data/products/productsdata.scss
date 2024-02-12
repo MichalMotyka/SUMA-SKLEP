@@ -40,18 +40,37 @@
     .product-ul {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-
+        justify-content: space-around;
         flex-wrap: wrap;
         list-style: none;
-        padding: 0;
+        padding: 0;    
+
+        .product-line{         
+            margin: 0 auto;
+            width: 95%;           
+        }
 
         .product-box {
+            position: relative;
             width: 300px;         
             margin: 10px 5px ;
             border-radius: 8px;
             background-color: #fff;
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);
+            transition: box-shadow .4s;
+            &:hover{
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.623);
+
+            }
+
+            .product-info-icon{
+                position: absolute;     
+                margin: 5px;
+                right:  0;           
+                color: rgba(0, 0, 0, 0.479);
+                text-decoration: none;
+                font-size: 1.5rem;
+            }
 
             .product-info {
                 .product-img {
@@ -88,9 +107,7 @@
             }
 
             .product-btn {
-
-                border: transparent;
-                // background-color: #4299e1;
+                border: transparent;               
                 background-color: rgb(84, 194, 84);
                 border-radius: 4px;
                 padding: 8px 16px;
@@ -100,29 +117,29 @@
                 box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.678);
                 cursor: pointer;
                 transition: background-color .3s;
-
                 &:hover {
                     background-color: rgb(51, 121, 51);
                 }
             }
 
-
             .product-buy {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 10px;
+                padding: 10px;          
+         
                 .product-price {                 
                     font-size: 1rem;
                     font-weight: bold;
                     color: black;
                     display: block;
-                    margin-bottom: 8px;
-                }
-               
+                   
+                }       
+                .product-available{
+                    color: rgb(70, 70, 70);
+                  font-weight: bold;  
+                }        
             }
-
-
         }
     }
 }
