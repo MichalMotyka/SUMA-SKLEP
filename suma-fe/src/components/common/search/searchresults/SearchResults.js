@@ -47,7 +47,7 @@ function SearchResults () {
                 </div>
                 <hr className='hr-line'></hr>
                 <div className='product-buy'>
-                  <span className='product-price'>{product.price}zł</span>
+                  <span className='product-price'>{product.price} zł</span>
                   <button className='product-btn'>Dodaj do koszyka</button>
                 </div>
               </li>
