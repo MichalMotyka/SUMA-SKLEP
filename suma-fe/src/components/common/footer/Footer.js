@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { BsTelephoneOutbound } from 'react-icons/bs'
+import { AiOutlineMail } from 'react-icons/ai'
 import './footer.scss'
 
 function Footer () {
@@ -20,8 +22,16 @@ function Footer () {
         </div>
         <div className='footer-section'>
           <h2 className='footer-title'>Kontakt:</h2>
-          <p>Email: kontakt@sklepinternetowy.pl</p>
-          <p>Telefon: +48 123 456 789</p>
+          <p className='footer-contact'>
+            {' '}
+            <AiOutlineMail className='footer-icon' />
+            kontakt@sklepinternetowy.pl
+          </p>
+          <p className='footer-contact'>
+            {' '}
+            <BsTelephoneOutbound className='footer-icon' />
+            +48 123 456 789
+          </p>
         </div>
         <div className='footer-section'>
           <h2 className='footer-title'>Dane firmy</h2>

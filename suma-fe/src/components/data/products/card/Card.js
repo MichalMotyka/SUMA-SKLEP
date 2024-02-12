@@ -82,8 +82,12 @@ function Card () {
           <ul className='product-properties'>
             {productDetails.properties.map(properties => (
               <li className='product-properties-item'>
-                <span className='product-prop-span'> {properties.name}</span> -{' '}
-                <span> {properties.value}</span>
+                <span className='product-prop-span'>
+                  {' '}
+                  {properties.name.charAt(0).toUpperCase() +
+                    properties.name.slice(1)}
+                </span>{' '}
+                - <span> {properties.value}</span>
               </li>
             ))}
           </ul>

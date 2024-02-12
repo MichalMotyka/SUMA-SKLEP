@@ -3,7 +3,7 @@ import Search from '../../search/search/Search'
 import ShopLogo from '../images/shoplogo.webp'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { BsTelephoneOutbound } from 'react-icons/bs'
-import { AiOutlineMail } from "react-icons/ai";
+import { AiOutlineMail } from 'react-icons/ai'
 
 import './topnav.scss'
 
@@ -18,7 +18,7 @@ function TopNav () {
           <BsTelephoneOutbound className='contact-icon' /> 123 456 789
         </span>
         <span className='contact-email'>
-          <AiOutlineMail   className='contact-icon' /> sklep@ewianki.pl
+          <AiOutlineMail className='contact-icon' /> sklep@ewianki.pl
         </span>
       </div>
       <Search />

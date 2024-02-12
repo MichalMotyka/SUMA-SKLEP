@@ -11,8 +11,8 @@ function App () {
       <div className='wrapper app-wrapp'>
         <NavMenuCategory />
         <Routing />
-        <Footer />
       </div>
+      <Footer />
     </CategoryProvider>
   )
 }
