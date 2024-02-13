@@ -14,6 +14,8 @@ public enum Code {
     C4("Nie można zmienić kategorii na podkategorie lub jej usunąć, jeśli sama posiada już przypisane do siebie podkategorie. Proszę odpiąć te podkategorie przed dokonaniem zmiany."),
     P1("Produkt nie może mieć więcej niż 6 parametrów opisowych"),
     P2("Produkt o wskazanej nazwie już istnieje"),
+    B1("Nie można ustawić ilość produktu na wartość ujemną"),
+    B2("Brak wystarczającej ilości dostępnych produktów"),
     E1("Błąd danych");
 
     public final String label;
