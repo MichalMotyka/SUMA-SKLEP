@@ -3,6 +3,8 @@ package com.example.suma.service;
 import com.example.suma.entity.Basket;
 import com.example.suma.entity.BasketItem;
 import com.example.suma.entity.dto.BasketItemDTO;
+import com.example.suma.exceptions.InsufficientQuantityProductException;
+import com.example.suma.exceptions.MinimumQuantityException;
 import com.example.suma.repository.BasketItemRepository;
 import com.example.suma.repository.BasketRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +50,12 @@ public class BasketService {
                 if(basketItem.getQuantity() == 0L){
                     basket.getBasketItem().remove(item);
                     basketItemRepository.deleteById(item.getId());
-                }else{
+                } else if (basketItem.getQuantity() < 0) {
+                    throw new MinimumQuantityException();
+                } else{
+                    if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()){
+                        throw new InsufficientQuantityProductException();
+                    }
                     item.setQuantity(basketItem.getQuantity());
                     item.setPrice(item.getProduct().getPrice() * item.getQuantity());
                     basketItemRepository.save(item);
@@ -58,6 +65,9 @@ public class BasketService {
             }
         }
         if(!itemExist && basketItem.getQuantity() != 0){
+            if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()){
+                throw new InsufficientQuantityProductException();
+            }
             basket.getBasketItem().add(addBasketItem(basketItem,basket));
         }
         basket.setLastEdit(LocalDate.now());
