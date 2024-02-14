@@ -91,7 +91,7 @@ function Card () {
               </li>
             ))}
           </ul>
-          <hr className='hr-line' />
+          
           <div className='prod-cta'>
             <div>
               <p className='prod-price'>{productDetails.price} zł</p>
