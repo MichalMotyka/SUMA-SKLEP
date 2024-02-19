@@ -41,7 +41,7 @@ public class WebSecurity {
         http.cors().and().csrf().disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**","api/v1/product","api/v1/product/*","api/v1/basket").permitAll()
+                                .requestMatchers("api/v1/auth/login","api/v1/category","api/v1/category/*","/v3/**","/swagger-ui/**","api/v1/product","api/v1/product/*","api/v1/basket","api/v1/document/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
@@ -58,7 +58,7 @@ public class WebSecurity {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("X-Total-Count"));
         configuration.setAllowCredentials(true);
