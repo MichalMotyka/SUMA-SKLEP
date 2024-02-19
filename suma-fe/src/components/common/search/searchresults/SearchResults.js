@@ -1,4 +1,4 @@
-import { CategoryContext } from '../../../auth/context/useContext'
+import { CategoryContext } from '../../../auth/context/productContext'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoInformation } from 'react-icons/io5'

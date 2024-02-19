@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
-import { CategoryContext } from '../../auth/context/useContext'
+import { CategoryContext } from '../../auth/context/productContext'
 import { IoInformation } from 'react-icons/io5'
 
 function LatestProducts () {

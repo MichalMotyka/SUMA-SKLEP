@@ -1,4 +1,4 @@
-import { CategoryContext } from '../../../auth/context/useContext'
+import { CategoryContext } from '../../../auth/context/productContext'
 import { useContext, useEffect, useState } from 'react'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { BsZoomIn } from 'react-icons/bs'
@@ -19,14 +19,14 @@ function Card () {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0) // Added state to track current image index
 
-  console.log(productDetails)
+  // Products data
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/v1/product/${productUuid}`)
       .then(response => response.json())
       .then(data => {
         setProductDetails(data)
-        setMainImg(data.mainImg) // set mainImg when data is fetched
+        setMainImg(data.mainImg)
       })
       .catch(error => console.log(error))
   }, [productUuid])
@@ -62,6 +62,35 @@ function Card () {
     )
   }
 
+  const handleProductBuy = () => {
+    console.log(productUuid)
+
+    const requestedBasketData = {
+      product: {
+        uuid: { productUuid }
+      },
+      quantity: 1
+    }
+    console.log(requestedBasketData)
+
+    fetch('http://localhost:8080/api/v1/basket', {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestedBasketData)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Produkt nie został dodany do koszyka.')
+        }
+        return response.json()
+      })
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
+  }
+
   return Object.keys(productDetails).length > 0 ? (
     <section>
       <Link
@@ -91,7 +120,7 @@ function Card () {
               </li>
             ))}
           </ul>
-          
+
           <div className='prod-cta'>
             <div>
               <p className='prod-price'>{productDetails.price} zł</p>
@@ -113,7 +142,7 @@ function Card () {
               >
                 +
               </button>
-              <button className='prod-btn'>
+              <button onClick={handleProductBuy} className='prod-btn'>
                 <MdAddShoppingCart className='prod-shop-icon' />
                 Dodaj do koszyka
               </button>
@@ -138,7 +167,7 @@ function Card () {
         <div className='prod-carusel'>
           {productDetails.images.map((image, index) => (
             <img
-              key={index}
+              key={image}
               className='prod-side-img'
               src={image}
               alt='product'

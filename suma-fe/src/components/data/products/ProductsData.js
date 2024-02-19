@@ -2,7 +2,7 @@ import ProductsFiltering from '../productsFiltering/ProductsFiltering'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useContext } from 'react'
-import { CategoryContext } from '../../auth/context/useContext'
+import { CategoryContext } from '../../auth/context/productContext'
 import ProductPagination from './ProductPagination'
 import { IoInformation } from 'react-icons/io5'
 
