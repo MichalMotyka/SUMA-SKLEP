@@ -40,3 +40,13 @@ footer {
   
   border: 1px solid rgba(2, 168, 2, 0.233);
 }
+
+.msg-success{
+ color: rgb(72, 197, 72);
+ font-weight: bold;
+ text-align: right;
+}
+
+
+
+

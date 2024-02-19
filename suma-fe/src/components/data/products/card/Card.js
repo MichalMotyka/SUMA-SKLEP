@@ -7,6 +7,8 @@ import { TbArrowBackUp } from 'react-icons/tb'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { MdOutlineArrowBackIos } from 'react-icons/md'
 
+import { MdDoneOutline } from 'react-icons/md'
+
 import './card.scss'
 
 function Card () {
@@ -17,9 +19,9 @@ function Card () {
   const [productDetails, setProductDetails] = useState([])
   const [productCounter, setProductCounter] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0) // Added state to track current image index
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
   // Products data
+  const [productAddedStatus, setProductAddedStatus] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/v1/product/${productUuid}`)
@@ -33,9 +35,11 @@ function Card () {
 
   const handleProductAmountMinus = () => {
     setProductCounter(prevValue => prevValue - 1)
+    setProductAddedStatus(false)
   }
   const handleProductAmountPlus = () => {
     setProductCounter(prevValue => prevValue + 1)
+    setProductAddedStatus(false)
   }
 
   const openModal = () => {
@@ -67,9 +71,9 @@ function Card () {
 
     const requestedBasketData = {
       product: {
-        uuid: { productUuid }
+        uuid: productUuid
       },
-      quantity: 1
+      quantity: productCounter
     }
     console.log(requestedBasketData)
 
@@ -85,6 +89,7 @@ function Card () {
         if (!response.ok) {
           throw new Error('Produkt nie został dodany do koszyka.')
         }
+        setProductAddedStatus(true)
         return response.json()
       })
       .then(data => console.log(data))
@@ -148,6 +153,13 @@ function Card () {
               </button>
             </div>
           </div>
+          {productAddedStatus && (
+            <p className='msg-success'>
+              {' '}
+              <MdDoneOutline className='loading-animation' />
+              Produkt został dodany do koszyka.
+            </p>
+          )}
         </div>
 
         <figure>
