@@ -1,3 +1,8 @@
+
+INSERT INTO users (id,uuid, login, email, "password", islock, isenabled) VALUES(1,'513a7259-ca14-44ee-b914-70912ed4446b', 'Administrator', 'Administrator', '$2a$10$uOCn5iOMU9GdD26pnybvP.9pRSE3TDGeD98iD7dFMtcCYm10XdOim', false, true);
+INSERT INTO suma.user_roles(user_id, "role") VALUES(1, 'ROLE_ADMIN');
+
+
 INSERT INTO suma.category (id, uuid, name, is_subcategory, supercategory) VALUES (1, '4eaa9eeb-b202-4f01-883e-ff16cbe81612', 'WIANKI', false, null);
 INSERT INTO suma.category (id, uuid, name, is_subcategory, supercategory) VALUES (2, 'bf1ba7d6-eea0-4da7-b63b-7ee1f7110f6d', 'DEK. NAGROBNE', false, null);
 INSERT INTO suma.category (id, uuid, name, is_subcategory, supercategory) VALUES (3, 'efc6e109-e427-4f65-b03e-5bfb972f9800', 'DEK. KWIATOWE', false, null);
@@ -13,8 +18,6 @@ INSERT INTO suma.category (id, uuid, name, is_subcategory, supercategory) VALUES
 INSERT INTO suma.category (id, uuid, name, is_subcategory, supercategory) VALUES (13, 'c8fb4913-eac4-4a81-a5f1-6e1643dc12ce', 'WIELKANOC', false, null);
 
 
-
-
 INSERT INTO suma.product (uuid, name, description, category, available, count, price, main_img, images, active, create_date,properties) VALUES ('f0e03baf-a4d7-462d-803b-f51617b76d10', 'Kwiatki', 'DUPA', 1, 10, 10, 120.99, 'https://placedog.net/340/480?r', '{https://placedog.net/340/480?r,https://placedog.net/340/480?r}', true, '2024-01-30','[{"name": "wysokosc", "value": "12"}, {"name": "szerokosc", "value": "12"}]');
 INSERT INTO suma.product (uuid, name, description, category, available, count, price, main_img, images, active, create_date,properties) VALUES ('91b3204e-396e-4269-b746-3070b918bff3', 'Bukiecik', 'DUPA', 1, 10, 10, 120.99, 'https://placedog.net/340/480?r', '{https://placedog.net/340/480?r,https://placedog.net/340/480?r}', true, '2024-01-30','[{"name": "wysokosc", "value": "12"}, {"name": "szerokosc", "value": "12"}]');
 INSERT INTO suma.product (uuid, name, description, category, available, count, price, main_img, images, active, create_date,properties) VALUES ('f0e03saf-a4d7-462d-803b-f51617b76d10', 'Wieniec', 'DUPA', 1, 10, 10, 120.99, 'https://placedog.net/340/480?r', '{https://placedog.net/340/480?r,https://placedog.net/340/480?r}', true, '2024-01-30','[{"name": "wysokosc", "value": "12"}, {"name": "szerokosc", "value": "12"}]');
@@ -25,3 +28,4 @@ INSERT INTO suma.product (uuid, name, description, category, available, count, p
 INSERT INTO suma.product (uuid, name, description, category, available, count, price, main_img, images, active, create_date,properties) VALUES ('f0e03baf-a4d7-4621-803b-f51617b76d10', 'Nie lubie pythona', 'DUPA', 1, 10, 10, 120.99, 'https://placedog.net/340/480?r', '{https://placedog.net/340/480?r,https://placedog.net/340/480?r}', true, '2024-01-30','[{"name": "wysokosc", "value": "12"}, {"name": "szerokosc", "value": "12"}]');
 INSERT INTO suma.product (uuid, name, description, category, available, count, price, main_img, images, active, create_date,properties) VALUES ('f0e03baf-a4d7-462s-803b-f51617b76d10', 'Indyk', 'DUPA', 1, 10, 10, 120.99, 'https://placedog.net/340/480?r', '{https://placedog.net/340/480?r,https://placedog.net/340/480?r}', true, '2024-01-30','[{"name": "wysokosc", "value": "12"}, {"name": "szerokosc", "value": "12"}]');
 
+INSERT INTO suma.deliver(uuid,type,image,price) values ('321312321','Inpost','bla',22.31)
