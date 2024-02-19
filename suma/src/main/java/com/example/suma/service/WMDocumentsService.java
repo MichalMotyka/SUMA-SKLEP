@@ -24,14 +24,16 @@ public class WMDocumentsService{
         document.setUuid(UUID.randomUUID().toString());
         document.setState(State.PROJECT);
         document = wmDocumentsRepository.saveAndFlush(document);
-        document.getWmProductsList().forEach(this::addProduct);
+        WMDocuments finalDocument = document;
+        document.getWmProductsList().forEach(value-> addProduct(value, finalDocument));
         return document;
     }
 
-    private void addProduct(WMProducts wmProducts){
+    private void addProduct(WMProducts wmProducts,WMDocuments wmDocuments){
         Product product = productService.getProductByUuid(wmProducts.getProduct().getUuid());
         wmProducts.setUuid(UUID.randomUUID().toString());
         wmProducts.setProduct(product);
+        wmProducts.setWmDocuments(wmDocuments);
         wmProductsRepository.save(wmProducts);
     }
 }

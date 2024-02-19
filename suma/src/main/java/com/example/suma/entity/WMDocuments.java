@@ -11,9 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(schema = "suma")
+@Table(name = "wm_documents",schema = "suma")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@ToString
 public class WMDocuments extends Document{
     @Id
     @GeneratedValue(generator = "wm_documents_id_seq", strategy = GenerationType.SEQUENCE)

@@ -64,9 +64,9 @@ CREATE TABLE basket_item(
 );
 
 CREATE TABLE IF NOT EXISTS wm_documents (
-       id BIGINT PRIMARY KEY,
+       id serial PRIMARY KEY,
        uuid VARCHAR,
-       createDate DATE,
+       create_date DATE,
        state VARCHAR
 );
 
@@ -106,6 +106,8 @@ CREATE TABLE zm_documents (
       email VARCHAR,
       phone_number VARCHAR,
       info TEXT,
+      deliver bigint not null,
+      FOREIGN KEY (deliver) REFERENCES deliver(id),
       FOREIGN KEY (document_id) REFERENCES wm_documents(id)
 );
 
