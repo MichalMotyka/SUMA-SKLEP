@@ -1,17 +1,15 @@
 package com.example.suma.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "suma")
+@Table(name = "wm_products",schema = "suma")
+@ToString
 public class WMProducts {
     @Id
     @GeneratedValue(generator = "wm_products_id_seq", strategy = GenerationType.SEQUENCE)
@@ -21,6 +19,7 @@ public class WMProducts {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Product product;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "wmdocuments_id")
     private WMDocuments wmDocuments;
     private long quantity;
 }

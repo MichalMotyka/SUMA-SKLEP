@@ -1,5 +1,6 @@
 package com.example.suma.service;
 
+import com.example.suma.entity.WMDocuments;
 import com.example.suma.entity.ZMDocument;
 import com.example.suma.repository.DeliverRepository;
 import com.example.suma.repository.ZMDocumentRepository;
@@ -16,16 +17,18 @@ public class ZMDocumentService {
     private final DeliverRepository deliverRepository;
 
     public void create(ZMDocument zmDocument) {
+        WMDocuments wmDocuments = new WMDocuments();
+        wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
         setDeliver(zmDocument);
         zmDocument.setCreateDate(LocalDate.now());
         zmDocument.setUuid(UUID.randomUUID().toString());
         zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
-        zmDocument.setDocument(wmDocumentsService.create(zmDocument.getDocument()));
+        zmDocument.setDocument(wmDocumentsService.create(wmDocuments));
         zmDocumentRepository.save(zmDocument);
     }
 
     private void setDeliver(ZMDocument zmDocument){
-        deliverRepository.findDeliverByUuid(zmDocument.getUuid()).ifPresentOrElse(zmDocument::setDeliver
+        deliverRepository.findDeliverByUuid(zmDocument.getDeliver().getUuid()).ifPresentOrElse(zmDocument::setDeliver
                 ,()->{throw new RuntimeException();});
     }
 }
