@@ -1,5 +1,6 @@
 package com.example.suma.service;
 
+import com.example.suma.entity.Basket;
 import com.example.suma.entity.WMDocuments;
 import com.example.suma.entity.ZMDocument;
 import com.example.suma.repository.DeliverRepository;
@@ -16,7 +17,7 @@ public class ZMDocumentService {
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
 
-    public void create(ZMDocument zmDocument) {
+    public void create(ZMDocument zmDocument, Basket basket) {
         WMDocuments wmDocuments = new WMDocuments();
         wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
         setDeliver(zmDocument);

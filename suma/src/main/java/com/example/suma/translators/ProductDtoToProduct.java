@@ -64,7 +64,7 @@ public abstract class ProductDtoToProduct {
         List<Properties> propertiesList = new ArrayList<>();
         if (propertiesMapList != null){
             propertiesMapList.forEach(value->{
-                propertiesList.add(new Properties(value.get("name"),value.get("value")));
+                propertiesList.add(new Properties(value.get("name"),value.get("value"),value.get("uuid")));
             });
         }
         return propertiesList;
