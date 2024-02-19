@@ -37,4 +37,8 @@ public class Product {
     private LocalDate createDate;
     @JdbcTypeCode(SqlTypes.JSON)
     private List<Map<String,String>> properties;
+
+    public Product(String uuid){
+        this.uuid = uuid;
+    }
 }

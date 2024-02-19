@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(schema = "suma")
+@Table(name = "zm_documents",schema = "suma")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class ZMDocument extends Document{
     @Id
@@ -30,6 +30,7 @@ public class ZMDocument extends Document{
     private String phoneNumber;
     private String info;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "deliver")
     private Deliver deliver;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private WMDocuments document;
