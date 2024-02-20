@@ -22,6 +22,12 @@
     padding: 10px 0 25px 0;
     flex-wrap: wrap;
 
+    .span-basket{
+        position: absolute;
+        bottom: -20px;
+        right: 0px;       
+    }
+
     .prod-info {
         display: flex;
         flex-direction: column;
@@ -55,6 +61,7 @@
         }
 
         .prod-cta {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -118,6 +125,7 @@
         height: 600px;
         gap: 10px 0;
         overflow-y: auto;
+      
      
         .prod-side-img {
             border-radius: 8px;

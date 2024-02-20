@@ -7,7 +7,7 @@ import { TbArrowBackUp } from 'react-icons/tb'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { MdOutlineArrowBackIos } from 'react-icons/md'
 
-import { MdDoneOutline } from 'react-icons/md'
+import { MdDone } from 'react-icons/md'
 
 import './card.scss'
 
@@ -67,15 +67,12 @@ function Card () {
   }
 
   const handleProductBuy = () => {
-    console.log(productUuid)
-
     const requestedBasketData = {
       product: {
         uuid: productUuid
       },
       quantity: productCounter
     }
-    console.log(requestedBasketData)
 
     fetch('http://localhost:8080/api/v1/basket', {
       method: 'PATCH',
@@ -152,14 +149,12 @@ function Card () {
                 Dodaj do koszyka
               </button>
             </div>
+            {productAddedStatus && (
+              <span className='msg-success span-basket'>
+                Produkt został dodany do koszyka. <MdDone />
+              </span>
+            )}
           </div>
-          {productAddedStatus && (
-            <p className='msg-success'>
-              {' '}
-              <MdDoneOutline className='loading-animation' />
-              Produkt został dodany do koszyka.
-            </p>
-          )}
         </div>
 
         <figure>
