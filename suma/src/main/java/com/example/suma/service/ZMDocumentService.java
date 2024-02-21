@@ -17,7 +17,7 @@ public class ZMDocumentService {
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
 
-    public void create(ZMDocument zmDocument, Basket basket) {
+    public void create(ZMDocument zmDocument) {
         WMDocuments wmDocuments = new WMDocuments();
         wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
         setDeliver(zmDocument);

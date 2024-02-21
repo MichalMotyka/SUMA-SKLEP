@@ -21,13 +21,7 @@ public class DocumentsMediator {
     private final BasketService basketService;
     public void createOrder(OrderDTO orderDTO, Cookie[] cookies) {
         ZMDocument zmDocument = zmDocumentTranslator.translateOrder(orderDTO);
-        String uuid = getBasketCookie(cookies);
-        Basket basket = null;
-        if (uuid != null){
-            basket = basketService.getBasket(uuid);
-        }
-
-        zmDocumentService.create(zmDocument,basket);
+        zmDocumentService.create(zmDocument);
     }
 
 
@@ -38,5 +32,15 @@ public class DocumentsMediator {
           return Arrays.stream(cookies).filter(value-> value.getName().equals("basket-uuid")).findFirst().get().getValue();
         }
         return null;
+    }
+
+    public void makeOrder(Cookie[] cookies) {
+        String uuid = getBasketCookie(cookies);
+        Basket basket = null;
+        if (uuid != null){
+            basket = basketService.getBasket(uuid);
+
+        }
+        throw new RuntimeException();
     }
 }

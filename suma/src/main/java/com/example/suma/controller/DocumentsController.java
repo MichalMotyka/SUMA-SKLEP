@@ -19,6 +19,12 @@ public class DocumentsController {
 
     private final DocumentsMediator documentsMediator;
 
+    @PostMapping("order")
+    public ResponseEntity<?> makeOrder(HttpServletRequest request){
+        documentsMediator.makeOrder(request.getCookies());
+        return ResponseEntity.ok("");
+    }
+
     @PostMapping("create/order")
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO, HttpServletRequest request){
         documentsMediator.createOrder(orderDTO,request.getCookies());
