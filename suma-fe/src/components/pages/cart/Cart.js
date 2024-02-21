@@ -150,11 +150,18 @@ function Cart () {
         </ul>
         <div className='summary-list'>
           <p className='summary-desc'>Cena: </p>
-          <p className='summary-desc'>Ilość przedmiotów: {basketData.basketItem.length}</p>
-          <button className='summary-btn' disabled={ basketData.basketItem.length <= 0}>
-
-            {basketData.basketItem.length <= 0 ? <p>Koszyk jest pusty</p> : <p>Przejdź do zamówienia</p>}
-
+          <p className='summary-desc'>
+            Ilość przedmiotów: {basketData.basketItem.length}
+          </p>
+          <button
+            className='summary-btn'
+            disabled={basketData.basketItem.length <= 0}
+          >
+            {basketData.basketItem.length <= 0 ? (
+              <p>Koszyk jest pusty</p>
+            ) : (
+              <p>Przejdź do zamówienia</p>
+            )}
           </button>
         </div>
       </div>
