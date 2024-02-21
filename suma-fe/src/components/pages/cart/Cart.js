@@ -6,6 +6,7 @@ import './cart.scss'
 function Cart () {
   const [basketData, setBasketData] = useState([])
   const [productAmounts, setProductAmounts] = useState({})
+  const [amountChanged, setAmountChanged] = useState(true)
 
   // Usuwanie danych w koszyku
   const handleDeleteProduct = (productUUID, zero) => {
@@ -61,6 +62,7 @@ function Cart () {
   const handleProductAmountChange = (event, productUUID) => {
     const { value } = event.target
     setProductAmounts({ uuid: productUUID, amount: parseInt(value) })
+    setAmountChanged(true)
   }
 
   // API change product amount:
@@ -89,14 +91,14 @@ function Cart () {
         fetchBasketData()
         return response.json()
       })
-      .then(data => console.log(data))
+
       .catch(error => console.log(error))
   }, [productAmounts])
 
   return Object.keys(basketData).length > 0 ? (
     <section>
       <h2 className='section-title'>
-        Przedmioty w koszyku: {basketData.basketItem.length}
+        Przedmioty w koszyku {basketData.basketItem.length}
       </h2>
       <div className='cart'>
         <ul className='cart-list'>
@@ -117,13 +119,18 @@ function Cart () {
                     </span>
                     <div>
                       <select
-                        name='products'
+                        aria-label='Zmień ilość przedmotów w koszyku'
+                        className='select'
+                        id='products'
                         value={productAmounts[product.product.uuid] || ''}
                         onChange={e =>
                           handleProductAmountChange(e, product.product.uuid)
                         }
                       >
-                        <option value=''>Zmień ilość</option>
+                        <option value='' className='option'>
+                          Zmień ilość
+                        </option>
+
                         {[...Array(product.product.available).keys()].map(
                           (_, index) => (
                             <option key={index + 1} value={index + 1}>
@@ -139,6 +146,7 @@ function Cart () {
               <div className='product-right'>
                 <p className='product-price'> {product.price} zł</p>
                 <button
+                  aria-label='Usuń produkt z koszyka'
                   className='product-btn'
                   onClick={() => handleDeleteProduct(product.product.uuid, 0)}
                 >
@@ -149,7 +157,7 @@ function Cart () {
           ))}
         </ul>
         <div className='summary-list'>
-          <p className='summary-desc'>Cena: </p>
+          <p className='summary-desc'>Do zapłaty </p>
           <p className='summary-desc'>
             Ilość przedmiotów: {basketData.basketItem.length}
           </p>
