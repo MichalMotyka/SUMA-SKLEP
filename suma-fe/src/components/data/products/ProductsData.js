@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { CategoryContext } from '../../auth/context/productContext'
 import ProductPagination from './ProductPagination'
-import { IoInformation } from 'react-icons/io5'
+import { FiMoreHorizontal } from 'react-icons/fi'
 
 import './productsdata.scss'
 
@@ -89,7 +89,7 @@ function ProductsData () {
                 to='/produkt'
                 onClick={() => handleProductDetails(product.uuid)}
               >
-                <IoInformation className='product-info-icon' />
+                <FiMoreHorizontal className='product-info-icon' />
                 <img
                   className='product-img'
                   src={product.mainImg}

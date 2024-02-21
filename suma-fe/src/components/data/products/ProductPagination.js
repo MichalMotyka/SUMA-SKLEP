@@ -27,7 +27,6 @@ function ProductPagination (props) {
         >
           {' '}
           <HiArrowSmallLeft className='pagination-icon' />
-          Poprzednia strona
         </button>
         <span style={{ fontWeight: 'bold' }}>
           Strona: {page}/ {howManyPages}
@@ -40,7 +39,6 @@ function ProductPagination (props) {
             howManyPages === 0
           }
         >
-          Następna strona
           <HiArrowSmallRight className='pagination-icon' />
         </button>
       </div>
