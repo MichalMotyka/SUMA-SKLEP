@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import TopNav from './topnav/TopNav'
 import { MdArrowDownward } from 'react-icons/md'
 import { useContext } from 'react'
-import { CategoryContext } from '../../auth/context/useContext'
+import { CategoryContext } from '../../auth/context/productContext'
 
 function Nav (data) {
   const { setPassCategory } = useContext(CategoryContext)

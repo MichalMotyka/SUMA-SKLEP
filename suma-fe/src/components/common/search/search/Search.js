@@ -2,7 +2,7 @@ import { IoSearchSharp } from 'react-icons/io5'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './search.scss'
-import { CategoryContext } from '../../../auth/context/useContext'
+import { CategoryContext } from '../../../auth/context/productContext'
 
 function Search () {
   const { searchValue, setSearchValue } = useContext(CategoryContext)

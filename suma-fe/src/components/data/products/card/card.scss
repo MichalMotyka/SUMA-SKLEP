@@ -20,6 +20,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 0 25px 0;
+    flex-wrap: wrap;
+
+    .span-basket{
+        position: absolute;
+        bottom: -20px;
+        right: 0px;       
+    }
 
     .prod-info {
         display: flex;
@@ -45,7 +52,7 @@
         }
 
         .prod-name {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
 
         .prod-price {
@@ -54,6 +61,7 @@
         }
 
         .prod-cta {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -113,7 +121,12 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        width: 150px;
+        height: 600px;
         gap: 10px 0;
+        overflow-y: auto;
+      
+     
         .prod-side-img {
             border-radius: 8px;
             box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.486);
@@ -121,6 +134,10 @@
             height: 140px;
             object-fit: cover;
             cursor: pointer;
+            transition: box-shadow .4s;
+            &:hover{
+                box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.89);
+            }
         }
     }
 }

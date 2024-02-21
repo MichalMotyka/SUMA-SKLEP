@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
-import { CategoryContext } from '../../auth/context/useContext'
-
-import './latestproducts.scss'
+import { CategoryContext } from '../../auth/context/productContext'
+import { IoInformation } from 'react-icons/io5'
 
 function LatestProducts () {
   const [latestProducts, setLatestProducts] = useState([])
@@ -34,19 +33,24 @@ function LatestProducts () {
                 to='/produkt'
                 onClick={() => handleProductDetails(product.uuid)}
               >
+                <IoInformation className='product-info-icon' />
                 <img
                   className='product-img'
                   src={product.mainImg}
                   alt={product.name}
                 />
               </Link>
+
               <div className='product-desc'>
                 <span className='product-name'>{product.name}</span>
               </div>
-              <hr className='hr-line'></hr>
+              <hr className='hr-line product-line'></hr>
               <div className='product-buy'>
+                <span className='product-available'>
+                  Dostępnych: {product.available}
+                </span>
                 <span className='product-price'>{product.price} zł</span>
-                <button className='product-btn'>Dodaj do koszyka</button>
+                {/* <button className='product-btn'>Dodaj do koszyka</button> */}
               </div>
             </li>
           ))}
