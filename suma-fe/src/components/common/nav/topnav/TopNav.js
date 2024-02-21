@@ -5,15 +5,10 @@ import ShopLogo from '../images/shoplogo.webp'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { BsTelephoneOutbound } from 'react-icons/bs'
 import { AiOutlineMail } from 'react-icons/ai'
-import { CategoryContext } from '../../../auth/context/productContext'
 
 import './topnav.scss'
 
 function TopNav () {
-  const { basketItems } = useContext(CategoryContext)
-
-  console.log('topnav:', basketItems)
-
   return (
     <div className='top-nav app-wrapp'>
       <Link to='/'>
@@ -29,7 +24,7 @@ function TopNav () {
       </div>
       <Search />
       <Link to='/koszyk' className='cart-btn'>
-        <MdAddShoppingCart /> Twój Koszyk ({basketItems})
+        <MdAddShoppingCart /> Twój Koszyk
       </Link>
     </div>
   )

@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react'
+import { FaRegTrashCan } from 'react-icons/fa6'
+
 import './cart.scss'
 
 function Cart () {
   const [basketData, setBasketData] = useState([])
-  const [productAmount, setProductAmount] = useState(1)
-  // const [xTotalCount, setXTotalCount] = useState(0)
+  const [productAmounts, setProductAmounts] = useState({})
 
-  // Pobieranie danych z koszyka
-
-  const handleProduct = productUUID => {
-    console.log('clicked')
+  // Usuwanie danych w koszyku
+  const handleDeleteProduct = (productUUID, zero) => {
     const requestedBasketData = {
       product: {
         uuid: productUUID
       },
-      quantity: 0
+      quantity: zero
     }
 
     fetch('http://localhost:8080/api/v1/basket', {
@@ -44,19 +43,13 @@ function Cart () {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
-        // 'x-total-basket-product-count': true
       }
     })
-      .then(response => {
-        // const xTotalCountHeader = response.headers.get(
-        //   'x-total-basket-product-count'
-        // )
-
-        // setXTotalCount(parseInt(xTotalCountHeader))
-
-        return response.json()
+      .then(response => response.json())
+      .then(data => {
+        setBasketData(data)
+        // Ustawienie początkowej ilości produktów
       })
-      .then(data => setBasketData(data))
       .catch(error => console.log(error))
   }
 
@@ -64,11 +57,47 @@ function Cart () {
     fetchBasketData()
   }, [])
 
+  // Obsługa zmiany ilości produktu
+  const handleProductAmountChange = (event, productUUID) => {
+    const { value } = event.target
+    setProductAmounts({ uuid: productUUID, amount: parseInt(value) })
+  }
+
+  // API change product amount:
+
+  useEffect(() => {
+    const requestedBasketData = {
+      product: {
+        uuid: productAmounts.uuid
+      },
+      quantity: productAmounts.amount
+    }
+
+    fetch('http://localhost:8080/api/v1/basket', {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestedBasketData)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Produkt nie został dodany do koszyka.')
+        }
+        // Aktualizacja koszyka po usunięciu produktu
+        fetchBasketData()
+        return response.json()
+      })
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
+  }, [productAmounts])
+
   return Object.keys(basketData).length > 0 ? (
     <section>
-      <h2 className=''>Koszyk </h2>
-      <h3>Przedmioty: {basketData.basketItem.length}</h3>
-
+      <h2 className='section-title'>
+        Przedmioty w koszyku: {basketData.basketItem.length}
+      </h2>
       <div className='cart'>
         <ul className='cart-list'>
           {basketData.basketItem.map(product => (
@@ -83,35 +112,50 @@ function Cart () {
                   <div className='product-info'>
                     <p>{product.product.name}</p>
                     <p>Ilość: {product.quantity}</p>
-                    <label htmlFor='products'>Zmień ilość</label>
-                    <select
-                      name='products'
-                      value={productAmount}
-                      onChange={e => setProductAmount(e.target.value)}
-                    >
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                      <option value='3'>3</option>
-                    </select>
+                    <span>
+                      Pozostało dostępnych: {product.product.available}
+                    </span>
+                    <div>
+                      <select
+                        name='products'
+                        value={productAmounts[product.product.uuid] || ''}
+                        onChange={e =>
+                          handleProductAmountChange(e, product.product.uuid)
+                        }
+                      >
+                        <option value=''>Zmień ilość</option>
+                        {[...Array(product.product.available).keys()].map(
+                          (_, index) => (
+                            <option key={index + 1} value={index + 1}>
+                              {index + 1}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className='product-right'>
-                <p>{product.price} zł</p>
+                <p className='product-price'> {product.price} zł</p>
                 <button
                   className='product-btn'
-                  onClick={() => handleProduct(product.product.uuid)}
+                  onClick={() => handleDeleteProduct(product.product.uuid, 0)}
                 >
-                  Remove
+                  <FaRegTrashCan className='btn-icon' />
                 </button>
               </div>
             </li>
           ))}
         </ul>
+        <div className='summary-list'>
+          <p className='summary-desc'>Cena: </p>
+          <p className='summary-desc'>Ilość przedmiotów: {basketData.basketItem.length}</p>
+          <button className='summary-btn' disabled={ basketData.basketItem.length <= 0}>
 
-        <div className='summary-lirt'>
-          <p>Cena:</p>
-          <p>Ilość przedmiotów</p>
+            {basketData.basketItem.length <= 0 ? <p>Koszyk jest pusty</p> : <p>Przejdź do zamówienia</p>}
+
+          </button>
         </div>
       </div>
     </section>
