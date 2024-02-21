@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -27,7 +28,9 @@ public class BasketMediator {
         }
         response.setHeader("X-Total-Basket-Product-Count",size);
         response.addCookie(new Cookie("basket-uuid",basket.getUuid()));
-        return basketTranslator.translateBasketToBasketDTO(basket);
+        BasketDTO basketDTO = basketTranslator.translateBasketToBasketDTO(basket);
+        basketDTO.setBasketItem(basketDTO.getBasketItem().stream().sorted().collect(Collectors.toList()));
+        return basketDTO;
     }
 
     public void editBasket(BasketItemDTO basketItemDTO, HttpServletResponse response, HttpServletRequest request) {
