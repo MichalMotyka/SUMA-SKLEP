@@ -1,0 +1,213 @@
+.go-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 10px;
+    font-size: 2rem;
+    color: black;
+    padding-top:5px ;
+    transition: color .3s;
+    &:hover {
+        color: rgb(19, 78, 19);
+    }
+    .go-back-span{
+        font-size: 1rem;
+    }
+}
+
+.prod-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 25px 0;
+    flex-wrap: wrap;
+
+    .span-basket{
+        position: absolute;
+        bottom: -20px;
+        right: 0px;       
+    }
+
+    .prod-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 30px 0;
+        width: 40%;
+        text-align: left;
+
+        .product-properties{
+           padding-left: 20px; 
+           margin: -10px 0;
+      
+          .product-prop-span{
+          font-weight: bold;
+          }
+            }
+
+        .prod-top {
+            display: flex;
+            align-items: center;          
+
+        }
+
+        .prod-name {
+            font-size: 1.8rem;
+        }
+
+        .prod-price {
+            font-weight: bold;
+            font-size: 1.6rem;
+        }
+
+        .prod-cta {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .prod-btns {
+                display: flex;
+                align-items: center;
+                gap: 0 5px;
+
+                .prod-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: black;
+                    padding: 10px 20px;
+                    background-color: whitesmoke;
+                    border-radius: 4px;
+                    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);
+                    transition: background-color 0.3s;
+                    border: 1px solid rgba(0, 0, 0, 0.226);
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(72, 197, 72, 0.486);
+                    }
+
+                    &:disabled {
+                        cursor: default;
+                        background-color: silver;
+                    }
+
+                    .prod-shop-icon {
+                        margin-right: 5px;
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .prod-main-img {
+        border-radius: 8px;
+        object-fit: scale-down;
+        width: 360px;
+        height: 480px;
+        cursor: pointer;
+    }
+
+    .img-caption {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .prod-carusel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 600px;
+        gap: 10px 0;
+        overflow-y: auto;
+      
+     
+        .prod-side-img {
+            border-radius: 8px;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.486);
+            width: 125px;
+            height: 140px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: box-shadow .4s;
+            &:hover{
+                box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.89);
+            }
+        }
+    }
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 55;
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #888;
+        max-width: 80vw;       
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .close {
+            position: absolute;
+            color: rgba(0, 0, 0, 0.774);
+            top: 5px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+
+            &:hover, &:focus {
+                color: black;
+                cursor: pointer;
+            }
+        }
+
+        .modal-image-container {        
+            display: flex;
+            align-items: center;
+            justify-content: space-around;           
+
+            img {             
+                height: 800px;
+                object-fit: contain;
+            }
+
+            .prev-button, .next-button {             
+             
+                background: rgba(255, 255, 255, 0.8);
+                border: transparent;
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.445);
+                padding: 10px;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 8px;
+                z-index: 1;
+            }
+
+            .prev-button {
+                left: 10px;
+            }
+
+            .next-button {
+                right: 10px;
+            }
+        }
+    }
+}
