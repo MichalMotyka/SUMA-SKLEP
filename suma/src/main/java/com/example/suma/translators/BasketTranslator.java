@@ -17,7 +17,8 @@ import java.util.List;
 public abstract class BasketTranslator {
 
     @Mappings({
-        @Mapping(target = "basketItem",expression = "java(translateBasketItemTOBasketItemDTO(basket.getBasketItem()))")
+        @Mapping(target = "basketItem",expression = "java(translateBasketItemTOBasketItemDTO(basket.getBasketItem()))"),
+        @Mapping(target = "finalPrice",expression = "java(translateFinalPrice(basket.getBasketItem()))")
     })
     public abstract BasketDTO translateBasketToBasketDTO(Basket basket);
 
@@ -31,6 +32,14 @@ public abstract class BasketTranslator {
             @Mapping(target = "properties",ignore = true)
     })
     protected abstract ProductDTO translateProductToProductDTO(Product product);
+
+    protected double translateFinalPrice(List<BasketItem> basketItems){
+        double price = 0D;
+        for (BasketItem item:basketItems){
+            price+= item.getPrice();
+        }
+        return price;
+    }
 
 
     @Mappings({

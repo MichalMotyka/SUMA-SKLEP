@@ -16,4 +16,5 @@ import java.util.List;
 public class BasketDTO {
     private String uuid;
     private List<BasketItemDTO> basketItem;
+    private double finalPrice;
 }

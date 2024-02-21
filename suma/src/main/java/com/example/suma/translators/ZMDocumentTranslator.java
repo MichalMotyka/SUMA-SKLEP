@@ -27,6 +27,9 @@ public abstract class ZMDocumentTranslator {
     protected WMDocuments translateWMDocuments(List<OrderDetailsDTO> orderDetailsDTO){
         return  new WMDocuments(null,null,null,0,translateOrderDetailsProducts(orderDetailsDTO));
     }
+
+
+
     protected List<WMProducts> translateOrderDetailsProducts(List<OrderDetailsDTO> orderDetailsDTO){
        return orderDetailsDTO.stream().map(x ->
                new WMProducts(0,
