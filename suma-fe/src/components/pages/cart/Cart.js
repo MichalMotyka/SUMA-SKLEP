@@ -47,10 +47,16 @@ function Cart () {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        const totalCount = response.headers.get('x-total-basket-product-count')
+        setTotalProductCount(totalCount)
+        return response.json()
+      })
       .then(data => {
         setBasketData(data)
-
         // Ustawienie początkowej ilości produktów
       })
       .catch(error => console.log(error))
@@ -96,28 +102,10 @@ function Cart () {
       .catch(error => console.log(error))
   }, [productAmounts])
 
-  useEffect(() => {
-    fetch('http://localhost:8080/api/v1/basket', {
-      method: 'GET',
-      headers: {
-        accept: '*/*'
-      }
-    })
-      .then(response => {
-        const totalCount = response.headers.get('x-total-basket-product-count')
-        setTotalProductCount(totalCount)
-      })
-      .catch(error => {
-        console.error('Błąd podczas wykonywania zapytania:', error)
-      })
-  }, [])
-
-  console.log(totalProductCount)
-
   return Object.keys(basketData).length > 0 ? (
     <section>
       <h2 className='section-title'>
-        Przedmioty w koszyku {basketData.basketItem.length}
+        Przedmioty w koszyku {totalProductCount}
       </h2>
       <div className='cart'>
         <ul className='cart-list'>
@@ -184,9 +172,7 @@ function Cart () {
               {basketData.finalPrice.toFixed(2)} zł
             </span>
           </p>
-          <p className='summary-desc'>
-            Ilość przedmiotów: {basketData.basketItem.length}
-          </p>
+          <p className='summary-desc'>Ilość przedmiotów: {totalProductCount}</p>
           <Link
             to='/zamowienie'
             className={`${
@@ -194,8 +180,6 @@ function Cart () {
                 ? 'summary-btn-disabled'
                 : 'summary-btn'
             }`}
-
-            // disabled={basketData.basketItem.length <= 0}
           >
             {basketData.basketItem.length <= 0 ? (
               <p>Koszyk jest pusty</p>
