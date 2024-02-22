@@ -8,6 +8,7 @@ function Cart () {
   const [basketData, setBasketData] = useState([])
   const [productAmounts, setProductAmounts] = useState({})
 
+  const [totalProductCount, setTotalProductCount] = useState(null)
   // Usuwanie danych w koszyku
   const handleDeleteProduct = (productUUID, zero) => {
     const requestedBasketData = {
@@ -46,10 +47,7 @@ function Cart () {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => {
-        const totalCount = response.headers.get('x-total-basket-product-count')
-        setTotalProductCount(totalCount)
-      })
+      .then(response => response.json())
       .then(data => {
         setBasketData(data)
 
@@ -67,10 +65,6 @@ function Cart () {
     const { value } = event.target
     setProductAmounts({ uuid: productUUID, amount: parseInt(value) })
   }
-
-  const [totalProductCount, setTotalProductCount] = useState(null)
-
-  console.log(totalProductCount)
 
   // API change product amount:
 
@@ -101,6 +95,24 @@ function Cart () {
 
       .catch(error => console.log(error))
   }, [productAmounts])
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/v1/basket', {
+      method: 'GET',
+      headers: {
+        accept: '*/*'
+      }
+    })
+      .then(response => {
+        const totalCount = response.headers.get('x-total-basket-product-count')
+        setTotalProductCount(totalCount)
+      })
+      .catch(error => {
+        console.error('Błąd podczas wykonywania zapytania:', error)
+      })
+  }, [])
+
+  console.log(totalProductCount)
 
   return Object.keys(basketData).length > 0 ? (
     <section>
