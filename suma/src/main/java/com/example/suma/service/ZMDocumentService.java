@@ -28,6 +28,17 @@ public class ZMDocumentService {
         zmDocumentRepository.save(zmDocument);
     }
 
+    public String saveOrder(ZMDocument zmDocument){
+        WMDocuments wmDocuments = new WMDocuments();
+        wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
+        zmDocument.setCreateDate(LocalDate.now());
+        zmDocument.setUuid(UUID.randomUUID().toString());
+        zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
+        zmDocument.setDocument(wmDocumentsService.create(wmDocuments));
+        zmDocumentRepository.save(zmDocument);
+        return zmDocument.getUuid();
+    }
+
     private void setDeliver(ZMDocument zmDocument){
         deliverRepository.findDeliverByUuid(zmDocument.getDeliver().getUuid()).ifPresentOrElse(zmDocument::setDeliver
                 ,()->{throw new RuntimeException();});

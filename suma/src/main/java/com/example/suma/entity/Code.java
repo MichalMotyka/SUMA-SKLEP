@@ -16,6 +16,7 @@ public enum Code {
     P2("Produkt o wskazanej nazwie już istnieje"),
     B1("Nie można ustawić ilość produktu na wartość ujemną"),
     B2("Brak wystarczającej ilości dostępnych produktów"),
+    B3("Koszyk jest pusty!"),
     E1("Błąd danych");
 
     public final String label;
