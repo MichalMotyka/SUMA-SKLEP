@@ -106,7 +106,7 @@ CREATE TABLE zm_documents (
       email VARCHAR,
       phone_number VARCHAR,
       info TEXT,
-      deliver bigint not null,
+      deliver bigint,
       FOREIGN KEY (deliver) REFERENCES deliver(id),
       FOREIGN KEY (document_id) REFERENCES wm_documents(id)
 );

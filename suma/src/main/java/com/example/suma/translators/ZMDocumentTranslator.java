@@ -1,13 +1,7 @@
 package com.example.suma.translators;
 
-import com.example.suma.entity.Product;
-import com.example.suma.entity.WMDocuments;
-import com.example.suma.entity.WMProducts;
-import com.example.suma.entity.ZMDocument;
-import com.example.suma.entity.dto.Order;
-import com.example.suma.entity.dto.OrderDTO;
-import com.example.suma.entity.dto.OrderDetailsDTO;
-import com.example.suma.entity.dto.ProductDTO;
+import com.example.suma.entity.*;
+import com.example.suma.entity.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -24,11 +18,23 @@ public abstract class ZMDocumentTranslator {
     })
     public abstract ZMDocument translateOrder(OrderDTO orderDTO);
 
+    @Mappings({
+            @Mapping(target = "document",expression ="java(translateWMDocumentsFromBasket(basket.getBasketItem()))" ),
+    })
+    public abstract ZMDocument translateOrder(Basket basket);
+
     protected WMDocuments translateWMDocuments(List<OrderDetailsDTO> orderDetailsDTO){
         return  new WMDocuments(null,null,null,0,translateOrderDetailsProducts(orderDetailsDTO));
     }
 
+    protected WMDocuments translateWMDocumentsFromBasket(List<BasketItem> basketItem){
+        return  new WMDocuments(null,null,null,0,translatorBasketProducts(basketItem));
+    }
 
+    protected List<WMProducts> translatorBasketProducts(List<BasketItem> basketItem){
+       return basketItem.stream().map(x-> new WMProducts(0,null,
+               new Product(x.getProduct().getUuid()),null, x.getQuantity())).collect(Collectors.toList());
+    }
 
     protected List<WMProducts> translateOrderDetailsProducts(List<OrderDetailsDTO> orderDetailsDTO){
        return orderDetailsDTO.stream().map(x ->

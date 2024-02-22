@@ -60,7 +60,7 @@ public class WebSecurity {
         configuration.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("X-Total-Count"));
+        configuration.setExposedHeaders(List.of("X-Total-Count","order"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -35,6 +35,9 @@ public abstract class BasketTranslator {
 
     protected double translateFinalPrice(List<BasketItem> basketItems){
         double price = 0D;
+        if (basketItems == null){
+            return 0D;
+        }
         for (BasketItem item:basketItems){
             price+= item.getPrice();
         }
