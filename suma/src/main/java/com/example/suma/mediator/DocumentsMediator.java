@@ -3,10 +3,12 @@ package com.example.suma.mediator;
 import com.example.suma.entity.Basket;
 import com.example.suma.entity.ZMDocument;
 import com.example.suma.entity.dto.OrderDTO;
+import com.example.suma.exceptions.EmptyBasketException;
 import com.example.suma.service.BasketService;
 import com.example.suma.service.ZMDocumentService;
 import com.example.suma.translators.ZMDocumentTranslator;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,13 +36,18 @@ public class DocumentsMediator {
         return null;
     }
 
-    public void makeOrder(Cookie[] cookies) {
+    public void makeOrder(Cookie[] cookies, HttpServletResponse response) {
         String uuid = getBasketCookie(cookies);
         Basket basket = null;
         if (uuid != null){
             basket = basketService.getBasket(uuid);
-
+            if (basket == null || basket.getBasketItem() == null || basket.getBasketItem().size() <=0){
+                throw new EmptyBasketException();
+            }
+            String orderUuid = zmDocumentService.saveOrder(zmDocumentTranslator.translateOrder(basket));
+            response.setHeader("order",orderUuid);
+            return;
         }
-        throw new RuntimeException();
+        throw new EmptyBasketException();
     }
 }
