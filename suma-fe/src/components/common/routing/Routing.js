@@ -4,6 +4,7 @@ import Cart from '../../pages/cart/Cart'
 import ProductsData from '../../pages/products/Products'
 import SearchResults from '../search/searchresults/SearchResults'
 import Card from '../../data/products/card/Card'
+import Order from '../../pages/order/Order'
 
 function Routing () {
   return (
@@ -14,6 +15,7 @@ function Routing () {
         <Route path='/szukaj' element={<SearchResults />} />
         <Route path='/produkt' element={<Card />} />
         <Route path='/koszyk' element={<Cart />} />
+        <Route path='/zamowienie' element={<Order />} />
       </Routes>
     </>
   )

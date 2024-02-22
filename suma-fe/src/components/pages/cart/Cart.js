@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { FaRegTrashCan } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 
 import './cart.scss'
 
 function Cart () {
   const [basketData, setBasketData] = useState([])
   const [productAmounts, setProductAmounts] = useState({})
-  const [amountChanged, setAmountChanged] = useState(true)
 
   // Usuwanie danych w koszyku
   const handleDeleteProduct = (productUUID, zero) => {
@@ -46,9 +46,13 @@ function Cart () {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        const totalCount = response.headers.get('x-total-basket-product-count')
+        setTotalProductCount(totalCount)
+      })
       .then(data => {
         setBasketData(data)
+
         // Ustawienie początkowej ilości produktów
       })
       .catch(error => console.log(error))
@@ -62,8 +66,11 @@ function Cart () {
   const handleProductAmountChange = (event, productUUID) => {
     const { value } = event.target
     setProductAmounts({ uuid: productUUID, amount: parseInt(value) })
-    setAmountChanged(true)
   }
+
+  const [totalProductCount, setTotalProductCount] = useState(null)
+
+  console.log(totalProductCount)
 
   // API change product amount:
 
@@ -156,21 +163,34 @@ function Cart () {
             </li>
           ))}
         </ul>
+
         <div className='summary-list'>
-          <p className='summary-desc'>Do zapłaty </p>
+          <p className='summary-desc'>
+            Do zapłaty{' '}
+            <span className='summary-price'>
+              {' '}
+              {basketData.finalPrice.toFixed(2)} zł
+            </span>
+          </p>
           <p className='summary-desc'>
             Ilość przedmiotów: {basketData.basketItem.length}
           </p>
-          <button
-            className='summary-btn'
-            disabled={basketData.basketItem.length <= 0}
+          <Link
+            to='/zamowienie'
+            className={`${
+              basketData.basketItem.length <= 0
+                ? 'summary-btn-disabled'
+                : 'summary-btn'
+            }`}
+
+            // disabled={basketData.basketItem.length <= 0}
           >
             {basketData.basketItem.length <= 0 ? (
               <p>Koszyk jest pusty</p>
             ) : (
               <p>Przejdź do zamówienia</p>
             )}
-          </button>
+          </Link>
         </div>
       </div>
     </section>
@@ -180,3 +200,5 @@ function Cart () {
 }
 
 export default Cart
+
+// suma sztuk w koszyku
