@@ -44,12 +44,14 @@ public class WMDocumentsService{
     }
 
     public void makeReservation(Basket basket, ZMDocument zmDocument){
-        zmDocument.getDocument().getWmProductsList().forEach(value->{
-            value.getProduct().setAvailable(value.getProduct().getAvailable()-value.getQuantity());
-            productRepository.save(value.getProduct());
-        });
-        Reservation reservation = new Reservation(0,basket,zmDocument, LocalDateTime.now());
-        reservationRepository.save(reservation);
+        if(!reservationExist(basket)){
+            zmDocument.getDocument().getWmProductsList().forEach(value->{
+                value.getProduct().setAvailable(value.getProduct().getAvailable()-value.getQuantity());
+                productRepository.save(value.getProduct());
+            });
+            Reservation reservation = new Reservation(0,basket,zmDocument, LocalDateTime.now());
+            reservationRepository.save(reservation);
+        }
     }
 
     public boolean reservationExist(Basket basket){
