@@ -20,7 +20,7 @@ public class Reservation {
     @SequenceGenerator(name = "reservation_id_seq",sequenceName = "reservation_id_seq",allocationSize = 1,schema = "suma")
     private long id;
     private long basket;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "zm")
     private ZMDocument zm;
     private LocalDate createDate;

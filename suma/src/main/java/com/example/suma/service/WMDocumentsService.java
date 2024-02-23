@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -22,19 +23,19 @@ public class WMDocumentsService{
     private final ProductRepository productRepository;
     private final ReservationRepository reservationRepository;
 
-    public WMDocuments create(WMDocuments document,boolean reserved) {
+    public WMDocuments create(WMDocuments document) {
         document.setCreateDate(LocalDate.now());
         document.setUuid(UUID.randomUUID().toString());
         document.setState(State.PROJECT);
         document = wmDocumentsRepository.saveAndFlush(document);
         WMDocuments finalDocument = document;
-        document.getWmProductsList().forEach(value-> addProduct(value, finalDocument,reserved));
+        document.getWmProductsList().forEach(value-> addProduct(value, finalDocument));
         return document;
     }
 
-    private void addProduct(WMProducts wmProducts,WMDocuments wmDocuments,boolean reserved){
+    private void addProduct(WMProducts wmProducts,WMDocuments wmDocuments){
         Product product = productService.getProductByUuid(wmProducts.getProduct().getUuid());
-        if (!reserved && product.getAvailable() < wmProducts.getQuantity()){
+        if (product.getAvailable() < wmProducts.getQuantity()){
             throw new NoEnoughProductException();
         }
         wmProducts.setUuid(UUID.randomUUID().toString());
@@ -54,7 +55,28 @@ public class WMDocumentsService{
         }
     }
 
+    public void removeReservation(ZMDocument zmDocument){
+        reservationRepository.findReservationByZm(zmDocument).ifPresent(reservation -> {
+            reservation.getZm().getDocument().getWmProductsList().forEach(wmProducts -> {
+                wmProducts.getProduct().setAvailable(wmProducts.getProduct().getAvailable()+ wmProducts.getQuantity());
+                productRepository.save(wmProducts.getProduct());
+                wmProductsRepository.delete(wmProducts);
+            });
+            reservationRepository.delete(reservation);
+        });
+    }
+
+    public void deleteWm(WMDocuments wmDocuments){
+        wmDocumentsRepository.delete(wmDocuments);
+    }
+
     public boolean reservationExist(Basket basket){
         return reservationRepository.findReservationByBasket(basket).isPresent();
+    }
+
+    public ZMDocument getWMByBasket(Basket basket){
+        AtomicReference<ZMDocument> zmDocuments = new AtomicReference<>();
+        reservationRepository.findReservationByBasket(basket).ifPresentOrElse(reservation -> zmDocuments.set(reservation.getZm()),()->zmDocuments.set(null));
+        return zmDocuments.get();
     }
 }

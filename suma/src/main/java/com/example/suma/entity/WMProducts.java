@@ -16,7 +16,7 @@ public class WMProducts {
     @SequenceGenerator(name = "wm_products_id_seq",sequenceName = "wm_products_id_seq",allocationSize = 1,schema = "suma")
     private long id;
     private String uuid;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Product product;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "wmdocuments_id")

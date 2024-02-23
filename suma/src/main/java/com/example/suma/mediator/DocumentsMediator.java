@@ -50,4 +50,8 @@ public class DocumentsMediator {
         }
         throw new EmptyBasketException();
     }
+
+    public void setDataOrder(OrderDTO order){
+        zmDocumentService.setDataOrder(zmDocumentTranslator.translateOrder(order));
+    }
 }

@@ -21,4 +21,8 @@ public class Deliver {
     private String type;
     private String image;
     private double price;
+
+    public Deliver(String uuid){
+        this.uuid = uuid;
+    }
 }
