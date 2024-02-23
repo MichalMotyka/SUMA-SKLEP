@@ -44,10 +44,14 @@ public class DocumentsMediator {
             if (basket == null || basket.getBasketItem() == null || basket.getBasketItem().size() <=0){
                 throw new EmptyBasketException();
             }
-            String orderUuid = zmDocumentService.saveOrder(zmDocumentTranslator.translateOrder(basket));
+            String orderUuid = zmDocumentService.saveOrder(zmDocumentTranslator.translateOrder(basket),basket);
             response.setHeader("order",orderUuid);
             return;
         }
         throw new EmptyBasketException();
+    }
+
+    public void setDataOrder(OrderDTO order){
+        zmDocumentService.setDataOrder(zmDocumentTranslator.translateOrder(order));
     }
 }

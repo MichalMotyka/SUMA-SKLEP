@@ -19,6 +19,15 @@ services:
         - "8080:8080"
       depends_on:
         - postgres
+    
+    suma-scheduler:
+      build:
+        context: ./suma-sheduler
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      depends_on:
+        - postgres
+        - suma
 
     suma-admin:
       build:

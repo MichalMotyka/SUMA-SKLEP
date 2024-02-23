@@ -92,7 +92,6 @@ CREATE TABLE zm_documents (
       id serial PRIMARY KEY,
       uuid VARCHAR NOT NULL,
       create_date DATE,
-      document_id BIGINT,
       state VARCHAR,
       name VARCHAR,
       surname VARCHAR,
@@ -107,7 +106,25 @@ CREATE TABLE zm_documents (
       phone_number VARCHAR,
       info TEXT,
       deliver bigint,
+      document_id BIGINT,
+      invoicing_name VARCHAR,
+      invoicing_surname VARCHAR,
+      invoicing_company_name VARCHAR,
+      invoicing_nip VARCHAR,
+      invoicing_home_number VARCHAR,
+      invoicing_street VARCHAR,
+      invoicing_city VARCHAR,
+      invoicing_post_code VARCHAR,
       FOREIGN KEY (deliver) REFERENCES deliver(id),
       FOREIGN KEY (document_id) REFERENCES wm_documents(id)
 );
 
+
+CREATE TABLE reservation(
+    id serial PRIMARY KEY,
+    basket bigint,
+    zm bigint,
+    create_date timestamp DEFAULT now(),
+    FOREIGN KEY (basket) REFERENCES basket(id),
+    FOREIGN KEY (zm) REFERENCES zm_documents(id)
+);
