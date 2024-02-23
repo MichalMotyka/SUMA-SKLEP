@@ -4,6 +4,7 @@ import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.exceptions.EmptyBasketException;
+import com.example.suma.exceptions.NoEnoughProductException;
 import com.example.suma.exceptions.UuidNullException;
 import com.example.suma.mediator.DocumentsMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,5 +40,11 @@ public class DocumentsController {
     public Response handleEmptyBasketException(
             EmptyBasketException ex) {
         return new Response(Code.B3);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoEnoughProductException.class)
+    public Response handleNoEnoughProductException(NoEnoughProductException ex){
+        return new Response(Code.B2);
     }
 }
