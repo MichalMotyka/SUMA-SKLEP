@@ -4,12 +4,15 @@ import com.example.suma.entity.*;
 import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
-import com.example.suma.repository.ReservationRepository;
 import com.example.suma.repository.ZMDocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ public class ZMDocumentService {
     private final ZMDocumentRepository zmDocumentRepository;
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
+    private final PayuService payuService;
 
 
     public void create(ZMDocument zmDocument) {
@@ -51,11 +55,12 @@ public class ZMDocumentService {
         }
         zmDocument.setDocument(wmDocumentsService.create(wmDocuments));
         wmDocumentsService.makeReservation(basket,zmDocument);
-        zmDocumentRepository.save(zmDocument);
+        zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
         return zmDocument.getUuid();
     }
 
-    public void setDataOrder(ZMDocument zmDocument){
+    public URI setDataOrder(ZMDocument zmDocument) throws URISyntaxException {
+        AtomicReference<String> url = new AtomicReference<>();
         zmDocumentRepository.findZMDocumentByUuid(zmDocument.getUuid()).ifPresentOrElse(value->{
             value.setName(zmDocument.getName());
             value.setSurname(zmDocument.getSurname());
@@ -80,8 +85,9 @@ public class ZMDocumentService {
             value.setDeliver(new Deliver(zmDocument.getDeliver().getUuid()));
             setDeliver(value);
             zmDocumentRepository.save(value);
+            url.set(payuService.createOrder(value));
         },()-> {throw new OrderDontExistException();});
-
+        return new URI(url.get());
     }
 
     private void setDeliver(ZMDocument zmDocument){
