@@ -73,6 +73,9 @@ function Cart () {
       .catch(error => console.log(error))
   }, [productAmounts])
 
+
+  console.log("kurła",basketData);
+
   return Object.keys(basketData).length > 0 ? (
     <section>
       <h2 className='section-title'>

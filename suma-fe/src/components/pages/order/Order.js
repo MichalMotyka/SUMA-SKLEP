@@ -5,7 +5,6 @@ import './order.scss'
 function Order () {
   const [orderUUID, setOrderUUID] = useState('')
   //dane ze statusem operacji
-  const [data, setData] = useState([])
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/document/order', {
@@ -23,19 +22,14 @@ function Order () {
         setOrderUUID(totalCount)
         return response.json()
       })
-      .then(data => {
-        console.log('Response Body:', data)
-        setData(data)
-      })
       .catch(error => {
         console.error('Error:', error)
       })
   }, [])
 
-  console.log('data', data)
   console.log('orderuid', orderUUID) // This will log the initial state of orderUUID, not the updated value.
 
-  return (
+  return Object.keys(orderUUID).length > 0 ? (
     <section>
       <h2>Zamówienie:</h2>
       <p>UUID zamówienia: {orderUUID}</p>
@@ -70,6 +64,8 @@ function Order () {
         </Formik>
       </div>
     </section>
+  ) : (
+    'Data Pending...'
   )
 }
 
