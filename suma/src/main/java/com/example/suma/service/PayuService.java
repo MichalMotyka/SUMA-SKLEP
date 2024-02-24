@@ -55,26 +55,25 @@ public class PayuService {
     }
 
 
-    public String createOrder(ZMDocument zmDocument) throws HttpClientErrorException {
+    public PayuResponse createOrder(ZMDocument zmDocument) throws HttpClientErrorException {
         try {
-            return (String) sendOrder(zmDocument).getBody() ;
+            return sendOrder(zmDocument).getBody() ;
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode().value() == 401) {
                 login();
-                return (String) sendOrder(zmDocument).getBody();
+                return sendOrder(zmDocument).getBody();
             }
         }
         return null;
     }
 
-    private ResponseEntity<?> sendOrder(ZMDocument zmDocument) {
+    private ResponseEntity<PayuResponse> sendOrder(ZMDocument zmDocument) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", token);
 
         HttpEntity<PayUOrder> requestEntity = new HttpEntity<>(prepareOrder(zmDocument), headers);
-        System.out.println(requestEntity.getBody());
-        return restTemplate.exchange(payu_url_order, HttpMethod.POST, requestEntity, String.class);
+        return restTemplate.exchange(payu_url_order, HttpMethod.POST, requestEntity, PayuResponse.class);
     }
 
     private PayUOrder prepareOrder(ZMDocument zmDocument) {
