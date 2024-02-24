@@ -9,34 +9,8 @@ function Cart () {
   const [productAmounts, setProductAmounts] = useState({})
 
   const [totalProductCount, setTotalProductCount] = useState(null)
-  // Usuwanie danych w koszyku
-  const handleDeleteProduct = (productUUID, zero) => {
-    const requestedBasketData = {
-      product: {
-        uuid: productUUID
-      },
-      quantity: zero
-    }
 
-    fetch('http://localhost:8080/api/v1/basket', {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestedBasketData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Produkt nie został dodany do koszyka.')
-        }
-        // Aktualizacja koszyka po usunięciu produktu
-        fetchBasketData()
-        return response.json()
-      })
-      .then(data => console.log(data))
-      .catch(error => console.log(error))
-  }
+  const [amountStatus, setAmountStatus] = useState([])
 
   // Pobieranie danych z koszyka
   const fetchBasketData = () => {
@@ -67,9 +41,8 @@ function Cart () {
   }, [])
 
   // Obsługa zmiany ilości produktu
-  const handleProductAmountChange = (event, productUUID) => {
-    const { value } = event.target
-    setProductAmounts({ uuid: productUUID, amount: parseInt(value) })
+  const handleProductAmountChange = (e, productUUID) => {
+    setProductAmounts({ uuid: productUUID, amount: parseInt(e.target.value) })
   }
 
   // API change product amount:
@@ -98,9 +71,12 @@ function Cart () {
         fetchBasketData()
         return response.json()
       })
+      .then(data => setAmountStatus(data))
 
       .catch(error => console.log(error))
   }, [productAmounts])
+
+  
 
   return Object.keys(basketData).length > 0 ? (
     <section>
@@ -155,7 +131,10 @@ function Cart () {
                 <button
                   aria-label='Usuń produkt z koszyka'
                   className='product-btn'
-                  onClick={() => handleDeleteProduct(product.product.uuid, 0)}
+                  // onClick={() => handleDeleteProduct(product.product.uuid, 0)}
+                  onClick={() =>
+                    setProductAmounts({ uuid: product.product.uuid, amount: 0 })
+                  }
                 >
                   <FaRegTrashCan className='btn-icon' />
                 </button>
@@ -196,5 +175,3 @@ function Cart () {
 }
 
 export default Cart
-
-// suma sztuk w koszyku
