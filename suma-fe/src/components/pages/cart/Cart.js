@@ -1,41 +1,14 @@
 import { useEffect, useState } from 'react'
 import { FaRegTrashCan } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 
 import './cart.scss'
 
 function Cart () {
   const [basketData, setBasketData] = useState([])
   const [productAmounts, setProductAmounts] = useState({})
-  const [amountChanged, setAmountChanged] = useState(true)
 
-  // Usuwanie danych w koszyku
-  const handleDeleteProduct = (productUUID, zero) => {
-    const requestedBasketData = {
-      product: {
-        uuid: productUUID
-      },
-      quantity: zero
-    }
-
-    fetch('http://localhost:8080/api/v1/basket', {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestedBasketData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Produkt nie został dodany do koszyka.')
-        }
-        // Aktualizacja koszyka po usunięciu produktu
-        fetchBasketData()
-        return response.json()
-      })
-      .then(data => console.log(data))
-      .catch(error => console.log(error))
-  }
+  const [totalProductCount, setTotalProductCount] = useState(null)
 
   // Pobieranie danych z koszyka
   const fetchBasketData = () => {
@@ -46,7 +19,14 @@ function Cart () {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        const totalCount = response.headers.get('x-total-basket-product-count')
+        setTotalProductCount(totalCount)
+        return response.json()
+      })
       .then(data => {
         setBasketData(data)
         // Ustawienie początkowej ilości produktów
@@ -59,10 +39,8 @@ function Cart () {
   }, [])
 
   // Obsługa zmiany ilości produktu
-  const handleProductAmountChange = (event, productUUID) => {
-    const { value } = event.target
-    setProductAmounts({ uuid: productUUID, amount: parseInt(value) })
-    setAmountChanged(true)
+  const handleProductAmountChange = (e, productUUID) => {
+    setProductAmounts({ uuid: productUUID, amount: parseInt(e.target.value) })
   }
 
   // API change product amount:
@@ -98,7 +76,7 @@ function Cart () {
   return Object.keys(basketData).length > 0 ? (
     <section>
       <h2 className='section-title'>
-        Przedmioty w koszyku {basketData.basketItem.length}
+        Przedmioty w koszyku {totalProductCount}
       </h2>
       <div className='cart'>
         <ul className='cart-list'>
@@ -148,7 +126,10 @@ function Cart () {
                 <button
                   aria-label='Usuń produkt z koszyka'
                   className='product-btn'
-                  onClick={() => handleDeleteProduct(product.product.uuid, 0)}
+                  // onClick={() => handleDeleteProduct(product.product.uuid, 0)}
+                  onClick={() =>
+                    setProductAmounts({ uuid: product.product.uuid, amount: 0 })
+                  }
                 >
                   <FaRegTrashCan className='btn-icon' />
                 </button>
@@ -156,21 +137,30 @@ function Cart () {
             </li>
           ))}
         </ul>
+
         <div className='summary-list'>
-          <p className='summary-desc'>Do zapłaty </p>
           <p className='summary-desc'>
-            Ilość przedmiotów: {basketData.basketItem.length}
+            Do zapłaty{' '}
+            <span className='summary-price'>
+              {' '}
+              {basketData.finalPrice.toFixed(2)} zł
+            </span>
           </p>
-          <button
-            className='summary-btn'
-            disabled={basketData.basketItem.length <= 0}
+          <p className='summary-desc'>Ilość przedmiotów: {totalProductCount}</p>
+          <Link
+            to='/zamowienie'
+            className={`${
+              basketData.basketItem.length <= 0
+                ? 'summary-btn-disabled'
+                : 'summary-btn'
+            }`}
           >
             {basketData.basketItem.length <= 0 ? (
               <p>Koszyk jest pusty</p>
             ) : (
               <p>Przejdź do zamówienia</p>
             )}
-          </button>
+          </Link>
         </div>
       </div>
     </section>
