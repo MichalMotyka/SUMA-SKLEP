@@ -36,13 +36,16 @@ public abstract class ZMDocumentTranslator {
                new Product(x.getProduct().getUuid()),null, x.getQuantity())).collect(Collectors.toList());
     }
 
-    protected List<WMProducts> translateOrderDetailsProducts(List<OrderDetailsDTO> orderDetailsDTO){
-       return orderDetailsDTO.stream().map(x ->
-               new WMProducts(0,
-                       x.getUuid(),
-                       new Product(x.getProduct().getUuid()),
-                       null,
-                       x.getQuantity()))
-               .collect(Collectors.toList());
+    protected List<WMProducts> translateOrderDetailsProducts(List<OrderDetailsDTO> orderDetailsDTO) {
+        if (orderDetailsDTO != null) {
+            return orderDetailsDTO.stream().map(x ->
+                            new WMProducts(0,
+                                    x.getUuid(),
+                                    new Product(x.getProduct().getUuid()),
+                                    null,
+                                    x.getQuantity()))
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 }

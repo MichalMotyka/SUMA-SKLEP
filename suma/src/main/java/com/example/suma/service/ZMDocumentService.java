@@ -60,7 +60,7 @@ public class ZMDocumentService {
     }
 
     public URI setDataOrder(ZMDocument zmDocument) throws URISyntaxException {
-        AtomicReference<String> url = new AtomicReference<>();
+        AtomicReference<PayuResponse> url = new AtomicReference<>();
         zmDocumentRepository.findZMDocumentByUuid(zmDocument.getUuid()).ifPresentOrElse(value->{
             value.setName(zmDocument.getName());
             value.setSurname(zmDocument.getSurname());
@@ -87,7 +87,7 @@ public class ZMDocumentService {
             zmDocumentRepository.save(value);
             url.set(payuService.createOrder(value));
         },()-> {throw new OrderDontExistException();});
-        return new URI(url.get());
+        return new URI(url.get().getRedirectUri());
     }
 
     private void setDeliver(ZMDocument zmDocument){
