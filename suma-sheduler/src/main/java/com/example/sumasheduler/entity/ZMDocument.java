@@ -1,9 +1,8 @@
-package com.example.suma.entity;
+package com.example.sumasheduler.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDate;
 

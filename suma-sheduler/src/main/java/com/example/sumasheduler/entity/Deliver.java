@@ -1,4 +1,4 @@
-package com.example.suma.entity;
+package com.example.sumasheduler.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,8 +21,4 @@ public class Deliver {
     private String type;
     private String image;
     private double price;
-
-    public Deliver(String uuid){
-        this.uuid = uuid;
-    }
 }
