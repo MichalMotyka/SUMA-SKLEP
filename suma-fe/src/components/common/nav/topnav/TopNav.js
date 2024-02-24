@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { useContext } from 'react'
 import Search from '../../search/search/Search'
 import ShopLogo from '../images/shoplogo.webp'
 import { MdAddShoppingCart } from 'react-icons/md'

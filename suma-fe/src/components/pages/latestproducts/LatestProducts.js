@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { CategoryContext } from '../../auth/context/productContext'
-import { IoInformation } from 'react-icons/io5'
+import { FiMoreHorizontal } from 'react-icons/fi'
 
 function LatestProducts () {
   const [latestProducts, setLatestProducts] = useState([])
@@ -33,7 +33,7 @@ function LatestProducts () {
                 to='/produkt'
                 onClick={() => handleProductDetails(product.uuid)}
               >
-                <IoInformation className='product-info-icon' />
+                <FiMoreHorizontal className='product-info-icon' />
                 <img
                   className='product-img'
                   src={product.mainImg}

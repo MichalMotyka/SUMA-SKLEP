@@ -5,7 +5,7 @@ export const CategoryContext = createContext()
 export const CategoryProvider = ({ children }) => {
   const [passCategory, setPassCategory] = useState('')
   const [searchValue, setSearchValue] = useState('')
-  const [productUuid, setProductUuid] = useState('test')
+  const [productUuid, setProductUuid] = useState('')
   const [basketItems, setBasketItems] = useState(0)
 
   return (
