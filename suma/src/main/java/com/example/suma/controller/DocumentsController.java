@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/document")
@@ -28,9 +30,8 @@ public class DocumentsController {
     }
 
     @PatchMapping("order")
-    public ResponseEntity<Response> setDataOrder(@RequestBody OrderDTO orderDTO){
-        documentsMediator.setDataOrder(orderDTO);
-        return ResponseEntity.ok(new Response(Code.SUCCESS));
+    public ResponseEntity<Void> setDataOrder(@RequestBody OrderDTO orderDTO) throws URISyntaxException {
+        return ResponseEntity.status(302).location(documentsMediator.setDataOrder(orderDTO)).build();
     }
 
     @PostMapping("create/order")

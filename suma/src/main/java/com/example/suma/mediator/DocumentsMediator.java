@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -51,7 +53,7 @@ public class DocumentsMediator {
         throw new EmptyBasketException();
     }
 
-    public void setDataOrder(OrderDTO order){
-        zmDocumentService.setDataOrder(zmDocumentTranslator.translateOrder(order));
+    public URI setDataOrder(OrderDTO order) throws URISyntaxException {
+        return zmDocumentService.setDataOrder(zmDocumentTranslator.translateOrder(order));
     }
 }
