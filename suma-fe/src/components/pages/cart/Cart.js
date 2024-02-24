@@ -10,8 +10,6 @@ function Cart () {
 
   const [totalProductCount, setTotalProductCount] = useState(null)
 
-  const [amountStatus, setAmountStatus] = useState([])
-
   // Pobieranie danych z koszyka
   const fetchBasketData = () => {
     fetch(`http://localhost:8080/api/v1/basket`, {
@@ -71,12 +69,9 @@ function Cart () {
         fetchBasketData()
         return response.json()
       })
-      .then(data => setAmountStatus(data))
 
       .catch(error => console.log(error))
   }, [productAmounts])
-
-  
 
   return Object.keys(basketData).length > 0 ? (
     <section>
