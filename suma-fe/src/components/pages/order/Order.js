@@ -83,7 +83,7 @@ function Order () {
           <div>
             <Formik
               initialValues={initialValues}
-              validate={OrderValidation}
+              validate={values => OrderValidation(values, invoiceType,packageReceiverType)}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (
