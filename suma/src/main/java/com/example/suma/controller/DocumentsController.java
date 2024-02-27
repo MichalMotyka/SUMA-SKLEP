@@ -30,10 +30,9 @@ public class DocumentsController {
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 
-    @CrossOrigin
     @PatchMapping("order")
     public ResponseEntity<Void> setDataOrder(@RequestBody OrderDTO orderDTO) throws URISyntaxException {
-        return ResponseEntity.status(302).location(documentsMediator.setDataOrder(orderDTO)).build();
+        return ResponseEntity.status(303).location(documentsMediator.setDataOrder(orderDTO)).build();
     }
 
     @PostMapping("create/order")
