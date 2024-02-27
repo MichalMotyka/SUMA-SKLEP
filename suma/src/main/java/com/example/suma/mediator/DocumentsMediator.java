@@ -6,6 +6,7 @@ import com.example.suma.entity.Response;
 import com.example.suma.entity.ZMDocument;
 import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.Notify;
+import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.EmptyBasketException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.service.BasketService;
@@ -65,15 +66,18 @@ public class DocumentsMediator {
     }
 
     public ResponseEntity<Response> handleNotify(Notify notify, HttpServletRequest request) {
-        System.out.println("TEST");
         String header = request.getHeader("OpenPayu-Signature");
         try {
             signatureValidator.validate(header,notify);
-            zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
+            if (notify.getOrder().getStatus() == Status.COMPLETED){
+                zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
+            }
         } catch (NoSuchAlgorithmException | JsonProcessingException |
                  com.example.order.exception.BadSignatureException e) {
+            System.out.println("Zły podpis");
             return ResponseEntity.badRequest().body(new Response("Bad signature",Code.E1));
         }catch (OrderDontExistException e1){
+            System.out.println("Nie ma ordera");
             return ResponseEntity.badRequest().body(new Response("Order don't exist",Code.E1));
         };
         return ResponseEntity.ok(new Response("Notification handle success",Code.E1));
