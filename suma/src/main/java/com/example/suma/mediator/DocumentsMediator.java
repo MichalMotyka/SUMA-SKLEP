@@ -65,6 +65,7 @@ public class DocumentsMediator {
     }
 
     public ResponseEntity<Response> handleNotify(Notify notify, HttpServletRequest request) {
+        System.out.println("TEST");
         String header = request.getHeader("OpenPayu-Signature");
         try {
             signatureValidator.validate(header,notify);

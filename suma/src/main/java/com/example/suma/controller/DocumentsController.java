@@ -42,13 +42,8 @@ public class DocumentsController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/notification")
-    public ResponseEntity<Response> notifyOrder(
-            //@RequestBody Notify notify, HttpServletRequest request
-    ){
-        System.out.println("DOSZło");
-        return ResponseEntity.ok(new Response(Code.SUCCESS));
-    // {
-        //return documentsMediator.handleNotify(notify,request);
+    public ResponseEntity<Response> notifyOrder(@RequestBody Notify notify, HttpServletRequest request){
+        return documentsMediator.handleNotify(notify,request);
     }
 
 
