@@ -94,4 +94,11 @@ public class ZMDocumentService {
         deliverRepository.findDeliverByUuid(zmDocument.getDeliver().getUuid()).ifPresentOrElse(zmDocument::setDeliver
                 ,()->{throw new DeliverDontExistException();});
     }
+
+    public void changeStatusToCreated(String extOrderId) {
+        zmDocumentRepository.findZMDocumentByUuid(extOrderId).ifPresentOrElse(value->{
+            value.setState(State.CREATED);
+            zmDocumentRepository.save(value);
+        },()->{throw new RuntimeException();});
+    }
 }
