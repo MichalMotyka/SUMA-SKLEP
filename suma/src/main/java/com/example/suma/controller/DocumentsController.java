@@ -3,6 +3,7 @@ package com.example.suma.controller;
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.OrderDTO;
+import com.example.suma.entity.notify.*;
 import com.example.suma.exceptions.*;
 import com.example.suma.mediator.DocumentsMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,6 +40,12 @@ public class DocumentsController {
         documentsMediator.createOrder(orderDTO,request.getCookies());
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/notification")
+    public ResponseEntity<Response> notifyOrder(@RequestBody Notify notify, HttpServletRequest request){
+        return documentsMediator.handleNotify(notify,request);
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EmptyBasketException.class)
