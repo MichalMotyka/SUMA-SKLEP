@@ -60,7 +60,7 @@ function Order () {
 
   const handleSubmit = values => {
     // Wysłanie danych do API - użyj fetch lub innej biblioteki do wysyłania żądań HTTP
-    console.log('Siemanko?')
+
     console.log(values)
   }
 
@@ -72,23 +72,28 @@ function Order () {
     setInvoiceType(e.target.value)
   }
 
-  console.log(initialValues)
-
   return (
     <div>
       {orderUUID ? (
         <section>
           <h2>Zamówienie:</h2>
-          <p>UUID zamówienia: {orderUUID}</p>
+          <p>Wpisz dane, na które mamy dostarczyć Twoją przesyłkę</p>
           <div>
             <Formik
               initialValues={initialValues}
-              validate={values => OrderValidation(values, invoiceType,packageReceiverType)}
+              validate={values =>
+                OrderValidation(
+                  values,
+                  invoiceType,
+                  packageReceiverType,
+                  isInvoicing
+                )
+              }
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (
-                <Form>
-                  <fieldset>
+                <Form className='form'>
+                  <fieldset className='fieldset'>
                     <div>
                       <input
                         type='radio'
@@ -115,101 +120,156 @@ function Order () {
                   </fieldset>
 
                   {packageReceiverType === 'privatePackage' ? (
-                    <>
-                      <label htmlFor='name'>Imię</label>
-                      <Field id='name' name='name' placeholder='Jane' />
-                      <ErrorMessage
-                        name='name'
-                        component='span'
-                        className='signup-error-msg'
-                      />
+                    <div className='form-box'>
+                      <div className='field'>
+                        <label htmlFor='name'>Imię</label>
+                        <Field id='name' name='name' placeholder='Imię' />
+                        <ErrorMessage
+                          name='name'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
 
-                      <label htmlFor='surname'>Nazwisko</label>
-                      <Field id='surname' name='surname' placeholder='Doe' />
-                      <ErrorMessage
-                        name='surname'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                    </>
+                      <div className='field'>
+                        <label htmlFor='surname'>Nazwisko</label>
+                        <Field
+                          id='surname'
+                          name='surname'
+                          placeholder='Nazwisko'
+                        />
+                        <ErrorMessage
+                          name='surname'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
+                    </div>
                   ) : (
-                    <>
-                      <label htmlFor='name'>Nazwa firmy</label>
-                      <Field
-                        id='companyName'
-                        name='companyName'
-                        placeholder='Nazwa firmy'
-                      />
-                      <ErrorMessage
-                        name='companyName'
-                        component='span'
-                        className='signup-error-msg'
-                      />
+                    <div className='form-box'>
+                      <div className='field'>
+                        <label htmlFor='companyName'>Nazwa firmy</label>
+                        <Field
+                          id='companyName'
+                          name='companyName'
+                          placeholder='Nazwa firmy'
+                        />
+                        <ErrorMessage
+                          name='companyName'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
 
-                      <label htmlFor='surname'>NIP</label>
-                      <Field id='nip' name='nip' placeholder='NIP' />
-                      <ErrorMessage
-                        name='nip'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                    </>
+                      <div className='field'>
+                        <label htmlFor='nip'>NIP</label>
+                        <Field
+                          type='text' // zmiana typu na 'text'
+                          id='nip'
+                          name='nip'
+                          placeholder='1234563218'
+                          minLength='10'
+                          maxLength='10'
+                          pattern='[0-9]{10}'
+                        />
+                        <ErrorMessage
+                          name='nip'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
+                    </div>
                   )}
 
-                  <label htmlFor='email'>Email</label>
-                  <Field
-                    id='email'
-                    name='email'
-                    placeholder='jane@acme.com'
-                    type='email'
-                  />
-                  <ErrorMessage
-                    name='email'
-                    component='span'
-                    className='signup-error-msg'
-                  />
+                  <div className='form-box'>
+                    <div className='field'>
+                      <label htmlFor='phoneNumber'>
+                        Nr telefonu komórkowego
+                      </label>
+                      <Field
+                        id='phoneNumber'
+                        name='phoneNumber'
+                        placeholder='Numer telefonu'
+                        type='number'
+                        pattern='[0-9]{9}'
+                      />
+                      <ErrorMessage
+                        name='phoneNumber'
+                        component='span'
+                        className='signup-error-msg'
+                      />
+                    </div>
 
-                  <label htmlFor='city'>Miasto</label>
-                  <Field id='city' name='city' placeholder='Warszawa' />
-                  <ErrorMessage
-                    name='city'
-                    component='span'
-                    className='signup-error-msg'
-                  />
+                    <div className='field'>
+                      <label htmlFor='email'>Email</label>
+                      <Field
+                        id='email'
+                        name='email'
+                        placeholder='adres e-mail'
+                        type='email'
+                      />
+                      <ErrorMessage
+                        name='email'
+                        component='span'
+                        className='signup-error-msg'
+                      />
+                    </div>
+                  </div>
 
-                  <label htmlFor='phoneNumber'>Numer telefonu</label>
-                  <Field
-                    id='phoneNumber'
-                    name='phoneNumber'
-                    placeholder='123-123-123'
-                  />
-                  <ErrorMessage
-                    name='phoneNumber'
-                    component='span'
-                    className='signup-error-msg'
-                  />
+                  <div className='form-box'>
+                    <div className='field'>
+                      <label htmlFor='street'>Ulica</label>
+                      <Field id='street' name='street' placeholder='Ulica' />
+                      <ErrorMessage
+                        name='street'
+                        component='span'
+                        className='signup-error-msg'
+                      />
+                    </div>
 
-                  <label htmlFor='city'>Ulica</label>
-                  <Field id='street' name='street' placeholder='Kolejowa' />
-                  <ErrorMessage
-                    name='street'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-                  <label htmlFor='homeNumber'>Numer domu</label>
-                  <Field id='homeNumber' name='homeNumber' placeholder='12' />
-                  <ErrorMessage
-                    name='homeNumber'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-                  <label htmlFor='city'>Kod pocztowy</label>
-                  <Field id='postCode' name='postCode' placeholder='00-000' />
-                  <ErrorMessage
-                    name='postCode'
-                    component='span'
-                    className='signup-error-msg'
-                  />
+                    <div className='field'>
+                      <label htmlFor='homeNumber'>Numer domu / lokalu</label>
+                      <Field
+                        id='homeNumber'
+                        name='homeNumber'
+                        placeholder='Numer domu/lokalu'
+                        maxLength='20'
+                      />
+                      <ErrorMessage
+                        name='homeNumber'
+                        component='span'
+                        className='signup-error-msg'
+                      />
+                    </div>
+                  </div>
+
+                  <div className='form-box'>
+                    <div className='field'>
+                      <label htmlFor='postCode'>Kod pocztowy</label>
+                      <Field
+                        id='postCode'
+                        name='postCode'
+                        placeholder='00-000'
+                        pattern='[0-9]{2}-[0-9]{3}' // Wzorzec xx-xxx
+                      />
+                      <ErrorMessage
+                        name='postCode'
+                        component='span'
+                        className='signup-error-msg'
+                      />
+                    </div>
+
+                    <div className='field'>
+                      <label htmlFor='city'>Miejscowość</label>
+                      <Field id='city' name='city' placeholder='Miejscowość' />
+                      <ErrorMessage
+                        maxLength='50'
+                        name='city'
+                        component='span'
+                        className='signup-error-msg'
+                      />
+                    </div>
+                  </div>
 
                   {/* ZAMÓWIENIE: */}
 
@@ -224,7 +284,7 @@ function Order () {
 
                   {isInvoicing && (
                     <>
-                      <fieldset>
+                      <fieldset className='fieldset'>
                         <div>
                           <input
                             type='radio'
@@ -252,106 +312,139 @@ function Order () {
                       {/* TUTAJ ZACZYNA SIE FAKTURA NA INNE DANE */}
 
                       {invoiceType === 'private' ? (
-                        <>
-                          <label htmlFor='invoicingName'>Imię</label>
-                          <Field
-                            id='invoicingName'
-                            name='invoicingName'
-                            placeholder='Jane'
-                          />
-                          <ErrorMessage
-                            name='invoicingName'
-                            component='span'
-                            className='signup-error-msg'
-                          />
+                        <div className='form-box'>
+                          <div className='field'>
+                            <label htmlFor='invoicingName'>Imię</label>
+                            <Field
+                              id='invoicingName'
+                              name='invoicingName'
+                              placeholder='Imię'
+                              maxLength='50'
+                            />
+                            <ErrorMessage
+                              name='invoicingName'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
 
-                          <label htmlFor='invoicingSurname'>Nazwisko</label>
-                          <Field
-                            id='invoicingSurname'
-                            name='invoicingSurname'
-                            placeholder='Doe'
-                          />
-                          <ErrorMessage
-                            name='invoicingSurname'
-                            component='span'
-                            className='signup-error-msg'
-                          />
-                        </>
+                          <div className='field'>
+                            <label htmlFor='invoicingSurname'>Nazwisko</label>
+                            <Field
+                              id='invoicingSurname'
+                              name='invoicingSurname'
+                              placeholder='Nazwisko'
+                              maxLength='50'
+                            />
+                            <ErrorMessage
+                              name='invoicingSurname'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
+                        </div>
                       ) : (
-                        <>
-                          <label htmlFor='invoicingCompanyName'>
-                            Nazwa firmy
-                          </label>
-                          <Field
-                            id='invoicingCompanyName'
-                            name='invoicingCompanyName'
-                            placeholder='Nazwa firmy'
-                          />
-                          <ErrorMessage
-                            name='invoicingCompanyName'
-                            component='span'
-                            className='signup-error-msg'
-                          />
+                        <div className='form-box'>
+                          <div className='field'>
+                            <label htmlFor='invoicingCompanyName'>
+                              Nazwa firmy
+                            </label>
+                            <Field
+                              id='invoicingCompanyName'
+                              name='invoicingCompanyName'
+                              placeholder='Nazwa firmy'
+                            />
+                            <ErrorMessage
+                              name='invoicingCompanyName'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
 
-                          <label htmlFor='invoicingNip'>NIP</label>
-                          <Field
-                            id='invoicingNip'
-                            name='invoicingNip'
-                            placeholder='NIP'
-                          />
-                          <ErrorMessage
-                            name='invoicingNip'
-                            component='span'
-                            className='signup-error-msg'
-                          />
-                        </>
+                          <div className='field'>
+                            <label htmlFor='invoicingNip'>NIP</label>
+                            <Field
+                              id='invoicingNip'
+                              name='invoicingNip'
+                              placeholder='1234563218'
+                              minLength='10'
+                              maxLength='10'
+                              pattern='[0-9]{10}'
+                            />
+                            <ErrorMessage
+                              name='invoicingNip'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
+                        </div>
                       )}
 
-                      <label htmlFor='invoicingCity'>Miasto</label>
-                      <Field
-                        id='invoicingCity'
-                        name='invoicingCity'
-                        placeholder='Warszawa'
-                      />
-                      <ErrorMessage
-                        name='invoicingCity'
-                        component='span'
-                        className='signup-error-msg'
-                      />
+                      <div className='form-box'>
+                        <div className='field'>
+                          <label htmlFor='invoicingStreet'>Ulica</label>
+                          <Field
+                            id='invoicingStreet'
+                            name='invoicingStreet'
+                            placeholder='Ulica'
+                          />
+                          <ErrorMessage
+                            name='invoicingStreet'
+                            component='span'
+                            className='signup-error-msg'
+                          />
+                        </div>
 
-                      <label htmlFor='invoicingStreet'>Ulica</label>
-                      <Field
-                        id='invoicingStreet'
-                        name='invoicingStreet'
-                        placeholder='Kolejowa'
-                      />
-                      <ErrorMessage
-                        name='invoicingStreet'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                      <label htmlFor='invoicingHomeNumber'>Numer domu</label>
-                      <Field
-                        id='invoicingHomeNumber'
-                        name='invoicingHomeNumber'
-                        placeholder='12'
-                      />
-                      <ErrorMessage
-                        name='invoicingHomeNumber'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                      <label htmlFor='invoicingPostCode'>Kod pocztowy</label>
-                      <Field
-                        id='invoicingPostCode'
-                        name='invoicingPostCode'
-                        placeholder='00-000'
-                      />
-                      <ErrorMessage
-                        name='invoicingPostCode'
-                        component='span'
-                        className='signup-error-msg'
-                      />
+                        <div className='field'>
+                          <label htmlFor='invoicingHomeNumber'>
+                            Numer domu/lokalu
+                          </label>
+                          <Field
+                            id='invoicingHomeNumber'
+                            name='invoicingHomeNumber'
+                            placeholder='Numer domu/lokalu'
+                          />
+                          <ErrorMessage
+                            name='invoicingHomeNumber'
+                            component='span'
+                            className='signup-error-msg'
+                          />
+                        </div>
+                      </div>
+
+                      <div className='form-box'>
+                        <div className='field'>
+                          <label htmlFor='invoicingPostCode'>
+                            Kod pocztowy
+                          </label>
+                          <Field
+                            id='invoicingPostCode'
+                            name='invoicingPostCode'
+                            placeholder='00-000'
+                            pattern='[0-9]{2}-[0-9]{3}'
+                          />
+                          <ErrorMessage
+                            name='invoicingPostCode'
+                            component='span'
+                            className='signup-error-msg'
+                          />
+                        </div>
+
+                        <div className='field'>
+                          <label htmlFor='invoicingCity'>Miasto</label>
+                          <Field
+                            id='invoicingCity'
+                            name='invoicingCity'
+                            placeholder='Miasto'
+                            maxLength='50'
+                          />
+                          <ErrorMessage
+                            name='invoicingCity'
+                            component='span'
+                            className='signup-error-msg'
+                          />
+                        </div>
+                      </div>
                     </>
                   )}
 
