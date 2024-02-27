@@ -62,16 +62,16 @@ const OrderValidation = (
     errors.homeNumber = 'Maksymalnie 50 znaków'
   }
 
-  if (!values.postCode) {
+  if (!values.postCode && values.postCode !== '') {
     errors.postCode = 'Pole wymagane'
-  } else if (values.postCode.length < 1 || values.postCode.length > 6) {
-    errors.postCode = 'Podaj  kod pocztowy wg. wzoru np. 70-100'
+  } else if (!/^(\d{2}-\d{3})$/.test(values.postCode)) {
+    errors.postCode = 'Podaj kod wg wzoru np. 12-111'
   }
 
   if (!values.phoneNumber) {
     errors.phoneNumber = 'Pole wymagane'
-  } else if (values.phoneNumber.length === 9) {
-    errors.phoneNumber = 'Podaj poprawny numer telefonu'
+  } else if (values.phoneNumber.length !== 9) {
+    errors.phoneNumber = 'Numer telefonu musi mieć 9 znaków'
   }
 
   // PONIŻEJ Z FAKTURĄ NA INNE DANE:
@@ -139,13 +139,10 @@ const OrderValidation = (
       errors.invoicingHomeNumber = 'Maksymalnie 50 znaków'
     }
 
-    if (!values.invoicingPostCode) {
+    if (!values.invoicingPostCode && values.invoicingPostCode !== '') {
       errors.invoicingPostCode = 'Pole wymagane'
-    } else if (
-      values.invoicingPostCode.length < 1 ||
-      values.invoicingPostCode.length > 6
-    ) {
-      errors.invoicingPostCode = 'Podaj  kod pocztowy wg. wzoru np. 70-100'
+    } else if (!/^(\d{2}-\d{3})$/.test(values.invoicingPostCode)) {
+      errors.invoicingPostCode = 'Podaj kod wg wzoru np. 12-111'
     }
   }
 

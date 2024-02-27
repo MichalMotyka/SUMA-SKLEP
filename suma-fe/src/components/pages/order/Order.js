@@ -54,14 +54,33 @@ function Order () {
     phoneNumber: '',
     info: '',
     deliver: {
-      uuid: orderUUID
+      uuid: '321312321'
     }
   }
 
   const handleSubmit = values => {
     // Wysłanie danych do API - użyj fetch lub innej biblioteki do wysyłania żądań HTTP
 
-    console.log(values)
+    console.log('tutej', values)
+
+    fetch('http://localhost:8080/api/v1/document/order', {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+
+        return response.json()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
   }
 
   const handlePackageReceiverType = e => {
@@ -91,7 +110,7 @@ function Order () {
               }
               onSubmit={handleSubmit}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, isValid, dirty }) => (
                 <Form className='form'>
                   <fieldset className='fieldset'>
                     <div>
@@ -123,7 +142,12 @@ function Order () {
                     <div className='form-box'>
                       <div className='field'>
                         <label htmlFor='name'>Imię</label>
-                        <Field id='name' name='name' placeholder='Imię' />
+                        <Field
+                          id='name'
+                          name='name'
+                          placeholder='Imię'
+                          maxLength='50'
+                        />
                         <ErrorMessage
                           name='name'
                           component='span'
@@ -137,6 +161,7 @@ function Order () {
                           id='surname'
                           name='surname'
                           placeholder='Nazwisko'
+                          maxLength='50'
                         />
                         <ErrorMessage
                           name='surname'
@@ -153,6 +178,7 @@ function Order () {
                           id='companyName'
                           name='companyName'
                           placeholder='Nazwa firmy'
+                          maxLength='350'
                         />
                         <ErrorMessage
                           name='companyName'
@@ -190,8 +216,9 @@ function Order () {
                         id='phoneNumber'
                         name='phoneNumber'
                         placeholder='Numer telefonu'
-                        type='number'
+                        type='text'
                         pattern='[0-9]{9}'
+                        maxLength='9'
                       />
                       <ErrorMessage
                         name='phoneNumber'
@@ -205,8 +232,9 @@ function Order () {
                       <Field
                         id='email'
                         name='email'
-                        placeholder='adres e-mail'
+                        placeholder='Adres e-mail'
                         type='email'
+                        maxLength='100'
                       />
                       <ErrorMessage
                         name='email'
@@ -219,7 +247,12 @@ function Order () {
                   <div className='form-box'>
                     <div className='field'>
                       <label htmlFor='street'>Ulica</label>
-                      <Field id='street' name='street' placeholder='Ulica' />
+                      <Field
+                        id='street'
+                        name='street'
+                        placeholder='Ulica'
+                        maxLength='350'
+                      />
                       <ErrorMessage
                         name='street'
                         component='span'
@@ -233,7 +266,7 @@ function Order () {
                         id='homeNumber'
                         name='homeNumber'
                         placeholder='Numer domu/lokalu'
-                        maxLength='20'
+                        maxLength='50'
                       />
                       <ErrorMessage
                         name='homeNumber'
@@ -246,11 +279,13 @@ function Order () {
                   <div className='form-box'>
                     <div className='field'>
                       <label htmlFor='postCode'>Kod pocztowy</label>
+
                       <Field
                         id='postCode'
                         name='postCode'
                         placeholder='00-000'
-                        pattern='[0-9]{2}-[0-9]{3}' // Wzorzec xx-xxx
+                        pattern='[0-9]{2}-[0-9]{3}'
+                        maxLength='6'
                       />
                       <ErrorMessage
                         name='postCode'
@@ -353,6 +388,7 @@ function Order () {
                               id='invoicingCompanyName'
                               name='invoicingCompanyName'
                               placeholder='Nazwa firmy'
+                              maxLength='350'
                             />
                             <ErrorMessage
                               name='invoicingCompanyName'
@@ -387,6 +423,7 @@ function Order () {
                             id='invoicingStreet'
                             name='invoicingStreet'
                             placeholder='Ulica'
+                            maxLength='350'
                           />
                           <ErrorMessage
                             name='invoicingStreet'
@@ -403,6 +440,7 @@ function Order () {
                             id='invoicingHomeNumber'
                             name='invoicingHomeNumber'
                             placeholder='Numer domu/lokalu'
+                            maxLength='50'
                           />
                           <ErrorMessage
                             name='invoicingHomeNumber'
@@ -422,6 +460,7 @@ function Order () {
                             name='invoicingPostCode'
                             placeholder='00-000'
                             pattern='[0-9]{2}-[0-9]{3}'
+                            maxLength='6'
                           />
                           <ErrorMessage
                             name='invoicingPostCode'
@@ -431,7 +470,7 @@ function Order () {
                         </div>
 
                         <div className='field'>
-                          <label htmlFor='invoicingCity'>Miasto</label>
+                          <label htmlFor='invoicingCity'>Miejscowość</label>
                           <Field
                             id='invoicingCity'
                             name='invoicingCity'
@@ -448,7 +487,11 @@ function Order () {
                     </>
                   )}
 
-                  <button type='submit' disabled={isSubmitting}>
+                  <button
+                    className='form-btn'
+                    type='submit'
+                    disabled={!(dirty && isValid)}
+                  >
                     {isSubmitting ? 'Wysyłanie...' : 'Wyślij zamówienie'}
                   </button>
                 </Form>
