@@ -102,7 +102,7 @@ public class ZMDocumentService {
     }
 
     public void changeStatus(Notify notify) {
-        zmDocumentRepository.findZMDocumentByUuid(notify.getOrder().getOrderId()).ifPresentOrElse(value->{
+        zmDocumentRepository.findZMDocumentByUuid(notify.getOrder().getExtOrderId()).ifPresentOrElse(value->{
             if (value.getState() == State.PROJECT){
                 if (notify.getOrder().getStatus() == Status.COMPLETED){
                     value.setState(State.CREATED);
