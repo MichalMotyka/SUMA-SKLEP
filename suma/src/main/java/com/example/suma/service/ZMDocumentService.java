@@ -84,8 +84,12 @@ public class ZMDocumentService {
             value.setInfo(zmDocument.getInfo());
             value.setDeliver(new Deliver(zmDocument.getDeliver().getUuid()));
             setDeliver(value);
+            value = zmDocumentRepository.saveAndFlush(value);
+
+            PayuResponse response = payuService.createOrder(value);
+            value.setExtUuid(response.getOrderId());
             zmDocumentRepository.save(value);
-            url.set(payuService.createOrder(value));
+            url.set(response);
         },()-> {throw new OrderDontExistException();});
         return new URI(url.get().getRedirectUri());
     }

@@ -91,6 +91,7 @@ CREATE TABLE deliver(
 CREATE TABLE zm_documents (
       id serial PRIMARY KEY,
       uuid VARCHAR NOT NULL,
+      ext_uuid varchar,
       create_date DATE,
       state VARCHAR,
       name VARCHAR,
