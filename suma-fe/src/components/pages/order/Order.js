@@ -540,38 +540,44 @@ function Order () {
 
                     <h2>Dostawa:</h2>
                     <p>Wybierz sposób dostawy paczki.</p>
-                    {delivery.map(delivery => (
-                      <div
-                        key={delivery.uuid}
-                        onClick={() => {
-                          handleDelivery(delivery.uuid)
-                          setFieldValue('deliver.uuid', delivery.uuid)
-                        }}
-                        className='delivery'
-                      >
-                        <label
-                          htmlFor={`delivery-${delivery.uuid}`}
-                          className='delivery-box'
+
+                    <div>
+                      {delivery.map(delivery => (
+                        <div
+                          key={delivery.uuid}
+                          onClick={() => {
+                            handleDelivery(delivery.uuid)
+                            setFieldValue('deliver.uuid', delivery.uuid)
+                          }}
+                          className='delivery'
                         >
-                          <input
-                            type='radio'
-                            id={`delivery-${delivery.uuid}`}
-                            name='deliveryUUID'
-                            className='delivery-input'
-                            value={delivery.uuid}
-                            onChange={e => handleDelivery(e.target.value)}
-                            checked={delivery.uuid === deliveryUUID}
-                          />
-                          <span className='delivery-span'>{delivery.type}</span>
-                          <img
-                            width={100}
-                            src={delivery.image}
-                            alt={`typ wysyłki ${delivery.type}`}
-                          />
-                          <span>{delivery.price} zł</span>
-                        </label>
-                      </div>
-                    ))}
+                          <label
+                            htmlFor={`delivery-${delivery.uuid}`}
+                            className='delivery-box'
+                          >
+                            <input
+                              type='radio'
+                              id={`delivery-${delivery.uuid}`}
+                              name='deliveryUUID'
+                              className='delivery-input'
+                              value={delivery.uuid}
+                              onChange={e => handleDelivery(e.target.value)}
+                              checked={delivery.uuid === deliveryUUID}
+                            />
+                            <span className='delivery-span'>
+                              {delivery.type}
+                            </span>
+                            <img
+                              width={100}
+                              src={delivery.image}
+                              alt={`typ wysyłki ${delivery.type}`}
+                            />
+                            <span>{delivery.price} zł</span>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+
                     <button
                       className='form-btn'
                       type='submit'
