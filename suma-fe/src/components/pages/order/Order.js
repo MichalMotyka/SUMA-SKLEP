@@ -604,6 +604,7 @@ function Order () {
         </section>
       ) : (
         <>
+          <p>Ładowanie...</p> {` `}
           <FaSpinner className='spinner-icon' />
         </>
       )}
