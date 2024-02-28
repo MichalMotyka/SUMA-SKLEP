@@ -11,6 +11,9 @@ function Order () {
     useState('privatePackage')
   const [delivery, setDelivery] = useState([])
   const [deliveryUUID, setDeliveryUUID] = useState('')
+  const [paymentURL, setPaymentURL] = useState('null')
+
+  console.log(paymentURL)
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/document/order', {
@@ -90,6 +93,9 @@ function Order () {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
+
+        const orderURL = response.headers.get('order')
+        setPaymentURL(orderURL)
 
         return response.json()
       })
