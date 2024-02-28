@@ -60,7 +60,7 @@ public class WebSecurity {
         configuration.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:3000","https://merch-prod.snd.payu.com","http://89.168.65.36:4200","http://89.168.65.36:3000","185.68.14.10", "185.68.14.11", "185.68.14.12", "185.68.14.26", "185.68.14.27", "185.68.14.28"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("X-Total-Count","X-Total-Basket-Product-Count","order"));
+        configuration.setExposedHeaders(List.of("X-Total-Count","X-Total-Basket-Product-Count","order","X-Location"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
