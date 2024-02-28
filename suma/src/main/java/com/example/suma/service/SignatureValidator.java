@@ -20,7 +20,7 @@ public class SignatureValidator {
     @Value("${payu.client-key}")
     private String second_key;
 
-    public void validate(String signatureHeader, Notify notify) throws NoSuchAlgorithmException, JsonProcessingException, BadSignatureException {
+    public void validate(String signatureHeader, String notify) throws NoSuchAlgorithmException, JsonProcessingException, BadSignatureException {
 
        ObjectMapper objectMapper = new ObjectMapper();
        String body = objectMapper.writeValueAsString(notify);

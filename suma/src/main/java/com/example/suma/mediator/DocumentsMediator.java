@@ -77,13 +77,13 @@ public class DocumentsMediator {
         return uri;
     }
 
-    public ResponseEntity<Response> handleNotify(Notify notify, HttpServletRequest request) {
+    public ResponseEntity<Response> handleNotify(String notify, HttpServletRequest request) {
         String header = request.getHeader("OpenPayu-Signature");
         try {
             signatureValidator.validate(header,notify);
-            if (notify.getOrder().getStatus() == Status.COMPLETED){
-                zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
-            }
+//            if (notify.getOrder().getStatus() == Status.COMPLETED){
+//                zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
+//            }
         } catch (NoSuchAlgorithmException | JsonProcessingException |
                  com.example.order.exception.BadSignatureException e) {
             System.out.println("Zły podpis");

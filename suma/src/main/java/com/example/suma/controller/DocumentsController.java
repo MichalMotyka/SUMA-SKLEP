@@ -42,7 +42,7 @@ public class DocumentsController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/notification")
-    public ResponseEntity<Response> notifyOrder(@RequestBody Notify notify, HttpServletRequest request){
+    public ResponseEntity<Response> notifyOrder(@RequestBody String notify, HttpServletRequest request){
         return documentsMediator.handleNotify(notify,request);
     }
 
