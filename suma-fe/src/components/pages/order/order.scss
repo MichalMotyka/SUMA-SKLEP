@@ -100,12 +100,14 @@
 .delivery{
     display: flex;
     align-items: center;
-    cursor: pointer;
+  
 
-    .delivery-box{
+    .delivery-box{      
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 442px;
+        cursor: pointer;
       
         .delivery-span{
             padding: 0 10px;

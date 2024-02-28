@@ -33,6 +33,8 @@ function Order () {
       })
   }, [])
 
+  console.log(delivery);
+
   // DELIVERY TYPE:
 
   useEffect(() => {
