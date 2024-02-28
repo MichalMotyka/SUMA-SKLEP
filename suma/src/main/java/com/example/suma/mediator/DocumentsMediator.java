@@ -61,17 +61,29 @@ public class DocumentsMediator {
         throw new EmptyBasketException();
     }
 
-    public URI setDataOrder(OrderDTO order) throws URISyntaxException {
-        return zmDocumentService.setDataOrder(zmDocumentTranslator.translateOrder(order));
+    public URI setDataOrder(OrderDTO order,HttpServletRequest request,HttpServletResponse response) throws URISyntaxException {
+        URI uri =  zmDocumentService.setDataOrder(zmDocumentTranslator.translateOrder(order));
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("basket-uuid")){
+                    cookie.setHttpOnly(true);
+                    cookie.setPath("/api/v1");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+        return uri;
     }
 
-    public ResponseEntity<Response> handleNotify(Notify notify, HttpServletRequest request) {
+    public ResponseEntity<Response> handleNotify(String notify, HttpServletRequest request) {
         String header = request.getHeader("OpenPayu-Signature");
         try {
             signatureValidator.validate(header,notify);
-            if (notify.getOrder().getStatus() == Status.COMPLETED){
-                zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
-            }
+//            if (notify.getOrder().getStatus() == Status.COMPLETED){
+//                zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
+//            }
         } catch (NoSuchAlgorithmException | JsonProcessingException |
                  com.example.order.exception.BadSignatureException e) {
             System.out.println("Zły podpis");

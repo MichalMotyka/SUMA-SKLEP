@@ -79,7 +79,7 @@ public class PayuService {
     private PayUOrder prepareOrder(ZMDocument zmDocument) {
         AtomicLong totalprice = new AtomicLong();
         List<PayuProduct> product = zmDocument.getDocument().getWmProductsList().stream().map(wmDocumentsToPayuProduct::toPayuProduct).toList();
-        product.forEach(value -> totalprice.set(value.getUnitPrice() * value.getQuantity() * 100));
+        product.forEach(value -> totalprice.set(value.getUnitPrice() * value.getQuantity()));
         PayUBuyer buyer = new PayUBuyer(zmDocument.getEmail(), zmDocument.getPhoneNumber(), zmDocument.getName(), zmDocument.getSurname());
         return new PayUOrder(payu_url_notf,
                 "127.0.0.1",

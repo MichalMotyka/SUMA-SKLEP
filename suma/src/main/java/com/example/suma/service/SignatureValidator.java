@@ -20,11 +20,9 @@ public class SignatureValidator {
     @Value("${payu.client-key}")
     private String second_key;
 
-    public void validate(String signatureHeader, Notify notify) throws NoSuchAlgorithmException, JsonProcessingException, BadSignatureException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String body = objectMapper.writeValueAsString(notify);
-        Map<String,String> signature = parseHeader(signatureHeader);
-        String concatenated = body+second_key;
+    public void validate(String signatureHeader, String notify) throws NoSuchAlgorithmException, JsonProcessingException, BadSignatureException {
+       Map<String,String> signature = parseHeader(signatureHeader);
+       String concatenated = notify+second_key;
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] bytes = concatenated.getBytes();
         byte[] digest = md.digest(bytes);
@@ -33,6 +31,8 @@ public class SignatureValidator {
             hexString.append(String.format("%02x", b));
         }
         if (!hexString.toString().equals(signature.get("signature"))){
+            System.out.println(hexString);
+            System.out.println(signature.get("signature"));
             throw new BadSignatureException();
         }
     }
