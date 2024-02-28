@@ -6,6 +6,8 @@ import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
+import com.example.suma.repository.ProductRepository;
+import com.example.suma.repository.ReservationRepository;
 import com.example.suma.repository.ZMDocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class ZMDocumentService {
     private final ZMDocumentRepository zmDocumentRepository;
+    private final ProductRepository productRepository;
+    private final ReservationRepository reservationRepository;
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
     private final PayuService payuService;
@@ -106,8 +110,19 @@ public class ZMDocumentService {
             if (value.getState() == State.PROJECT){
                 if (notify.getOrder().getStatus() == Status.COMPLETED){
                     value.setState(State.CREATED);
+                    value.getDocument().getWmProductsList().forEach(wmProducts -> {
+                       productRepository.findById(wmProducts.getProduct().getId()).ifPresent(product -> {
+                           product.setCount(product.getCount() - wmProducts.getQuantity());
+                           product.setAvailable(product.getAvailable() - wmProducts.getQuantity());
+                           productRepository.save(product);
+                       });
+                    });
                 }else if(notify.getOrder().getStatus() == Status.CANCELED){
                     value.setState(State.REJECTED);
+                }
+                if (notify.getOrder().getStatus() == Status.COMPLETED ||
+                        notify.getOrder().getStatus() == Status.CANCELED){
+                    wmDocumentsService.removeReservation(value);
                 }
             }
             zmDocumentRepository.save(value);
