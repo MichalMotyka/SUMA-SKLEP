@@ -65,7 +65,7 @@ const OrderValidation = (
   if (!values.postCode && values.postCode !== '') {
     errors.postCode = 'Pole wymagane'
   } else if (!/^(\d{2}-\d{3})$/.test(values.postCode)) {
-    errors.postCode = 'Podaj kod wg wzoru np. 12-111'
+    errors.postCode = 'Podaj kod wg wzoru np. 10-111'
   }
 
   if (!values.phoneNumber) {

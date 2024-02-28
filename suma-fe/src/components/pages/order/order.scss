@@ -1,3 +1,9 @@
+.order{
+    display: flex;
+    align-items: center;
+
+}
+
 .form {
 
     display: flex;
@@ -14,21 +20,22 @@
 
         .field {
             display: flex;
-            flex-direction: column;
-            
-
+            flex-direction: column;       
             label {
                 font-weight: bold;
                 padding: 5px 0;
             }
-            input{
+            .field-input{
                 padding: 10px 20px;
                 border-radius: 6px;
                 border: 1px solid silver;
-                &:focus{
-                    border: 1px solid lime;
-                }
-            }           
+                              
+            }     
+            
+            .error-true{  
+                border: 1px solid rgba(255, 99, 71, 0.445) ;
+            }
+             
         }
     }
 
@@ -37,7 +44,51 @@
         display: flex;
         gap: 20px;
         border: none;
+        .fieldset-label {
+            margin: 0 5px;
+        }
     }
+    .invoice-label{
+        padding: 0 5px;
+    }
+
+    .form-btn{
+       width: 258px;
+        padding: 14px 30px;
+        border: 1px solid transparent;
+        background: rgb(46, 158, 46);
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);
+        border-radius: 6px;
+        font-weight: bold;
+        color: #ffffff;
+        text-transform: uppercase;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: box-shadow .3s;
+        &:hover {
+            border: 1px solid rgba(0, 0, 0, 0.301);
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.562);
+        }      
+        &:disabled{
+            width: 258px;
+            padding: 14px 30px;
+            border: 1px solid transparent;
+            background: rgb(46, 158, 46);
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);
+            border-radius: 6px;
+            font-weight: bold;
+            color: #ffffff;
+            text-transform: uppercase;
+          
+            transition: box-shadow .3s;
+            background-color: silver;
+            text-align: center;
+            color: whitesmoke;
+            pointer-events: none;
+        }
+    }
+    
 }
 
 .signup-error-msg{
@@ -45,3 +96,25 @@
     font-weight: bold;
     font-size: 0.8rem;
 }
+
+.delivery{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+ 
+
+
+    .delivery-box{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      
+        .delivery-span{
+            padding: 0 10px;
+        }
+    }
+    
+   
+  
+}
+
