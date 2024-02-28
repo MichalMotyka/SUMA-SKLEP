@@ -9,6 +9,19 @@ function Order () {
   const [invoiceType, setInvoiceType] = useState('private')
   const [packageReceiverType, setpackageReceiverType] =
     useState('privatePackage')
+  const [delivery, setDelivery] = useState([])
+  const [deliveryUUID, setDeliveryUUID] = useState('')
+  const [paymentURL, setPaymentURL] = useState('null')
+
+  console.log('paymenturl', paymentURL)
+
+  useEffect(() => {
+    if (paymentURL && paymentURL !== 'null') {
+      window.open(paymentURL) // Otwórz nowe okno przeglądarki z adresem URL
+    } else {
+      console.error('Payment URL is not available')
+    }
+  }, [paymentURL])
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/document/order', {
@@ -22,14 +35,27 @@ function Order () {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
-        const totalCount = response.headers.get('order')
-        setOrderUUID(totalCount)
+        const orderID = response.headers.get('order')
+        setOrderUUID(orderID)
         return response.json()
       })
       .catch(error => {
         console.error('Error:', error)
       })
   }, [])
+
+  console.log(delivery)
+
+  // DELIVERY TYPE:
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/v1/deliver')
+      .then(response => response.json())
+      .then(data => setDelivery(data))
+      .catch(error => console.log(error))
+  }, [])
+
+  // BASKET INFO:
 
   const initialValues = {
     uuid: orderUUID,
@@ -54,14 +80,36 @@ function Order () {
     phoneNumber: '',
     info: '',
     deliver: {
-      uuid: orderUUID
+      uuid: deliveryUUID
     }
   }
 
   const handleSubmit = values => {
     // Wysłanie danych do API - użyj fetch lub innej biblioteki do wysyłania żądań HTTP
-    console.log('Siemanko?')
-    console.log(values)
+
+    console.log('to co będzie wysłane', values)
+
+    fetch('http://localhost:8080/api/v1/document/order', {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+
+        const orderURL = response.headers.get('x-location')
+        setPaymentURL(orderURL)
+
+        return response.json()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
   }
 
   const handlePackageReceiverType = e => {
@@ -72,295 +120,491 @@ function Order () {
     setInvoiceType(e.target.value)
   }
 
-  console.log(initialValues)
+  const handleDelivery = uuid => {
+    console.log('test')
+    setDeliveryUUID(uuid)
+  }
+
+  console.log('ID DELIVERKI', deliveryUUID)
+  console.log('ID UUID', orderUUID)
 
   return (
     <div>
       {orderUUID ? (
         <section>
-          <h2>Zamówienie:</h2>
-          <p>UUID zamówienia: {orderUUID}</p>
-          <div>
-            <Formik
-              initialValues={initialValues}
-              validate={values => OrderValidation(values, invoiceType,packageReceiverType)}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting }) => (
-                <Form>
-                  <fieldset>
-                    <div>
-                      <input
-                        type='radio'
-                        id='packagePrivate'
-                        name='packageReceiverType'
-                        value='privatePackage'
-                        checked={packageReceiverType === 'privatePackage'}
-                        onChange={handlePackageReceiverType}
-                      />
-                      <label htmlFor='packagePrivate'>Osoba prywatna</label>
-                    </div>
+          <h2>Zamówienie</h2>
+          <p>Wpisz dane, na które mamy dostarczyć Twoją przesyłkę.</p>
+          <div className='order'>
+            <div className='left-box'>
+              <Formik
+                initialValues={initialValues}
+                validate={values =>
+                  OrderValidation(
+                    values,
+                    invoiceType,
+                    packageReceiverType,
+                    isInvoicing
+                  )
+                }
+                onSubmit={handleSubmit}
+              >
+                {({ isSubmitting, isValid, dirty, setFieldValue }) => (
+                  <Form className='form'>
+                    <fieldset className='fieldset'>
+                      <div>
+                        <input
+                          type='radio'
+                          id='packagePrivate'
+                          name='packageReceiverType'
+                          value='privatePackage'
+                          checked={packageReceiverType === 'privatePackage'}
+                          onChange={handlePackageReceiverType}
+                        />
+                        <label
+                          className='fieldset-label'
+                          htmlFor='packagePrivate'
+                        >
+                          Osoba prywatna
+                        </label>
+                      </div>
 
-                    <div>
-                      <input
-                        type='radio'
-                        id='packageFirm'
-                        name='packageReceiverType'
-                        value='firmPackage'
-                        checked={packageReceiverType === 'firmPackage'}
-                        onChange={handlePackageReceiverType}
-                      />
-                      <label htmlFor='packageFirm'>Firma</label>
-                    </div>
-                  </fieldset>
-
-                  {packageReceiverType === 'privatePackage' ? (
-                    <>
-                      <label htmlFor='name'>Imię</label>
-                      <Field id='name' name='name' placeholder='Jane' />
-                      <ErrorMessage
-                        name='name'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-
-                      <label htmlFor='surname'>Nazwisko</label>
-                      <Field id='surname' name='surname' placeholder='Doe' />
-                      <ErrorMessage
-                        name='surname'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <label htmlFor='name'>Nazwa firmy</label>
-                      <Field
-                        id='companyName'
-                        name='companyName'
-                        placeholder='Nazwa firmy'
-                      />
-                      <ErrorMessage
-                        name='companyName'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-
-                      <label htmlFor='surname'>NIP</label>
-                      <Field id='nip' name='nip' placeholder='NIP' />
-                      <ErrorMessage
-                        name='nip'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                    </>
-                  )}
-
-                  <label htmlFor='email'>Email</label>
-                  <Field
-                    id='email'
-                    name='email'
-                    placeholder='jane@acme.com'
-                    type='email'
-                  />
-                  <ErrorMessage
-                    name='email'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-
-                  <label htmlFor='city'>Miasto</label>
-                  <Field id='city' name='city' placeholder='Warszawa' />
-                  <ErrorMessage
-                    name='city'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-
-                  <label htmlFor='phoneNumber'>Numer telefonu</label>
-                  <Field
-                    id='phoneNumber'
-                    name='phoneNumber'
-                    placeholder='123-123-123'
-                  />
-                  <ErrorMessage
-                    name='phoneNumber'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-
-                  <label htmlFor='city'>Ulica</label>
-                  <Field id='street' name='street' placeholder='Kolejowa' />
-                  <ErrorMessage
-                    name='street'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-                  <label htmlFor='homeNumber'>Numer domu</label>
-                  <Field id='homeNumber' name='homeNumber' placeholder='12' />
-                  <ErrorMessage
-                    name='homeNumber'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-                  <label htmlFor='city'>Kod pocztowy</label>
-                  <Field id='postCode' name='postCode' placeholder='00-000' />
-                  <ErrorMessage
-                    name='postCode'
-                    component='span'
-                    className='signup-error-msg'
-                  />
-
-                  {/* ZAMÓWIENIE: */}
-
-                  <label>
-                    <Field
-                      type='checkbox'
-                      name='invoicing'
-                      onClick={() => setIsInvoicing(!isInvoicing)}
-                    />
-                    Chcę fakturę na inne dane
-                  </label>
-
-                  {isInvoicing && (
-                    <>
-                      <fieldset>
-                        <div>
-                          <input
-                            type='radio'
-                            id='private'
-                            name='invoiceType'
-                            value='private'
-                            checked={invoiceType === 'private'}
-                            onChange={handleInvoiceType}
-                          />
-                          <label htmlFor='private'>Osoba prywatna</label>
-                        </div>
-                        <div>
-                          <input
-                            type='radio'
-                            id='firm'
-                            name='invoiceType'
-                            value='firm'
-                            checked={invoiceType === 'firm'}
-                            onChange={handleInvoiceType}
-                          />
-                          <label htmlFor='firm'>Firma</label>
-                        </div>
-                      </fieldset>
-
-                      {/* TUTAJ ZACZYNA SIE FAKTURA NA INNE DANE */}
-
-                      {invoiceType === 'private' ? (
-                        <>
-                          <label htmlFor='invoicingName'>Imię</label>
+                      <div>
+                        <input
+                          type='radio'
+                          id='packageFirm'
+                          name='packageReceiverType'
+                          value='firmPackage'
+                          checked={packageReceiverType === 'firmPackage'}
+                          onChange={handlePackageReceiverType}
+                        />
+                        <label className='fieldset-label' htmlFor='packageFirm'>
+                          Firma
+                        </label>
+                      </div>
+                    </fieldset>
+                    {packageReceiverType === 'privatePackage' ? (
+                      <div className='form-box'>
+                        <div className='field'>
+                          <label htmlFor='name'>Imię</label>
                           <Field
-                            id='invoicingName'
-                            name='invoicingName'
-                            placeholder='Jane'
+                            className='field-input'
+                            id='name'
+                            name='name'
+                            placeholder='Imię'
+                            maxLength='50'
                           />
                           <ErrorMessage
-                            name='invoicingName'
+                            name='name'
                             component='span'
                             className='signup-error-msg'
                           />
+                        </div>
 
-                          <label htmlFor='invoicingSurname'>Nazwisko</label>
+                        <div className='field'>
+                          <label htmlFor='surname'>Nazwisko</label>
                           <Field
-                            id='invoicingSurname'
-                            name='invoicingSurname'
-                            placeholder='Doe'
+                            className='field-input'
+                            id='surname'
+                            name='surname'
+                            placeholder='Nazwisko'
+                            maxLength='50'
                           />
                           <ErrorMessage
-                            name='invoicingSurname'
+                            name='surname'
                             component='span'
                             className='signup-error-msg'
                           />
-                        </>
-                      ) : (
-                        <>
-                          <label htmlFor='invoicingCompanyName'>
-                            Nazwa firmy
-                          </label>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='form-box'>
+                        <div className='field'>
+                          <label htmlFor='companyName'>Nazwa firmy</label>
                           <Field
-                            id='invoicingCompanyName'
-                            name='invoicingCompanyName'
+                            className='field-input'
+                            id='companyName'
+                            name='companyName'
                             placeholder='Nazwa firmy'
+                            maxLength='350'
                           />
                           <ErrorMessage
-                            name='invoicingCompanyName'
+                            name='companyName'
                             component='span'
                             className='signup-error-msg'
                           />
+                        </div>
 
-                          <label htmlFor='invoicingNip'>NIP</label>
+                        <div className='field'>
+                          <label htmlFor='nip'>NIP</label>
                           <Field
-                            id='invoicingNip'
-                            name='invoicingNip'
-                            placeholder='NIP'
+                            className='field-input'
+                            type='text' // zmiana typu na 'text'
+                            id='nip'
+                            name='nip'
+                            placeholder='1234563218'
+                            minLength='10'
+                            maxLength='10'
+                            pattern='[0-9]{10}'
                           />
                           <ErrorMessage
-                            name='invoicingNip'
+                            name='nip'
                             component='span'
                             className='signup-error-msg'
                           />
-                        </>
-                      )}
+                        </div>
+                      </div>
+                    )}
+                    <div className='form-box'>
+                      <div className='field'>
+                        <label htmlFor='phoneNumber'>
+                          Nr telefonu komórkowego
+                        </label>
+                        <Field
+                          className='field-input'
+                          id='phoneNumber'
+                          name='phoneNumber'
+                          placeholder='Numer telefonu'
+                          type='text'
+                          pattern='[0-9]{9}'
+                          maxLength='9'
+                        />
+                        <ErrorMessage
+                          name='phoneNumber'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
 
-                      <label htmlFor='invoicingCity'>Miasto</label>
-                      <Field
-                        id='invoicingCity'
-                        name='invoicingCity'
-                        placeholder='Warszawa'
-                      />
-                      <ErrorMessage
-                        name='invoicingCity'
-                        component='span'
-                        className='signup-error-msg'
-                      />
+                      <div className='field'>
+                        <label htmlFor='email'>Email</label>
+                        <Field
+                          className='field-input'
+                          id='email'
+                          name='email'
+                          placeholder='Adres e-mail'
+                          type='email'
+                          maxLength='100'
+                        />
+                        <ErrorMessage
+                          name='email'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
+                    </div>
+                    <div className='form-box'>
+                      <div className='field'>
+                        <label htmlFor='street'>Ulica</label>
+                        <Field
+                          className='field-input'
+                          id='street'
+                          name='street'
+                          placeholder='Ulica'
+                          maxLength='350'
+                        />
+                        <ErrorMessage
+                          name='street'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
 
-                      <label htmlFor='invoicingStreet'>Ulica</label>
-                      <Field
-                        id='invoicingStreet'
-                        name='invoicingStreet'
-                        placeholder='Kolejowa'
-                      />
-                      <ErrorMessage
-                        name='invoicingStreet'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                      <label htmlFor='invoicingHomeNumber'>Numer domu</label>
-                      <Field
-                        id='invoicingHomeNumber'
-                        name='invoicingHomeNumber'
-                        placeholder='12'
-                      />
-                      <ErrorMessage
-                        name='invoicingHomeNumber'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                      <label htmlFor='invoicingPostCode'>Kod pocztowy</label>
-                      <Field
-                        id='invoicingPostCode'
-                        name='invoicingPostCode'
-                        placeholder='00-000'
-                      />
-                      <ErrorMessage
-                        name='invoicingPostCode'
-                        component='span'
-                        className='signup-error-msg'
-                      />
-                    </>
-                  )}
+                      <div className='field'>
+                        <label htmlFor='homeNumber'>Numer domu / lokalu</label>
+                        <Field
+                          className='field-input'
+                          id='homeNumber'
+                          name='homeNumber'
+                          placeholder='Numer domu/lokalu'
+                          maxLength='50'
+                        />
+                        <ErrorMessage
+                          name='homeNumber'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
+                    </div>
+                    <div className='form-box'>
+                      <div className='field'>
+                        <label htmlFor='postCode'>Kod pocztowy</label>
 
-                  <button type='submit' disabled={isSubmitting}>
-                    {isSubmitting ? 'Wysyłanie...' : 'Wyślij zamówienie'}
-                  </button>
-                </Form>
-              )}
-            </Formik>
+                        <Field
+                          className='field-input'
+                          id='postCode'
+                          name='postCode'
+                          placeholder='00-000'
+                          pattern='[0-9]{2}-[0-9]{3}'
+                          maxLength='6'
+                        />
+                        <ErrorMessage
+                          name='postCode'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
+
+                      <div className='field'>
+                        <label htmlFor='city'>Miejscowość</label>
+                        <Field
+                          className='field-input'
+                          id='city'
+                          name='city'
+                          placeholder='Miejscowość'
+                        />
+                        <ErrorMessage
+                          maxLength='50'
+                          name='city'
+                          component='span'
+                          className='signup-error-msg'
+                        />
+                      </div>
+                    </div>
+                    {/* ZAMÓWIENIE: */}
+                    <div>
+                      <Field
+                        id='invoice'
+                        type='checkbox'
+                        name='invoicing'
+                        onClick={() => setIsInvoicing(!isInvoicing)}
+                      />
+                      <label className='invoice-label' htmlFor='invoice'>
+                        Chcę fakturę na inne dane
+                      </label>
+                    </div>
+                    {isInvoicing && (
+                      <>
+                        <fieldset className='fieldset'>
+                          <div>
+                            <input
+                              type='radio'
+                              id='private'
+                              name='invoiceType'
+                              value='private'
+                              checked={invoiceType === 'private'}
+                              onChange={handleInvoiceType}
+                            />
+                            <label className='fieldset-label' htmlFor='private'>
+                              Osoba prywatna
+                            </label>
+                          </div>
+                          <div>
+                            <input
+                              type='radio'
+                              id='firm'
+                              name='invoiceType'
+                              value='firm'
+                              checked={invoiceType === 'firm'}
+                              onChange={handleInvoiceType}
+                            />
+                            <label className='fieldset-label' htmlFor='firm'>
+                              Firma
+                            </label>
+                          </div>
+                        </fieldset>
+
+                        {/* TUTAJ ZACZYNA SIE FAKTURA NA INNE DANE */}
+
+                        {invoiceType === 'private' ? (
+                          <div className='form-box'>
+                            <div className='field'>
+                              <label htmlFor='invoicingName'>Imię</label>
+                              <Field
+                                className='field-input'
+                                id='invoicingName'
+                                name='invoicingName'
+                                placeholder='Imię'
+                                maxLength='50'
+                              />
+                              <ErrorMessage
+                                name='invoicingName'
+                                component='span'
+                                className='signup-error-msg'
+                              />
+                            </div>
+
+                            <div className='field'>
+                              <label htmlFor='invoicingSurname'>Nazwisko</label>
+                              <Field
+                                className='field-input'
+                                id='invoicingSurname'
+                                name='invoicingSurname'
+                                placeholder='Nazwisko'
+                                maxLength='50'
+                              />
+                              <ErrorMessage
+                                name='invoicingSurname'
+                                component='span'
+                                className='signup-error-msg'
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className='form-box'>
+                            <div className='field'>
+                              <label htmlFor='invoicingCompanyName'>
+                                Nazwa firmy
+                              </label>
+                              <Field
+                                className='field-input'
+                                id='invoicingCompanyName'
+                                name='invoicingCompanyName'
+                                placeholder='Nazwa firmy'
+                                maxLength='350'
+                              />
+                              <ErrorMessage
+                                name='invoicingCompanyName'
+                                component='span'
+                                className='signup-error-msg'
+                              />
+                            </div>
+
+                            <div className='field'>
+                              <label htmlFor='invoicingNip'>NIP</label>
+                              <Field
+                                className='field-input'
+                                id='invoicingNip'
+                                name='invoicingNip'
+                                placeholder='1234563218'
+                                minLength='10'
+                                maxLength='10'
+                                pattern='[0-9]{10}'
+                              />
+                              <ErrorMessage
+                                name='invoicingNip'
+                                component='span'
+                                className='signup-error-msg'
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <div className='form-box'>
+                          <div className='field'>
+                            <label htmlFor='invoicingStreet'>Ulica</label>
+                            <Field
+                              className='field-input'
+                              id='invoicingStreet'
+                              name='invoicingStreet'
+                              placeholder='Ulica'
+                              maxLength='350'
+                            />
+                            <ErrorMessage
+                              name='invoicingStreet'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
+
+                          <div className='field'>
+                            <label htmlFor='invoicingHomeNumber'>
+                              Numer domu/lokalu
+                            </label>
+                            <Field
+                              className='field-input'
+                              id='invoicingHomeNumber'
+                              name='invoicingHomeNumber'
+                              placeholder='Numer domu/lokalu'
+                              maxLength='50'
+                            />
+                            <ErrorMessage
+                              name='invoicingHomeNumber'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
+                        </div>
+
+                        <div className='form-box'>
+                          <div className='field'>
+                            <label htmlFor='invoicingPostCode'>
+                              Kod pocztowy
+                            </label>
+                            <Field
+                              className='field-input'
+                              id='invoicingPostCode'
+                              name='invoicingPostCode'
+                              placeholder='00-000'
+                              pattern='[0-9]{2}-[0-9]{3}'
+                              maxLength='6'
+                            />
+                            <ErrorMessage
+                              name='invoicingPostCode'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
+
+                          <div className='field'>
+                            <label htmlFor='invoicingCity'>Miejscowość</label>
+                            <Field
+                              className='field-input'
+                              id='invoicingCity'
+                              name='invoicingCity'
+                              placeholder='Miasto'
+                              maxLength='50'
+                            />
+                            <ErrorMessage
+                              name='invoicingCity'
+                              component='span'
+                              className='signup-error-msg'
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    <h2>Dostawa:</h2>
+                    <p>Wybierz sposób dostawy paczki.</p>
+
+                    <div>
+                      {delivery.map(delivery => (
+                        <div
+                          key={delivery.uuid}
+                          onClick={() => {
+                            handleDelivery(delivery.uuid)
+                            setFieldValue('deliver.uuid', delivery.uuid)
+                          }}
+                          className='delivery'
+                        >
+                          <label
+                            htmlFor={`delivery-${delivery.uuid}`}
+                            className='delivery-box'
+                          >
+                            <input
+                              type='radio'
+                              id={`delivery-${delivery.uuid}`}
+                              name='deliveryUUID'
+                              className='delivery-input'
+                              value={delivery.uuid}
+                              onChange={e => handleDelivery(e.target.value)}
+                              checked={delivery.uuid === deliveryUUID}
+                            />
+                            <span className='delivery-span'>
+                              {delivery.type}
+                            </span>
+                            <img
+                              width={100}
+                              src={delivery.image}
+                              alt={`typ wysyłki ${delivery.type}`}
+                            />
+                            <span>{delivery.price} zł</span>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      className='form-btn'
+                      type='submit'
+                      disabled={!(dirty && isValid && deliveryUUID !== '')}
+                    >
+                      {isSubmitting ? 'Wysyłanie...' : 'Wyślij zamówienie'}
+                    </button>
+                  </Form>
+                )}
+              </Formik>
+            </div>
           </div>
         </section>
       ) : (
