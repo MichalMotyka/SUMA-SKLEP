@@ -31,8 +31,8 @@ public class DocumentsController {
     }
 
     @PatchMapping("order")
-    public ResponseEntity<Void> setDataOrder(@RequestBody OrderDTO orderDTO) throws URISyntaxException {
-        return ResponseEntity.status(303).location(documentsMediator.setDataOrder(orderDTO)).build();
+    public ResponseEntity<Void> setDataOrder(@RequestBody OrderDTO orderDTO,HttpServletRequest request,HttpServletResponse response) throws URISyntaxException {
+        return ResponseEntity.status(303).location(documentsMediator.setDataOrder(orderDTO,request,response)).build();
     }
 
     @PostMapping("create/order")

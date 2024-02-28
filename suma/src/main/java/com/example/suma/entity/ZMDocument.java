@@ -17,6 +17,7 @@ public class ZMDocument extends Document{
     @GeneratedValue(generator = "zm_documents_id_seq", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "zm_documents_id_seq",sequenceName = "zm_documents_id_seq",allocationSize = 1,schema = "suma")
     private long id;
+    private String extUuid;
     private String name;
     private String surname;
     private String companyName;

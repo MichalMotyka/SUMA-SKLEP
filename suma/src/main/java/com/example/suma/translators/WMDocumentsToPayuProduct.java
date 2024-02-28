@@ -11,8 +11,13 @@ public abstract class WMDocumentsToPayuProduct {
 
     @Mappings({
             @Mapping(target = "name", source = "wmProducts.product.name"),
-            @Mapping(target = "unitPrice", source = "wmProducts.product.price"),
-            @Mapping(target = "quantity", source = "wmProducts.quantity")
+            @Mapping(target = "unitPrice", expression = "java(toUnitPrice(wmProducts.getProduct().getPrice()))"),
+            @Mapping(target = "quantity", expression = "java(wmProducts.getQuantity())")
     })
     public abstract PayuProduct toPayuProduct(WMProducts wmProducts);
+
+
+    protected long toUnitPrice(double price){
+        return (long)(price * 100);
+    }
 }
