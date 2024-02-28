@@ -1,4 +1,4 @@
-.order{
+.order {
     display: flex;
     align-items: center;
 
@@ -20,22 +20,24 @@
 
         .field {
             display: flex;
-            flex-direction: column;       
+            flex-direction: column;
+
             label {
                 font-weight: bold;
                 padding: 5px 0;
             }
-            .field-input{
+
+            .field-input {
                 padding: 10px 20px;
                 border-radius: 6px;
                 border: 1px solid silver;
-                              
-            }     
-            
-            .error-true{  
-                border: 1px solid rgba(255, 99, 71, 0.445) ;
+
             }
-             
+
+            .error-true {
+                border: 1px solid rgba(255, 99, 71, 0.445);
+            }
+
         }
     }
 
@@ -44,16 +46,18 @@
         display: flex;
         gap: 20px;
         border: none;
+
         .fieldset-label {
             margin: 0 5px;
         }
     }
-    .invoice-label{
+
+    .invoice-label {
         padding: 0 5px;
     }
 
-    .form-btn{
-       width: 258px;
+    .form-btn {
+        width: 258px;
         padding: 14px 30px;
         border: 1px solid transparent;
         background: rgb(46, 158, 46);
@@ -66,11 +70,13 @@
         cursor: pointer;
         margin-bottom: 20px;
         transition: box-shadow .3s;
+
         &:hover {
             border: 1px solid rgba(0, 0, 0, 0.301);
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.562);
-        }      
-        &:disabled{
+        }
+
+        &:disabled {
             width: 258px;
             padding: 14px 30px;
             border: 1px solid transparent;
@@ -80,7 +86,7 @@
             font-weight: bold;
             color: #ffffff;
             text-transform: uppercase;
-          
+
             transition: box-shadow .3s;
             background-color: silver;
             text-align: center;
@@ -88,33 +94,33 @@
             pointer-events: none;
         }
     }
-    
+
 }
 
-.signup-error-msg{
+.signup-error-msg {
     color: tomato;
     font-weight: bold;
     font-size: 0.8rem;
 }
 
-.delivery{
+.delivery {
     display: flex;
     align-items: center;
-  
 
-    .delivery-box{      
+
+    .delivery-box {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 442px;
         cursor: pointer;
-      
-        .delivery-span{
+
+        .delivery-span {
+            width: 150px;
             padding: 0 10px;
         }
     }
-    
-   
-  
-}
 
+
+
+}

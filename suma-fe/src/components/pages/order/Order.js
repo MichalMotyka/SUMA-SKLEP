@@ -33,7 +33,7 @@ function Order () {
       })
   }, [])
 
-  console.log(delivery);
+  console.log(delivery)
 
   // DELIVERY TYPE:
 
