@@ -14,6 +14,7 @@ import com.example.suma.service.SignatureValidator;
 import com.example.suma.service.ZMDocumentService;
 import com.example.suma.translators.ZMDocumentTranslator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -81,9 +82,9 @@ public class DocumentsMediator {
         String header = request.getHeader("OpenPayu-Signature");
         try {
             signatureValidator.validate(header,notify);
-//            if (notify.getOrder().getStatus() == Status.COMPLETED){
-//                zmDocumentService.changeStatusToCreated(notify.getOrder().getExtOrderId());
-//            }
+            Gson gson = new Gson();
+            Notify notifyObject = gson.fromJson(notify, Notify.class);
+            zmDocumentService.changeStatus(notifyObject);
         } catch (NoSuchAlgorithmException | JsonProcessingException |
                  com.example.order.exception.BadSignatureException e) {
             System.out.println("Zły podpis");
