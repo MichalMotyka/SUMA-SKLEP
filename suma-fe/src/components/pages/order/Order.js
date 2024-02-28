@@ -13,7 +13,15 @@ function Order () {
   const [deliveryUUID, setDeliveryUUID] = useState('')
   const [paymentURL, setPaymentURL] = useState('null')
 
-  console.log(paymentURL)
+  console.log('paymenturl', paymentURL)
+
+  useEffect(() => {
+    if (paymentURL && paymentURL !== 'null') {
+      window.open(paymentURL) // Otwórz nowe okno przeglądarki z adresem URL
+    } else {
+      console.error('Payment URL is not available')
+    }
+  }, [paymentURL])
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/document/order', {
@@ -94,7 +102,7 @@ function Order () {
           throw new Error('Network response was not ok')
         }
 
-        const orderURL = response.headers.get('order')
+        const orderURL = response.headers.get('x-location')
         setPaymentURL(orderURL)
 
         return response.json()
