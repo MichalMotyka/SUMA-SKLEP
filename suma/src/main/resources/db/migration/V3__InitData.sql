@@ -40,3 +40,4 @@ INSERT INTO suma.product (uuid, name, description, category, available, count, p
 INSERT INTO suma.product (uuid, name, description, category, available, count, price, main_img, images, active, create_date,properties) VALUES ('f0e03baf-a4d7-462s-803b-f51617b76d10', 'Indyk', 'DUPA', 1, 10, 10, 120.99, 'https://placedog.net/340/480?r', '{https://placedog.net/340/480?r,https://placedog.net/340/480?r,https://placedog.net/340/480?r}', true, '2024-01-30','[{"name": "wysokosc", "value": "12","uuid":"1f676ed1-f09c-459f-8eca-5a0c554b9df2"}, {"name": "szerokosc", "value": "12","uuid":"ff8959bb-4088-4f09-97d2-150c98e9b606"}]');
 
 INSERT INTO suma.deliver(uuid,type,image,price) values ('321312321','Inpost','https://www.jakimkurierem.pl/wp-content/uploads/2018/03/logo-inpost-kurier-300x215.jpg.webp',22.31)
+INSERT INTO suma.deliver(uuid,type,image,price) values ('323262321','Kurier DPD','https://www.sendit.pl/app/uploads/2023/04/dpd-2-1.png',22.31)
