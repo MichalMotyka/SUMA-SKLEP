@@ -2,18 +2,17 @@ package com.example.suma.service;
 
 import com.example.suma.entity.Basket;
 import com.example.suma.entity.BasketItem;
-import com.example.suma.entity.dto.BasketItemDTO;
+import com.example.suma.entity.dto.BasketDTO;
 import com.example.suma.exceptions.InsufficientQuantityProductException;
 import com.example.suma.exceptions.MinimumQuantityException;
 import com.example.suma.repository.BasketItemRepository;
 import com.example.suma.repository.BasketRepository;
+import com.example.suma.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +21,7 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final ProductService productService;
     private final BasketItemRepository basketItemRepository;
+    private final ReservationRepository reservationRepository;
 
     private Basket createBasket(){
         Basket basket = new Basket();
@@ -81,5 +81,19 @@ public class BasketService {
         basketItem.setUuid(UUID.randomUUID().toString());
         basketItemRepository.save(basketItem);
         return basketItem;
+    }
+
+
+    public BasketDTO setAvailable(BasketDTO basketDTO,Basket basket){
+        basketDTO.getBasketItem().forEach(basketItemDTO -> {
+            reservationRepository.findReservationByBasket(basket).ifPresent(reservation -> {
+                reservation.getZm().getDocument().getWmProductsList().forEach(wmProducts -> {
+                    if (basketItemDTO.getProduct().getUuid().equals(wmProducts.getProduct().getUuid())){
+                        basketItemDTO.getProduct().setAvailable(basketItemDTO.getProduct().getAvailable() + wmProducts.getQuantity());
+                    }
+                });
+            });
+        });
+        return basketDTO;
     }
 }

@@ -1,9 +1,13 @@
 package com.example.suma.service;
 
 import com.example.suma.entity.*;
+import com.example.suma.entity.notify.Notify;
+import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
+import com.example.suma.repository.ProductRepository;
+import com.example.suma.repository.ReservationRepository;
 import com.example.suma.repository.ZMDocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class ZMDocumentService {
     private final ZMDocumentRepository zmDocumentRepository;
+    private final ProductRepository productRepository;
+    private final ReservationRepository reservationRepository;
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
     private final PayuService payuService;
@@ -99,10 +105,28 @@ public class ZMDocumentService {
                 ,()->{throw new DeliverDontExistException();});
     }
 
-    public void changeStatusToCreated(String extOrderId) {
-        zmDocumentRepository.findZMDocumentByUuid(extOrderId).ifPresentOrElse(value->{
-            value.setState(State.CREATED);
+    public void changeStatus(Notify notify) {
+        zmDocumentRepository.findZMDocumentByUuid(notify.getOrder().getExtOrderId()).ifPresentOrElse(value->{
+            if (value.getState() == State.PROJECT){
+                if (notify.getOrder().getStatus() == Status.COMPLETED){
+                    value.setState(State.CREATED);
+                    value.getDocument().getWmProductsList().forEach(wmProducts -> {
+                       productRepository.findById(wmProducts.getProduct().getId()).ifPresent(product -> {
+                           product.setCount(product.getCount() - wmProducts.getQuantity());
+                           product.setAvailable(product.getAvailable() - wmProducts.getQuantity());
+                           productRepository.save(product);
+                       });
+                    });
+                }else if(notify.getOrder().getStatus() == Status.CANCELED){
+                    value.setState(State.REJECTED);
+                }
+                if (notify.getOrder().getStatus() == Status.COMPLETED ||
+                        notify.getOrder().getStatus() == Status.CANCELED){
+                    wmDocumentsService.removeReservation(value);
+                }
+            }
             zmDocumentRepository.save(value);
         },()->{throw new RuntimeException();});
     }
+
 }

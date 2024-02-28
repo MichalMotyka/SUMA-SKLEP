@@ -30,6 +30,7 @@ public class BasketMediator {
         response.setHeader("X-Total-Basket-Product-Count",size);
         response.addCookie(new Cookie("basket-uuid",basket.getUuid()));
         BasketDTO basketDTO = basketTranslator.translateBasketToBasketDTO(basket);
+        basketDTO = basketService.setAvailable(basketDTO,basket);
         Collections.sort(basketDTO.getBasketItem(), Comparator.comparing(BasketItemDTO::getUuid).reversed());
         return basketDTO;
     }
