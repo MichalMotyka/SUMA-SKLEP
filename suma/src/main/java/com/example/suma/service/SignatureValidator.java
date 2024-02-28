@@ -21,11 +21,8 @@ public class SignatureValidator {
     private String second_key;
 
     public void validate(String signatureHeader, String notify) throws NoSuchAlgorithmException, JsonProcessingException, BadSignatureException {
-
-       ObjectMapper objectMapper = new ObjectMapper();
-       String body = objectMapper.writeValueAsString(notify);
        Map<String,String> signature = parseHeader(signatureHeader);
-       String concatenated = body+second_key;
+       String concatenated = notify+second_key;
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] bytes = concatenated.getBytes();
         byte[] digest = md.digest(bytes);
