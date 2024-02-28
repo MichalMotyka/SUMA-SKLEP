@@ -1,7 +1,8 @@
+import { FaSpinner } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
-import './order.scss'
 import OrderValidation from '../../auth/validation/OrderValidation'
+import './order.scss'
 
 function Order () {
   const [orderUUID, setOrderUUID] = useState('')
@@ -17,7 +18,7 @@ function Order () {
 
   useEffect(() => {
     if (paymentURL && paymentURL !== 'null') {
-      window.open(paymentURL) // Otwórz nowe okno przeglądarki z adresem URL
+      window.location.href = paymentURL
     } else {
       console.error('Payment URL is not available')
     }
@@ -43,8 +44,6 @@ function Order () {
         console.error('Error:', error)
       })
   }, [])
-
-  console.log(delivery)
 
   // DELIVERY TYPE:
 
@@ -85,10 +84,6 @@ function Order () {
   }
 
   const handleSubmit = values => {
-    // Wysłanie danych do API - użyj fetch lub innej biblioteki do wysyłania żądań HTTP
-
-    console.log('to co będzie wysłane', values)
-
     fetch('http://localhost:8080/api/v1/document/order', {
       method: 'PATCH',
       credentials: 'include',
@@ -608,7 +603,9 @@ function Order () {
           </div>
         </section>
       ) : (
-        'Oczekiwanie ...'
+        <>
+          <FaSpinner className='spinner-icon' />
+        </>
       )}
     </div>
   )
