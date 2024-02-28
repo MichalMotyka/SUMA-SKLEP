@@ -1,6 +1,8 @@
 package com.example.suma.service;
 
 import com.example.suma.entity.*;
+import com.example.suma.entity.notify.Notify;
+import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
@@ -99,10 +101,17 @@ public class ZMDocumentService {
                 ,()->{throw new DeliverDontExistException();});
     }
 
-    public void changeStatusToCreated(String extOrderId) {
-        zmDocumentRepository.findZMDocumentByUuid(extOrderId).ifPresentOrElse(value->{
-            value.setState(State.CREATED);
+    public void changeStatus(Notify notify) {
+        zmDocumentRepository.findZMDocumentByUuid(notify.getOrder().getOrderId()).ifPresentOrElse(value->{
+            if (value.getState() == State.PROJECT){
+                if (notify.getOrder().getStatus() == Status.COMPLETED){
+                    value.setState(State.CREATED);
+                }else if(notify.getOrder().getStatus() == Status.CANCELED){
+                    value.setState(State.REJECTED);
+                }
+            }
             zmDocumentRepository.save(value);
         },()->{throw new RuntimeException();});
     }
+
 }
