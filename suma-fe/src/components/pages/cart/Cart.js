@@ -121,6 +121,7 @@ function Cart () {
                   </div>
                 </div>
               </div>
+
               <div className='product-right'>
                 <p className='product-price'> {product.price} zł</p>
                 <button
@@ -134,6 +135,8 @@ function Cart () {
                   <FaRegTrashCan className='btn-icon' />
                 </button>
               </div>
+
+              
             </li>
           ))}
         </ul>

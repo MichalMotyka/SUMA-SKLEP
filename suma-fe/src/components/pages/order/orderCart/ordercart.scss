@@ -1,0 +1,42 @@
+.basket-summary {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    .order-summary{
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+  
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      border-radius: 6px;
+      border: 1px solid silver;
+      margin: 5px 0;
+      padding: 15px;
+  
+      .summary-product-name {
+        padding: 5px 0;
+      }
+  
+      .summary-data {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+  
+        .summary-img {
+          width: 50px;
+        }
+      }
+    }
+  
+    .summary-price {
+      text-align: right;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+  
+
+  }
+  

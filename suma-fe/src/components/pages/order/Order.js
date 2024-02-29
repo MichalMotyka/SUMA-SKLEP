@@ -2,6 +2,9 @@ import { FaSpinner } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import OrderValidation from '../../auth/validation/OrderValidation'
+import OrderCart from './orderCart/OrderCart'
+import { Link } from 'react-router-dom'
+import { FaArrowRightLong } from 'react-icons/fa6'
 import './order.scss'
 
 function Order () {
@@ -116,7 +119,6 @@ function Order () {
   }
 
   const handleDelivery = uuid => {
-    console.log('test')
     setDeliveryUUID(uuid)
   }
 
@@ -127,8 +129,16 @@ function Order () {
     <div>
       {orderUUID ? (
         <section>
-          <h2>Zamówienie</h2>
-          <p>Wpisz dane, na które mamy dostarczyć Twoją przesyłkę.</p>
+          <div className='order-nav'>
+            <Link className='basket-link' to='/koszyk'>
+              <span>Koszyk</span>
+            </Link>
+            <FaArrowRightLong />
+            <p className='order-status'>Zamówienie</p>
+          </div>
+          <p className='order-info'>
+            Podaj dane, na które mamy dostarczyć Twoją przesyłkę.
+          </p>
           <div className='order'>
             <div className='left-box'>
               <Formik
@@ -566,24 +576,25 @@ function Order () {
                             htmlFor={`delivery-${delivery.uuid}`}
                             className='delivery-box'
                           >
-                            <input
-                              type='radio'
-                              id={`delivery-${delivery.uuid}`}
-                              name='deliveryUUID'
-                              className='delivery-input'
-                              value={delivery.uuid}
-                              onChange={e => handleDelivery(e.target.value)}
-                              checked={delivery.uuid === deliveryUUID}
-                            />
-                            <span className='delivery-span'>
-                              {delivery.type}
-                            </span>
+                            <div className='delivery-input'>
+                              <input
+                                type='radio'
+                                id={`delivery-${delivery.uuid}`}
+                                name='deliveryUUID'
+                                value={delivery.uuid}
+                                onChange={e => handleDelivery(e.target.value)}
+                                checked={delivery.uuid === deliveryUUID}
+                              />
+                              <p className='delivery-span'>
+                                {delivery.type}
+                              </p>
+                            </div>
                             <img
                               width={100}
                               src={delivery.image}
                               alt={`typ wysyłki ${delivery.type}`}
                             />
-                            <span>{delivery.price} zł</span>
+                            <span style={{fontWeight:"bold"}}>{delivery.price} zł</span>
                           </label>
                         </div>
                       ))}
@@ -594,11 +605,15 @@ function Order () {
                       type='submit'
                       disabled={!(dirty && isValid && deliveryUUID !== '')}
                     >
-                      {isSubmitting ? 'Wysyłanie...' : 'Wyślij zamówienie'}
+                      {isSubmitting ? 'Wysyłanie...' : 'Zamawiam i płacę'}
                     </button>
                   </Form>
                 )}
               </Formik>
+            </div>
+
+            <div className='right-box'>
+              <OrderCart />
             </div>
           </div>
         </section>
