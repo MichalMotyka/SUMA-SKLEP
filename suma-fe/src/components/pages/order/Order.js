@@ -585,9 +585,9 @@ function Order () {
                                 onChange={e => handleDelivery(e.target.value)}
                                 checked={delivery.uuid === deliveryUUID}
                               />
-                              <span className='delivery-span'>
+                              <p className='delivery-span'>
                                 {delivery.type}
-                              </span>
+                              </p>
                             </div>
                             <img
                               width={100}
