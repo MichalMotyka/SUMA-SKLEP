@@ -43,7 +43,7 @@ function Footer () {
       </div>
       <hr></hr>
       <div className='footer-bottom'>
-        <p>&copy; 2024 e-wianki | Cooding Raccoons |</p>
+        <p>&copy; 2024 e-wianki | Coding Raccoons |</p>
       </div>
     </footer>
   )
