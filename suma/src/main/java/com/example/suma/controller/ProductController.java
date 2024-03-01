@@ -10,6 +10,7 @@ import com.example.suma.exceptions.ProductAlreadyExistException;
 import com.example.suma.exceptions.ProductMaxSixPropertiesException;
 import com.example.suma.mediator.ProductMediator;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,13 +49,14 @@ public class ProductController {
                                          @RequestParam(required = false) String category,
                                          @RequestParam(required = false) Double price_min,
                                          @RequestParam(required = false) Double price_max,
-                                         HttpServletResponse response){
-        return ResponseEntity.ok(productMediator.getProducts(response,search,page,limit,sort,order,category,price_min,price_max));
+                                         HttpServletResponse response,
+                                         HttpServletRequest request){
+        return ResponseEntity.ok(productMediator.getProducts(request,response,search,page,limit,sort,order,category,price_min,price_max));
     }
 
     @GetMapping("{uuid}")
-    public ResponseEntity<ProductDTO> getProductByUuid(@PathVariable String uuid){
-        return ResponseEntity.ok(productMediator.getAllProductByUuid(uuid));
+    public ResponseEntity<ProductDTO> getProductByUuid(@PathVariable String uuid, HttpServletRequest request){
+        return ResponseEntity.ok(productMediator.getAllProductByUuid(uuid,request));
     }
 
 
