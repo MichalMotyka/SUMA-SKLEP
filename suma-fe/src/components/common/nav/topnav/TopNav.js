@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import Search from '../../search/search/Search'
 import ShopLogo from '../images/shoplogo.webp'
-import { MdAddShoppingCart } from 'react-icons/md'
+import { BsCartCheck } from 'react-icons/bs'
+
 import { BsTelephoneOutbound } from 'react-icons/bs'
 import { AiOutlineMail } from 'react-icons/ai'
 
@@ -23,7 +24,7 @@ function TopNav () {
       </div>
       <Search />
       <Link to='/koszyk' className='cart-btn'>
-        <MdAddShoppingCart /> Twój Koszyk
+        <BsCartCheck className='cart-icon' /> {` `}Twój Koszyk
       </Link>
     </div>
   )

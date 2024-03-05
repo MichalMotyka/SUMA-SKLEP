@@ -9,7 +9,14 @@ function LatestProducts () {
 
   useEffect(() => {
     fetch(
-      'http://localhost:8080/api/v1/product?page=1&limit=9&sort=DATE&order=DESC'
+      'http://localhost:8080/api/v1/product?page=1&limit=8&sort=DATE&order=DESC',
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
     )
       .then(response => response.json())
       .then(data => setLatestProducts(data))

@@ -6,15 +6,13 @@ import { Link } from 'react-router-dom'
 import { TbArrowBackUp } from 'react-icons/tb'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { MdOutlineArrowBackIos } from 'react-icons/md'
-
-import { MdDone } from 'react-icons/md'
+import { BsCartCheck } from 'react-icons/bs'
 
 import './card.scss'
 
 function Card () {
   const { productUuid } = useContext(CategoryContext)
   const { setPassCategory } = useContext(CategoryContext)
-
   const [mainImg, setMainImg] = useState('')
   const [productDetails, setProductDetails] = useState([])
   const [productCounter, setProductCounter] = useState(1)
@@ -24,7 +22,13 @@ function Card () {
   const [productAddedStatus, setProductAddedStatus] = useState(false)
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/product/${productUuid}`)
+    fetch(`http://localhost:8080/api/v1/product/${productUuid}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then(response => response.json())
       .then(data => {
         setProductDetails(data)
@@ -126,7 +130,15 @@ function Card () {
           <div className='prod-cta'>
             <div>
               <p className='prod-price'>{productDetails.price} zł</p>
-              <span>Dostępnych: {productDetails.available}</span>
+              <span
+                style={
+                  productDetails.available === 0
+                    ? { color: 'tomato', fontWeight: 'bold' }
+                    : null
+                }
+              >
+                Dostępnych: {productDetails.available}
+              </span>
             </div>
             <div className='prod-btns'>
               <button
@@ -138,21 +150,33 @@ function Card () {
               </button>
               <span>{productCounter}</span>
               <button
-                disabled={productCounter === productDetails.available}
+                disabled={
+                  productCounter === productDetails.available ||
+                  productDetails.available === 0
+                }
                 className='prod-btn'
                 onClick={handleProductAmountPlus}
               >
                 +
               </button>
-              <button onClick={handleProductBuy} className='prod-btn'>
+              <button
+                onClick={handleProductBuy}
+                className='prod-btn'
+                disabled={productDetails.available === 0}
+              >
                 <MdAddShoppingCart className='prod-shop-icon' />
                 Dodaj do koszyka
               </button>
             </div>
             {productAddedStatus && (
-              <span className='msg-success span-basket'>
-                Produkt został dodany do koszyka. <MdDone />
-              </span>
+              <>
+                <span className='msg-success span-basket'>
+                  Produkt został dodany.{' '}
+                  <Link to='/koszyk' className='span-basket-btn'>
+                    Przejdź do koszyka <BsCartCheck />
+                  </Link>
+                </span>
+              </>
             )}
           </div>
         </div>
