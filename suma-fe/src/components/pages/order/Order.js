@@ -51,7 +51,13 @@ function Order () {
   // DELIVERY TYPE:
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/deliver')
+    fetch('http://localhost:8080/api/v1/deliver', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then(response => response.json())
       .then(data => setDelivery(data))
       .catch(error => console.log(error))
@@ -122,9 +128,6 @@ function Order () {
     setDeliveryUUID(uuid)
   }
 
-  console.log('ID DELIVERKI', deliveryUUID)
-  console.log('ID UUID', orderUUID)
-
   return (
     <div>
       {orderUUID ? (
@@ -190,7 +193,7 @@ function Order () {
                     {packageReceiverType === 'privatePackage' ? (
                       <div className='form-box'>
                         <div className='field'>
-                          <label htmlFor='name'>Imię</label>
+                          <label htmlFor='name'>Imię *</label>
                           <Field
                             className='field-input'
                             id='name'
@@ -206,7 +209,7 @@ function Order () {
                         </div>
 
                         <div className='field'>
-                          <label htmlFor='surname'>Nazwisko</label>
+                          <label htmlFor='surname'>Nazwisko *</label>
                           <Field
                             className='field-input'
                             id='surname'
@@ -224,7 +227,7 @@ function Order () {
                     ) : (
                       <div className='form-box'>
                         <div className='field'>
-                          <label htmlFor='companyName'>Nazwa firmy</label>
+                          <label htmlFor='companyName'>Nazwa firmy *</label>
                           <Field
                             className='field-input'
                             id='companyName'
@@ -240,7 +243,7 @@ function Order () {
                         </div>
 
                         <div className='field'>
-                          <label htmlFor='nip'>NIP</label>
+                          <label htmlFor='nip'>NIP *</label>
                           <Field
                             className='field-input'
                             type='text' // zmiana typu na 'text'
@@ -262,7 +265,7 @@ function Order () {
                     <div className='form-box'>
                       <div className='field'>
                         <label htmlFor='phoneNumber'>
-                          Nr telefonu komórkowego
+                          Nr telefonu komórkowego *
                         </label>
                         <Field
                           className='field-input'
@@ -281,7 +284,7 @@ function Order () {
                       </div>
 
                       <div className='field'>
-                        <label htmlFor='email'>Email</label>
+                        <label htmlFor='email'>Email *</label>
                         <Field
                           className='field-input'
                           id='email'
@@ -299,7 +302,7 @@ function Order () {
                     </div>
                     <div className='form-box'>
                       <div className='field'>
-                        <label htmlFor='street'>Ulica</label>
+                        <label htmlFor='street'>Ulica *</label>
                         <Field
                           className='field-input'
                           id='street'
@@ -315,7 +318,9 @@ function Order () {
                       </div>
 
                       <div className='field'>
-                        <label htmlFor='homeNumber'>Numer domu / lokalu</label>
+                        <label htmlFor='homeNumber'>
+                          Numer domu / lokalu *
+                        </label>
                         <Field
                           className='field-input'
                           id='homeNumber'
@@ -332,7 +337,7 @@ function Order () {
                     </div>
                     <div className='form-box'>
                       <div className='field'>
-                        <label htmlFor='postCode'>Kod pocztowy</label>
+                        <label htmlFor='postCode'>Kod pocztowy *</label>
 
                         <Field
                           className='field-input'
@@ -350,7 +355,7 @@ function Order () {
                       </div>
 
                       <div className='field'>
-                        <label htmlFor='city'>Miejscowość</label>
+                        <label htmlFor='city'>Miejscowość *</label>
                         <Field
                           className='field-input'
                           id='city'
@@ -413,7 +418,7 @@ function Order () {
                         {invoiceType === 'private' ? (
                           <div className='form-box'>
                             <div className='field'>
-                              <label htmlFor='invoicingName'>Imię</label>
+                              <label htmlFor='invoicingName'>Imię *</label>
                               <Field
                                 className='field-input'
                                 id='invoicingName'
@@ -429,7 +434,9 @@ function Order () {
                             </div>
 
                             <div className='field'>
-                              <label htmlFor='invoicingSurname'>Nazwisko</label>
+                              <label htmlFor='invoicingSurname'>
+                                Nazwisko *
+                              </label>
                               <Field
                                 className='field-input'
                                 id='invoicingSurname'
@@ -448,7 +455,7 @@ function Order () {
                           <div className='form-box'>
                             <div className='field'>
                               <label htmlFor='invoicingCompanyName'>
-                                Nazwa firmy
+                                Nazwa firmy *
                               </label>
                               <Field
                                 className='field-input'
@@ -465,7 +472,7 @@ function Order () {
                             </div>
 
                             <div className='field'>
-                              <label htmlFor='invoicingNip'>NIP</label>
+                              <label htmlFor='invoicingNip'>NIP *</label>
                               <Field
                                 className='field-input'
                                 id='invoicingNip'
@@ -486,7 +493,7 @@ function Order () {
 
                         <div className='form-box'>
                           <div className='field'>
-                            <label htmlFor='invoicingStreet'>Ulica</label>
+                            <label htmlFor='invoicingStreet'>Ulica *</label>
                             <Field
                               className='field-input'
                               id='invoicingStreet'
@@ -503,7 +510,7 @@ function Order () {
 
                           <div className='field'>
                             <label htmlFor='invoicingHomeNumber'>
-                              Numer domu/lokalu
+                              Numer domu/lokalu *
                             </label>
                             <Field
                               className='field-input'
@@ -523,7 +530,7 @@ function Order () {
                         <div className='form-box'>
                           <div className='field'>
                             <label htmlFor='invoicingPostCode'>
-                              Kod pocztowy
+                              Kod pocztowy *
                             </label>
                             <Field
                               className='field-input'
@@ -541,7 +548,7 @@ function Order () {
                           </div>
 
                           <div className='field'>
-                            <label htmlFor='invoicingCity'>Miejscowość</label>
+                            <label htmlFor='invoicingCity'>Miejscowość *</label>
                             <Field
                               className='field-input'
                               id='invoicingCity'
@@ -585,16 +592,16 @@ function Order () {
                                 onChange={e => handleDelivery(e.target.value)}
                                 checked={delivery.uuid === deliveryUUID}
                               />
-                              <p className='delivery-span'>
-                                {delivery.type}
-                              </p>
+                              <p className='delivery-span'>{delivery.type}</p>
                             </div>
                             <img
                               width={100}
                               src={delivery.image}
                               alt={`typ wysyłki ${delivery.type}`}
                             />
-                            <span style={{fontWeight:"bold"}}>{delivery.price} zł</span>
+                            <span style={{ fontWeight: 'bold' }}>
+                              {delivery.price} zł
+                            </span>
                           </label>
                         </div>
                       ))}

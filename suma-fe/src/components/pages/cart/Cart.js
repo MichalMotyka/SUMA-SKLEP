@@ -135,8 +135,6 @@ function Cart () {
                   <FaRegTrashCan className='btn-icon' />
                 </button>
               </div>
-
-              
             </li>
           ))}
         </ul>
