@@ -29,6 +29,14 @@ services:
         - postgres
         - suma
 
+    suma-sklep:
+      build:
+        context: ./suma-fe
+      ports:
+        - "80:80"
+      depends_on:
+        - suma
+
     suma-admin:
       build:
         context: ./suma-admin

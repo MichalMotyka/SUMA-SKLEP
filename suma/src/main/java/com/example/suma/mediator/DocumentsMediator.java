@@ -4,12 +4,15 @@ import com.example.suma.entity.Basket;
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
 import com.example.suma.entity.ZMDocument;
+import com.example.suma.entity.dto.DeliverDTO;
 import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.Notify;
 import com.example.suma.entity.notify.Status;
+import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.EmptyBasketException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.service.BasketService;
+import com.example.suma.service.DeliverService;
 import com.example.suma.service.SignatureValidator;
 import com.example.suma.service.ZMDocumentService;
 import com.example.suma.translators.ZMDocumentTranslator;
@@ -35,6 +38,7 @@ public class DocumentsMediator {
     private final ZMDocumentService zmDocumentService;
     private final BasketService basketService;
     private final SignatureValidator signatureValidator;
+    private final DeliverService deliverService;
     public void createOrder(OrderDTO orderDTO, Cookie[] cookies) {
         ZMDocument zmDocument = zmDocumentTranslator.translateOrder(orderDTO);
         zmDocumentService.create(zmDocument);
@@ -87,13 +91,19 @@ public class DocumentsMediator {
             zmDocumentService.changeStatus(notifyObject);
         } catch (NoSuchAlgorithmException | JsonProcessingException |
                  com.example.order.exception.BadSignatureException e) {
-            System.out.println("Zły podpis");
             return ResponseEntity.badRequest().body(new Response("Bad signature",Code.E1));
         }catch (OrderDontExistException e1){
-            System.out.println("Nie ma ordera");
             return ResponseEntity.badRequest().body(new Response("Order don't exist",Code.E1));
         };
         return ResponseEntity.ok(new Response("Notification handle success",Code.E1));
 
+    }
+
+    public OrderDTO setDeliver(DeliverDTO deliverDTO, String order) {
+        deliverService.getDeliverByUuid(deliverDTO.getUuid()).ifPresentOrElse(deliver -> {
+            zmDocumentService.setDeliverOrder(deliver,order);
+        },()->{throw new DeliverDontExistException();});
+        ZMDocument zmDocument =  zmDocumentService.getZzmByUuid(order);
+        return zmDocumentTranslator.translateZzmDocument(zmDocument);
     }
 }
