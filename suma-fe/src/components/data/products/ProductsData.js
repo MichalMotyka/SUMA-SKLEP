@@ -33,7 +33,10 @@ function ProductsData () {
     fetch(
       `http://localhost:8080/api/v1/product?page=${page}&limit=${productLimit}&sort=${filterType.sortType}&order=${filterType.orderType}&category=${passCategory}&price_min=${priceMin}&price_max=${priceMax}`,
       {
+        method: 'GET',
+        credentials: 'include',
         headers: {
+          'Content-Type': 'application/json',
           'X-Total-Count': true
         }
       }
@@ -106,7 +109,6 @@ function ProductsData () {
                   Dostępnych: {product.available}
                 </span>
                 <span className='product-price'>{product.price} zł</span>
-                {/* <button className='product-btn'>Dodaj do koszyka</button> */}
               </div>
             </li>
           ))}

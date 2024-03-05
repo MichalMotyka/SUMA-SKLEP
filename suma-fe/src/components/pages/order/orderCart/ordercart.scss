@@ -10,11 +10,13 @@
   
     .summary-item {
       display: flex;
+      justify-content: space-evenly;
       flex-direction: column;
       border-radius: 6px;
       border: 1px solid silver;
       margin: 5px 0;
-      padding: 15px;
+      padding: 5px 10px;
+      height: 110px;
   
       .summary-product-name {
         padding: 5px 0;
@@ -27,6 +29,7 @@
   
         .summary-img {
           width: 50px;
+          padding-bottom: 5px;
         }
       }
     }

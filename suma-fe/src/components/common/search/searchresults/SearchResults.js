@@ -1,7 +1,7 @@
 import { CategoryContext } from '../../../auth/context/productContext'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { IoInformation } from 'react-icons/io5'
+import { FiMoreHorizontal } from 'react-icons/fi'
 
 function SearchResults () {
   const { searchValue } = useContext(CategoryContext)
@@ -10,7 +10,14 @@ function SearchResults () {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/product?search=${searchValue}&page=1&limit=10&sort=NAME&order=DESC`
+      `http://localhost:8080/api/v1/product?search=${searchValue}&page=1&limit=10&sort=NAME&order=DESC`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
     )
       .then(response => response.json())
       .then(data => setSearchResults(data))
@@ -37,7 +44,7 @@ function SearchResults () {
                   to='/produkt'
                   onClick={() => handleProductDetails(product.uuid)}
                 >
-                  <IoInformation className='product-info-icon' />
+                  <FiMoreHorizontal className='product-info-icon' />
                   <img
                     className='product-img'
                     src={product.mainImg}
