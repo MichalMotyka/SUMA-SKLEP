@@ -1,6 +1,7 @@
 package com.example.suma.service;
 
 import com.example.suma.entity.*;
+import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.Notify;
 import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.DeliverDontExistException;
@@ -129,4 +130,14 @@ public class ZMDocumentService {
         },()->{throw new RuntimeException();});
     }
 
+    public void setDeliverOrder(Deliver deliver,String uuid) {
+        zmDocumentRepository.findZMDocumentByUuid(uuid).ifPresentOrElse(zmDocument -> {
+            deliverRepository.findDeliverByUuid(deliver.getUuid()).ifPresentOrElse(zmDocument::setDeliver,
+                    ()->{throw new DeliverDontExistException();});
+        },()->{throw new OrderDontExistException();});
+    }
+
+    public ZMDocument getZzmByUuid(String order) {
+        return zmDocumentRepository.findZMDocumentByUuid(order).orElseThrow(()->{throw new OrderDontExistException();});
+    }
 }

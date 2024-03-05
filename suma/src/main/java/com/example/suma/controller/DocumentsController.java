@@ -2,6 +2,7 @@ package com.example.suma.controller;
 
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
+import com.example.suma.entity.dto.DeliverDTO;
 import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.*;
 import com.example.suma.exceptions.*;
@@ -30,6 +31,11 @@ public class DocumentsController {
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 
+    @PatchMapping("order/deliver/{order}")
+    public ResponseEntity<OrderDTO> setDeliverOrder(@RequestBody DeliverDTO deliverDTO,@PathVariable String order){
+        return ResponseEntity.ok(documentsMediator.setDeliver(deliverDTO,order));
+    }
+
     @PatchMapping("order")
     public ResponseEntity<Response> setDataOrder(@RequestBody OrderDTO orderDTO,HttpServletRequest request,HttpServletResponse response) throws URISyntaxException {
         documentsMediator.setDataOrder(orderDTO,request,response);
@@ -46,7 +52,6 @@ public class DocumentsController {
     public ResponseEntity<Response> notifyOrder(@RequestBody String notify, HttpServletRequest request){
         return documentsMediator.handleNotify(notify,request);
     }
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EmptyBasketException.class)
