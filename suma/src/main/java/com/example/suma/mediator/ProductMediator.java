@@ -1,6 +1,8 @@
 package com.example.suma.mediator;
 
 import com.example.suma.entity.Product;
+import com.example.suma.entity.WMDocuments;
+import com.example.suma.entity.ZMDocument;
 import com.example.suma.entity.dto.Order;
 import com.example.suma.entity.dto.ProductDTO;
 import com.example.suma.entity.dto.Sort;
@@ -70,11 +72,14 @@ public class ProductMediator {
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
                 Arrays.stream(cookies).filter(value -> value.getName().equals("basket-uuid")).findFirst().ifPresent(value -> {
-                    wmDocumentsService.getWMByBasket(basketService.getBasket(value.getValue())).getDocument().getWmProductsList().forEach(wmProducts -> {
-                        if (wmProducts.getProduct().getUuid().equals(productDTO.getUuid())) {
-                            productDTO.setAvailable(productDTO.getAvailable() + wmProducts.getQuantity());
-                        }
-                    });
+                    ZMDocument zmDocument = wmDocumentsService.getWMByBasket(basketService.getBasket(value.getValue()));
+                    if (zmDocument != null && zmDocument.getDocument() != null){
+                        zmDocument.getDocument().getWmProductsList().forEach(wmProducts -> {
+                            if (wmProducts.getProduct().getUuid().equals(productDTO.getUuid())) {
+                                productDTO.setAvailable(productDTO.getAvailable() + wmProducts.getQuantity());
+                            }
+                        });
+                    }
                 });
             }
             return productDTO;
