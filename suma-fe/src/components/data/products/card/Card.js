@@ -180,6 +180,7 @@ function Card () {
             )}
           </div>
         </div>
+        
 
         <figure>
           <img
