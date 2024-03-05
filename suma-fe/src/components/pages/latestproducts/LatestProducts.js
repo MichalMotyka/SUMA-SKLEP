@@ -6,6 +6,8 @@ import { FiMoreHorizontal } from 'react-icons/fi'
 function LatestProducts () {
   const [latestProducts, setLatestProducts] = useState([])
   const { setProductUuid } = useContext(CategoryContext)
+  // const page = 1
+  // const limit = 8
 
   useEffect(() => {
     fetch(
