@@ -13,7 +13,7 @@ function ProductsData () {
   const { passCategory } = useContext(CategoryContext)
   const [xTotalCount, setXTotalCount] = useState(0)
   const [page, setPage] = useState(1)
-  const productLimit = 9
+  const productLimit = 8
 
   // price filter
   const [priceMin, setPriceMin] = useState(0)

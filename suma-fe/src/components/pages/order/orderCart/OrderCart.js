@@ -16,8 +16,6 @@ function OrderCart () {
       .then(data => setBasketSummary(data))
   }, [])
 
-  console.log('nowy basket', basketSummary)
-
   return Object.keys(basketSummary).length > 0 ? (
     <ul className='basket-summary'>
       <p className='order-summary'>Podsumowanie zamówienia</p>

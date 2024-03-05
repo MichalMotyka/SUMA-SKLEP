@@ -10,7 +10,7 @@ function SearchResults () {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/product?search=${searchValue}&page=1&limit=10&sort=NAME&order=DESC`,
+      `http://localhost:8080/api/v1/product?search=${searchValue}&page=1&limit=8&sort=NAME&order=DESC`,
       {
         method: 'GET',
         credentials: 'include',
