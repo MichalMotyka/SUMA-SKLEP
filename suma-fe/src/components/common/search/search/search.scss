@@ -6,7 +6,7 @@
     .search-input {
       display: flex;
       padding: 10px 40px;
-     border: 1px solid rgba(0, 0, 0, 0.438);
+      border: 1px solid rgba(0, 0, 0, 0.438);
       border-radius: 4px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
       font-size: 16px;
@@ -47,3 +47,14 @@
   }
   
   
+
+  @media only screen and (max-width: 599px) {
+
+    .search{
+      padding: 10px 0;
+    }
+   
+    .search-input{
+      max-width: 200px;
+    }
+  }
