@@ -626,7 +626,7 @@ function Order () {
         </section>
       ) : (
         <>
-          <p>Ładowanie...</p> {` `}
+          <p>Brak produktów w koszyku...</p> {` `}
           <FaSpinner className='spinner-icon' />
         </>
       )}

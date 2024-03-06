@@ -4,7 +4,7 @@ import 'rc-slider/assets/index.css'
 import './productsfiltering.scss'
 
 const ProductsFiltering = props => {
-  const [range, setRange] = useState([0, 250])
+  const [range, setRange] = useState([0, 500])
 
   const setPriceMin = props.props.setPriceMin
   const setPriceMax = props.props.setPriceMax
@@ -30,7 +30,7 @@ const ProductsFiltering = props => {
   }
 
   const handleFilterReset = () => {
-    setRange([0, 250])
+    setRange([0, 500])
     setPriceMin(0)
     setPriceMax(250)
     setFilterType({
@@ -58,12 +58,14 @@ const ProductsFiltering = props => {
               </span>
             </div>
           </div>
-          <button className='slider-btn' onClick={handleSetFiltering}>
-            Filtruj produkty
-          </button>
-          <button className='filtering-reset-btn' onClick={handleFilterReset}>
-            Resetuj filtrowanie
-          </button>
+          <div className='filter-btns'>
+            <button className='slider-btn' onClick={handleSetFiltering}>
+              Filtruj ceny
+            </button>
+            <button className='filtering-reset-btn' onClick={handleFilterReset}>
+              Resetuj filtrowanie
+            </button>
+          </div>
         </div>
 
         <div className='filter-container'>
