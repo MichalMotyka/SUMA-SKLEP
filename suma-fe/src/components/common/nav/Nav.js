@@ -5,9 +5,13 @@ import TopNav from './topnav/TopNav'
 import { MdArrowDownward } from 'react-icons/md'
 import { useContext } from 'react'
 import { CategoryContext } from '../../auth/context/productContext'
+import { GiHamburgerMenu } from 'react-icons/gi'
+import { GrClose } from 'react-icons/gr'
 
 function Nav (data) {
   const { setPassCategory } = useContext(CategoryContext)
+
+  const [hamburger, setHamburger] = useState(false)
 
   const [subCategoryToggles, setSubCategoryToggles] = useState({})
   const [activeCategory, setActiveCategory] = useState(null)
@@ -53,13 +57,26 @@ function Nav (data) {
   const handlePassCategory = uuid => {
     setPassCategory(uuid)
     setActiveCategory(uuid)
+    setHamburger(false)
+  }
+
+  const handleHamburger = () => {
+    setHamburger(!hamburger)
   }
 
   return (
     <nav className='nav' ref={dropdownRef} onClick={handleLinkClick}>
+      <button
+        onClick={handleHamburger}
+        className='ham-btn'
+        aria-label='hamburger menu button'
+      >
+        {!hamburger ? <GiHamburgerMenu className='ham-icon' /> : <GrClose />}
+      </button>
       <TopNav />
 
-      <div className='nav-menu '>
+      <div className={`nav-menu ${hamburger === true ? 'hamOn' : 'hamOff'}`}>
+        {' '}
         {data.data.map(menuItem => (
           <div key={menuItem.uuid} className='navigation '>
             {menuItem.subcategoriesy.length > 0 ? (
@@ -79,6 +96,7 @@ function Nav (data) {
                 <ul className='sub-list'>
                   {menuItem.subcategoriesy.map(subCategory => (
                     <li
+                      className='sub-cat-item'
                       key={subCategory.uuid}
                       style={
                         subCategoryToggles[menuItem.uuid]

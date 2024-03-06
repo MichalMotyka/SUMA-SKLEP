@@ -9,46 +9,43 @@
     margin-bottom: 5px;
     border: 1px solid rgba(0, 0, 0, 0.11);
     background-color: whitesmoke;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);     
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);
     z-index: 50;
 
     .navigation {
         a {
             padding: 10px 10px;
             color: black;
-            transition: color .3s;
+            transition: color 0.3s;
             font-weight: bold;
         }
 
         a:hover {
-            color:rgb(45, 122, 45);           
-            
+            color: rgb(45, 122, 45);
         }
-        .nav-down-icon{
+        .nav-down-icon {
             font-size: 1.2rem;
-           
         }
-        
+
         .sub-list {
             position: absolute;
             width: 200px;
             background-color: whitesmoke;
             border-radius: 4px;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
-            
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.226);
+
             li {
                 padding: 5px;
             }
-            
+
             a {
                 padding: 10px 2px;
                 color: black;
-                transition: color .3s;
+                transition: color 0.3s;
             }
-            
+
             a:hover {
-          
-                color:rgb(45, 122, 45);           
+                color: rgb(45, 122, 45);
             }
         }
 
@@ -69,7 +66,61 @@
 }
 
 .active {
-   
-    color:rgb(46, 158, 46)   !important;
+    color: rgb(46, 158, 46) !important;
 }
 
+// HAMBURGER MENU
+
+.ham-btn {
+    display: none;
+}
+
+@media only screen and (max-width: 599px) {
+    .ham-btn {
+        display: block;
+        position: absolute;
+        margin: 10px 0;
+        font-size: 2rem;
+        z-index: 50;
+        background-color: transparent;
+        border: transparent;
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+    }
+
+    .hamOff {
+        position: absolute;
+        left: -650px;
+    }
+    .hamOn {
+        position: absolute;
+        left: 0;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: self-start;
+        padding: 5px;
+        transition: left 0.3s;
+        align-items: center;
+        z-index: 49;
+
+        .sub-list {
+            position: absolute;
+            text-align: center;
+            left: 0;
+            width: 100% !important;
+
+            .sub-cat-item {
+                width: 100vw !important;
+                padding: 10px 0 !important;
+            }
+        }
+    }
+}

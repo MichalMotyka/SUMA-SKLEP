@@ -127,7 +127,6 @@ function Cart () {
                 <button
                   aria-label='Usuń produkt z koszyka'
                   className='product-btn'
-                  // onClick={() => handleDeleteProduct(product.product.uuid, 0)}
                   onClick={() =>
                     setProductAmounts({ uuid: product.product.uuid, amount: 0 })
                   }

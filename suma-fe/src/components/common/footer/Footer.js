@@ -7,7 +7,6 @@ import './footer.scss'
 function Footer () {
   return (
     <footer className='footer'>
-      <hr></hr>
       <div className='footer-content'>
         <div className='footer-section'>
           <h2 className='footer-title'>Linki</h2>
@@ -41,7 +40,7 @@ function Footer () {
           <p>Telefon: +48 123 456 789</p>
         </div>
       </div>
-      <hr></hr>
+
       <div className='footer-bottom'>
         <p>&copy; 2024 e-wianki | Coding Raccoons |</p>
       </div>

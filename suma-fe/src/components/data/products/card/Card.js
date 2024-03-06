@@ -1,6 +1,5 @@
 import { CategoryContext } from '../../../auth/context/productContext'
 import { useContext, useEffect, useState } from 'react'
-import { MdAddShoppingCart } from 'react-icons/md'
 import { BsZoomIn } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { TbArrowBackUp } from 'react-icons/tb'
@@ -164,7 +163,7 @@ function Card () {
                 className='prod-btn'
                 disabled={productDetails.available === 0}
               >
-                <MdAddShoppingCart className='prod-shop-icon' />
+                <BsCartCheck className='prod-shop-icon' />
                 Dodaj do koszyka
               </button>
             </div>
@@ -180,7 +179,6 @@ function Card () {
             )}
           </div>
         </div>
-        
 
         <figure>
           <img
