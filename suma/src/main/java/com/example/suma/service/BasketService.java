@@ -1,7 +1,6 @@
 package com.example.suma.service;
 
-import com.example.suma.entity.Basket;
-import com.example.suma.entity.BasketItem;
+import com.example.suma.entity.*;
 import com.example.suma.entity.dto.BasketDTO;
 import com.example.suma.exceptions.InsufficientQuantityProductException;
 import com.example.suma.exceptions.MinimumQuantityException;
@@ -22,6 +21,7 @@ public class BasketService {
     private final ProductService productService;
     private final BasketItemRepository basketItemRepository;
     private final ReservationRepository reservationRepository;
+    private final WMDocumentsService wmDocumentsService;
 
     private Basket createBasket(){
         Basket basket = new Basket();
@@ -44,6 +44,7 @@ public class BasketService {
     public void editBasketItem(BasketItem basketItem, String basketUuid) {
         boolean itemExist = false;
         Basket basket = getBasket(basketUuid);
+        ZMDocument zmDocument = wmDocumentsService.getWMByBasket(basket);
         for (BasketItem item: basket.getBasketItem()){
             if(item.getUuid().equals(basketItem.getUuid()) ||
                     item.getProduct().getUuid().equals(basketItem.getProduct().getUuid())){
@@ -53,8 +54,21 @@ public class BasketService {
                 } else if (basketItem.getQuantity() < 0) {
                     throw new MinimumQuantityException();
                 } else{
-                    if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()){
-                        throw new InsufficientQuantityProductException();
+                    boolean isInZzm = false;
+                    if (zmDocument != null && zmDocument.getDocument() != null) {
+                        for (WMProducts wmProducts : zmDocument.getDocument().getWmProductsList()){
+                            if (wmProducts.getProduct().getUuid().equals(basketItem.getProduct().getUuid())){
+                                isInZzm = true;
+                                if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()+wmProducts.getQuantity()) {
+                                    throw new InsufficientQuantityProductException();
+                                }
+                            }
+                        }
+                    }
+                    if (!isInZzm){
+                        if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()) {
+                            throw new InsufficientQuantityProductException();
+                        }
                     }
                     item.setQuantity(basketItem.getQuantity());
                     item.setPrice(item.getProduct().getPrice() * item.getQuantity());
