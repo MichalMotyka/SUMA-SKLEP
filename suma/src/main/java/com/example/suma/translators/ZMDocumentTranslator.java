@@ -9,8 +9,8 @@ import org.mapstruct.Mappings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Mapper
@@ -28,7 +28,8 @@ public abstract class ZMDocumentTranslator{
 
     @Mappings({
             @Mapping(target = "details", expression = "java(translateOrderDetails(zmDocument.getDocument()))"),
-            @Mapping(target = "deliver", expression = "java(translateDeliver(zmDocument.getDeliver(),zmDocument.getDocument()))")
+            @Mapping(target = "deliver", expression = "java(translateDeliver(zmDocument.getDeliver(),zmDocument.getDocument()))"),
+            @Mapping(target = "fullPrice", expression = "java(calcFullPrice(zmDocument.getDocument(),zmDocument.getDeliver()))")
     })
     public abstract OrderDTO translateZzmDocument(ZMDocument zmDocument);
 
@@ -64,6 +65,13 @@ public abstract class ZMDocumentTranslator{
                new Product(x.getProduct().getUuid()),null, x.getQuantity())).collect(Collectors.toList());
     }
 
+    protected double calcFullPrice(WMDocuments wmDocuments,Deliver deliver){
+        AtomicReference<Double> price = new AtomicReference<>(deliver.getPrice());
+        wmDocuments.getWmProductsList().forEach(value->{
+            price.updateAndGet(v -> (double) (v + value.getProduct().getPrice() * value.getQuantity()));
+        });
+        return Math.ceil(price.get()*100)/100;
+    }
 
     @Mappings({
             @Mapping(target = "category", expression = "java(toCategoryDTO(product.getCategory()))"),
