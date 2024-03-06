@@ -37,7 +37,9 @@ public class BasketMediator {
 
     public void editBasket(BasketItemDTO basketItemDTO, HttpServletResponse response, HttpServletRequest request) {
         BasketItem basketItem = basketTranslator.translateBasketItemDTOToBasketItem(basketItemDTO);
-        basketService.editBasketItem(basketItem,getBasketUuid(request));
+        String basket = getBasketUuid(request);
+        if (basket == null) basket = getBasket(response, request).getUuid();
+        basketService.editBasketItem(basketItem,basket);
     }
 
 

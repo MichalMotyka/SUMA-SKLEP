@@ -23,21 +23,23 @@ public class BasketService {
     private final ReservationRepository reservationRepository;
     private final WMDocumentsService wmDocumentsService;
 
-    private Basket createBasket(){
+    private Basket createBasket() {
         Basket basket = new Basket();
         basket.setUuid(UUID.randomUUID().toString());
         basket.setLastEdit(LocalDate.now());
         return basketRepository.saveAndFlush(basket);
     }
 
-    public Basket getBasket(String uuid){
-        if (uuid == null){
+    public Basket getBasket(String uuid) {
+        if (uuid == null) {
             return createBasket();
         }
         final Basket[] basket = {null};
-        basketRepository.findBasketByUuid(uuid).ifPresentOrElse(value->{
+        basketRepository.findBasketByUuid(uuid).ifPresentOrElse(value -> {
             basket[0] = value;
-        },()->{ basket[0] = createBasket();});
+        }, () -> {
+            basket[0] = createBasket();
+        });
         return basket[0];
     }
 
@@ -45,50 +47,52 @@ public class BasketService {
         boolean itemExist = false;
         Basket basket = getBasket(basketUuid);
         ZMDocument zmDocument = wmDocumentsService.getWMByBasket(basket);
-        for (BasketItem item: basket.getBasketItem()){
-            if(item.getUuid().equals(basketItem.getUuid()) ||
-                    item.getProduct().getUuid().equals(basketItem.getProduct().getUuid())){
-                if(basketItem.getQuantity() == 0L){
-                    basket.getBasketItem().remove(item);
-                    basketItemRepository.deleteById(item.getId());
-                } else if (basketItem.getQuantity() < 0) {
-                    throw new MinimumQuantityException();
-                } else{
-                    boolean isInZzm = false;
-                    if (zmDocument != null && zmDocument.getDocument() != null) {
-                        for (WMProducts wmProducts : zmDocument.getDocument().getWmProductsList()){
-                            if (wmProducts.getProduct().getUuid().equals(basketItem.getProduct().getUuid())){
-                                isInZzm = true;
-                                if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()+wmProducts.getQuantity()) {
-                                    throw new InsufficientQuantityProductException();
+        if (basket != null && basket.getBasketItem() != null) {
+            for (BasketItem item : basket.getBasketItem()) {
+                if (item.getUuid().equals(basketItem.getUuid()) ||
+                        item.getProduct().getUuid().equals(basketItem.getProduct().getUuid())) {
+                    if (basketItem.getQuantity() == 0L) {
+                        basket.getBasketItem().remove(item);
+                        basketItemRepository.deleteById(item.getId());
+                    } else if (basketItem.getQuantity() < 0) {
+                        throw new MinimumQuantityException();
+                    } else {
+                        boolean isInZzm = false;
+                        if (zmDocument != null && zmDocument.getDocument() != null) {
+                            for (WMProducts wmProducts : zmDocument.getDocument().getWmProductsList()) {
+                                if (wmProducts.getProduct().getUuid().equals(basketItem.getProduct().getUuid())) {
+                                    isInZzm = true;
+                                    if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable() + wmProducts.getQuantity()) {
+                                        throw new InsufficientQuantityProductException();
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (!isInZzm){
-                        if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()) {
-                            throw new InsufficientQuantityProductException();
+                        if (!isInZzm) {
+                            if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()) {
+                                throw new InsufficientQuantityProductException();
+                            }
                         }
+                        item.setQuantity(basketItem.getQuantity());
+                        item.setPrice(item.getProduct().getPrice() * item.getQuantity());
+                        basketItemRepository.save(item);
                     }
-                    item.setQuantity(basketItem.getQuantity());
-                    item.setPrice(item.getProduct().getPrice() * item.getQuantity());
-                    basketItemRepository.save(item);
+                    itemExist = true;
+                    break;
                 }
-                itemExist = true;
-                break;
             }
         }
-        if(!itemExist && basketItem.getQuantity() != 0){
-            if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()){
+        if (!itemExist && basketItem.getQuantity() != 0) {
+            if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()) {
                 throw new InsufficientQuantityProductException();
             }
-            basket.getBasketItem().add(addBasketItem(basketItem,basket));
+            basket.getBasketItem().add(addBasketItem(basketItem, basket));
         }
         basket.setLastEdit(LocalDate.now());
         basketRepository.save(basket);
     }
 
-    public BasketItem addBasketItem(BasketItem basketItem,Basket basket){
+    public BasketItem addBasketItem(BasketItem basketItem, Basket basket) {
         basketItem.setBasket(basket);
         basketItem.setProduct(productService.getProductByUuid(basketItem.getProduct().getUuid()));
         basketItem.setPrice(basketItem.getQuantity() * basketItem.getProduct().getPrice());
@@ -98,11 +102,11 @@ public class BasketService {
     }
 
 
-    public BasketDTO setAvailable(BasketDTO basketDTO,Basket basket){
+    public BasketDTO setAvailable(BasketDTO basketDTO, Basket basket) {
         basketDTO.getBasketItem().forEach(basketItemDTO -> {
             reservationRepository.findReservationByBasket(basket).ifPresent(reservation -> {
                 reservation.getZm().getDocument().getWmProductsList().forEach(wmProducts -> {
-                    if (basketItemDTO.getProduct().getUuid().equals(wmProducts.getProduct().getUuid())){
+                    if (basketItemDTO.getProduct().getUuid().equals(wmProducts.getProduct().getUuid())) {
                         basketItemDTO.getProduct().setAvailable(basketItemDTO.getProduct().getAvailable() + wmProducts.getQuantity());
                     }
                 });
