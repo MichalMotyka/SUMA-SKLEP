@@ -109,7 +109,7 @@ function Card () {
       <div className='prod-box'>
         <div className='prod-info'>
           <div className='prod-top'>
-            <h2 className='prod-name'>{productDetails.name}</h2>
+            <h2 className='prod-name mobile-hide'>{productDetails.name}</h2>
           </div>
           <hr className='hr-line' />
           <p>{productDetails.description}</p>
@@ -180,7 +180,11 @@ function Card () {
           </div>
         </div>
 
-        <figure>
+        <div className='prod-top mobile-order'>
+          <h2 className='prod-name desktop-show'>{productDetails.name}</h2>
+        </div>
+
+        <figure className='mobile-order'>
           <img
             className='prod-main-img'
             src={mainImg}
@@ -194,7 +198,7 @@ function Card () {
           </figcaption>
         </figure>
 
-        <div className='prod-carusel'>
+        <div className='prod-carusel mobile-order'>
           {productDetails.images.map((image, index) => (
             <img
               key={image}
