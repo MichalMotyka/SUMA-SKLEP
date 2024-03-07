@@ -29,7 +29,8 @@ public abstract class ZMDocumentTranslator{
     @Mappings({
             @Mapping(target = "details", expression = "java(translateOrderDetails(zmDocument.getDocument()))"),
             @Mapping(target = "deliver", expression = "java(translateDeliver(zmDocument.getDeliver(),zmDocument.getDocument()))"),
-            @Mapping(target = "fullPrice", expression = "java(calcFullPrice(zmDocument.getDocument(),zmDocument.getDeliver()))")
+            @Mapping(target = "fullPrice", expression = "java(calcFullPrice(zmDocument.getDocument(),zmDocument.getDeliver()))"),
+            @Mapping(target = "fullQuantity", expression = "java(calcFullQuantity(zmDocument.getDocument()))"),
     })
     public abstract OrderDTO translateZzmDocument(ZMDocument zmDocument);
 
@@ -111,5 +112,15 @@ public abstract class ZMDocumentTranslator{
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    protected long calcFullQuantity(WMDocuments wmDocuments){
+        long finalCount = 0;
+        if (wmDocuments != null && wmDocuments.getWmProductsList() != null){
+            for (WMProducts wmProducts: wmDocuments.getWmProductsList()){
+                finalCount += wmProducts.getQuantity();
+            }
+        }
+        return finalCount;
     }
 }
