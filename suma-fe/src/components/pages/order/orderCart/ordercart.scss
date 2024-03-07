@@ -35,14 +35,14 @@
   }
 
   .summary-price {
+    display: flex;
+    justify-content: space-between;
     text-align: right;
     font-weight: bold;
     font-size: 1rem;
+    padding: 3px 0;
   }
 }
-
-
-
 
 @media only screen and (max-width: 599px) {
   .basket-summary {
@@ -50,5 +50,9 @@
     flex-direction: column;
     width: 100%;
     margin: 10px 0;
+
+    .summary-price {
+      padding: 8px 0;
+    }
   }
 }

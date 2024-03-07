@@ -22,6 +22,11 @@
     padding: 10px 0 25px 0;
     flex-wrap: wrap;
 
+    .desktop-show{
+        display: none;
+    }
+
+    
     .span-basket {
         position: absolute;
         bottom: -20px;
@@ -212,12 +217,27 @@
             }
         }
     }
+
+   
 }
 
 @media only screen and (max-width: 599px) {
     .prod-box {
         display: flex;
         flex-direction: column;
+        order: 2;
+
+        .mobile-hide{
+            display: none;
+        }
+        .desktop-show{
+            display: block;
+        }
+
+        .mobile-order {
+            text-align: center;
+            order: -3;
+        }
 
         .span-basket {
             position: absolute;

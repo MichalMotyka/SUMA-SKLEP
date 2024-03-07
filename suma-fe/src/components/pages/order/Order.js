@@ -17,13 +17,11 @@ function Order () {
   const [deliveryUUID, setDeliveryUUID] = useState('')
   const [paymentURL, setPaymentURL] = useState('null')
 
-  console.log('paymenturl', paymentURL)
+  console.log(deliveryUUID)
 
   useEffect(() => {
     if (paymentURL && paymentURL !== 'null') {
       window.location.href = paymentURL
-    } else {
-      console.error('Payment URL is not available')
     }
   }, [paymentURL])
 
@@ -620,13 +618,13 @@ function Order () {
             </div>
 
             <div className='right-box'>
-              <OrderCart />
+              <OrderCart deliveryID={deliveryUUID} orderID={orderUUID} />
             </div>
           </div>
         </section>
       ) : (
         <>
-          <p>Brak produktów w koszyku...</p> {` `}
+          <p>Ładowanie...</p> {` `}
           <FaSpinner className='spinner-icon' />
         </>
       )}
