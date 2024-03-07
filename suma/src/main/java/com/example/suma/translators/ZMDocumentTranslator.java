@@ -66,9 +66,10 @@ public abstract class ZMDocumentTranslator{
     }
 
     protected double calcFullPrice(WMDocuments wmDocuments,Deliver deliver){
-        AtomicReference<Double> price = new AtomicReference<>(deliver.getPrice());
+        AtomicReference<Double> price = new AtomicReference<>(0D);
         wmDocuments.getWmProductsList().forEach(value->{
             price.updateAndGet(v -> (double) (v + value.getProduct().getPrice() * value.getQuantity()));
+            price.updateAndGet(v-> (double) (v + deliver.getPrice()* value.getQuantity()));
         });
         return Math.ceil(price.get()*100)/100;
     }
