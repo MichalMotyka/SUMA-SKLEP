@@ -23,11 +23,13 @@ public class BasketMediator {
     private final BasketTranslator basketTranslator;
     public BasketDTO getBasket(HttpServletResponse response, HttpServletRequest request) {
         Basket basket = basketService.getBasket(getBasketUuid(request));
-        String size = "0";
+        int size = 0;
         if(basket.getBasketItem() != null){
-            size = String.valueOf(basket.getBasketItem().size());
+            for (BasketItem basketItem:basket.getBasketItem()){
+                size += (int) basketItem.getQuantity();
+            }
         }
-        response.setHeader("X-Total-Basket-Product-Count",size);
+        response.setHeader("X-Total-Basket-Product-Count", String.valueOf(size));
         response.addCookie(new Cookie("basket-uuid",basket.getUuid()));
         BasketDTO basketDTO = basketTranslator.translateBasketToBasketDTO(basket);
         basketDTO = basketService.setAvailable(basketDTO,basket);

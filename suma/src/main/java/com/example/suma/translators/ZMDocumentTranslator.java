@@ -29,7 +29,8 @@ public abstract class ZMDocumentTranslator{
     @Mappings({
             @Mapping(target = "details", expression = "java(translateOrderDetails(zmDocument.getDocument()))"),
             @Mapping(target = "deliver", expression = "java(translateDeliver(zmDocument.getDeliver(),zmDocument.getDocument()))"),
-            @Mapping(target = "fullPrice", expression = "java(calcFullPrice(zmDocument.getDocument(),zmDocument.getDeliver()))")
+            @Mapping(target = "fullPrice", expression = "java(calcFullPrice(zmDocument.getDocument(),zmDocument.getDeliver()))"),
+            @Mapping(target = "fullQuantity", expression = "java(calcFullQuantity(zmDocument.getDocument()))"),
     })
     public abstract OrderDTO translateZzmDocument(ZMDocument zmDocument);
 
@@ -66,9 +67,10 @@ public abstract class ZMDocumentTranslator{
     }
 
     protected double calcFullPrice(WMDocuments wmDocuments,Deliver deliver){
-        AtomicReference<Double> price = new AtomicReference<>(deliver.getPrice());
+        AtomicReference<Double> price = new AtomicReference<>(0D);
         wmDocuments.getWmProductsList().forEach(value->{
             price.updateAndGet(v -> (double) (v + value.getProduct().getPrice() * value.getQuantity()));
+            price.updateAndGet(v-> (double) (v + deliver.getPrice()* value.getQuantity()));
         });
         return Math.ceil(price.get()*100)/100;
     }
@@ -110,5 +112,15 @@ public abstract class ZMDocumentTranslator{
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    protected long calcFullQuantity(WMDocuments wmDocuments){
+        long finalCount = 0;
+        if (wmDocuments != null && wmDocuments.getWmProductsList() != null){
+            for (WMProducts wmProducts: wmDocuments.getWmProductsList()){
+                finalCount += wmProducts.getQuantity();
+            }
+        }
+        return finalCount;
     }
 }
