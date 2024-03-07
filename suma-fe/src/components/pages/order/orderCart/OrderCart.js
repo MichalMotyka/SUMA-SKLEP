@@ -1,6 +1,7 @@
 import { FaSpinner } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import './ordercart.scss'
+import Inpost from '../../../data/inpost/Inpost'
 
 function OrderCart (props) {
   const [basketSummary, setBasketSummary] = useState([])
@@ -79,11 +80,12 @@ function OrderCart (props) {
         <span>
           {' '}
           {props.orderID !== '' && priceSummary.fullPrice
-            ? priceSummary.fullPrice.toFixed(2)
-            : ' 0 '}{' '}
-          zł
+            ? priceSummary.fullPrice.toFixed(2) + ` zł`
+            : ' ... '}{' '}
         </span>
       </div>
+      <Inpost/>
+      test
     </ul>
   ) : (
     <>
