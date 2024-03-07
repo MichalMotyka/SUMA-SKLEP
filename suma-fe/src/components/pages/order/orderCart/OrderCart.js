@@ -6,6 +6,7 @@ import Inpost from '../../../data/inpost/Inpost'
 function OrderCart (props) {
   const [basketSummary, setBasketSummary] = useState([])
   const [priceSummary, setPriceSummary] = useState([])
+  const [totalProductCount,setTotalProductCount] = useState(0)
 
   console.log('here', props.deliveryID)
   console.log('here', props.orderID)
@@ -18,7 +19,14 @@ function OrderCart (props) {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      const totalCount = response.headers.get('x-total-basket-product-count')
+      setTotalProductCount(totalCount)
+      return response.json()
+    })
       .then(data => setBasketSummary(data))
   }, [])
 
@@ -59,7 +67,7 @@ function OrderCart (props) {
         </li>
       ))}
       <div className='summary-price'>
-        <span> Wartość produktów </span>
+        <span> Wartość produktów ({totalProductCount}) </span>
 
         <span> {basketSummary.finalPrice.toFixed(2)} zł</span>
       </div>
