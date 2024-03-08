@@ -147,6 +147,28 @@
     }
 }
 
+.inpost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(15, 15, 15, 0.521);
+    z-index: 100;
+}
+
+.inpost-data {
+    border: 1px solid black;
+    width: 250px;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+}
+
 .spinner-icon {
     animation: spinner 2s linear infinite;
 }
