@@ -1,15 +1,11 @@
 import { FaSpinner } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import './ordercart.scss'
-import Inpost from '../../../data/inpost/Inpost'
 
 function OrderCart (props) {
   const [basketSummary, setBasketSummary] = useState([])
   const [priceSummary, setPriceSummary] = useState([])
-  const [totalProductCount,setTotalProductCount] = useState(0)
-
-  console.log('here', props.deliveryID)
-  console.log('here', props.orderID)
+  const [totalProductCount, setTotalProductCount] = useState(0)
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/basket', {
@@ -19,14 +15,14 @@ function OrderCart (props) {
         'Content-Type': 'application/json'
       }
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const totalCount = response.headers.get('x-total-basket-product-count')
-      setTotalProductCount(totalCount)
-      return response.json()
-    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        const totalCount = response.headers.get('x-total-basket-product-count')
+        setTotalProductCount(totalCount)
+        return response.json()
+      })
       .then(data => setBasketSummary(data))
   }, [])
 
@@ -44,9 +40,11 @@ function OrderCart (props) {
     )
       .then(response => response.json())
       .then(data => setPriceSummary(data))
+      .catch(error => {
+        // Tutaj obsłuż błąd
+        console.error('Wystąpił błąd:', error)
+      })
   }, [props.orderID, props.deliveryID])
-
-  console.log('basket:', priceSummary)
 
   return Object.keys(basketSummary).length > 0 &&
     Object.keys(priceSummary).length > 0 ? (
@@ -89,11 +87,9 @@ function OrderCart (props) {
           {' '}
           {props.orderID !== '' && priceSummary.fullPrice
             ? priceSummary.fullPrice.toFixed(2) + ` zł`
-            : ' ... '}{' '}
+            : basketSummary.finalPrice + ` zł`}{' '}
         </span>
       </div>
-      <Inpost/>
-      test
     </ul>
   ) : (
     <>
