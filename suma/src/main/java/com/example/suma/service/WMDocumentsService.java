@@ -60,7 +60,6 @@ public class WMDocumentsService{
             reservation.getZm().getDocument().getWmProductsList().forEach(wmProducts -> {
                 wmProducts.getProduct().setAvailable(wmProducts.getProduct().getAvailable()+ wmProducts.getQuantity());
                 productRepository.save(wmProducts.getProduct());
-                wmProductsRepository.delete(wmProducts);
             });
             reservationRepository.delete(reservation);
         });

@@ -41,8 +41,9 @@ public class ZMDocument extends Document{
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "deliver")
     private Deliver deliver;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private WMDocuments document;
+    private String inpostName;
 
 
     public ZMDocument(long id,
@@ -61,7 +62,8 @@ public class ZMDocument extends Document{
                       String email,
                       String phoneNumber,
                       String info,
-                      WMDocuments document) {
+                      WMDocuments document,
+                      String inpostName) {
         super(uuid, createDate, state);
         this.id = id;
         this.name = name;
@@ -77,6 +79,7 @@ public class ZMDocument extends Document{
         this.phoneNumber = phoneNumber;
         this.info = info;
         this.document = document;
+        this.inpostName = inpostName;
     }
 
     public ZMDocument() {

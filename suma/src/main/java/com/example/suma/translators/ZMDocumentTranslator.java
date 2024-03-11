@@ -123,4 +123,32 @@ public abstract class ZMDocumentTranslator{
         }
         return finalCount;
     }
+
+    @Mappings({
+            @Mapping(target = "details", expression = "java(translateOrderDetails(zmDocument.getDocument()))"),
+            @Mapping(target = "deliver", expression = "java(translateDeliver(zmDocument.getDeliver(),zmDocument.getDocument()))"),
+            @Mapping(target = "fullPrice", expression = "java(calcFullPrice(zmDocument.getDocument(),zmDocument.getDeliver()))"),
+            @Mapping(target = "fullQuantity", expression = "java(calcFullQuantity(zmDocument.getDocument()))"),
+            @Mapping(target = "name",ignore = true),
+            @Mapping(target = "postCode",ignore = true),
+            @Mapping(target = "city",ignore = true),
+            @Mapping(target = "street",ignore = true),
+            @Mapping(target = "homeNumber",ignore = true),
+            @Mapping(target = "nip",ignore = true),
+            @Mapping(target = "companyName",ignore = true),
+            @Mapping(target = "surname",ignore = true),
+            @Mapping(target = "invoicingPostCode",ignore = true),
+            @Mapping(target = "invoicingCity",ignore = true),
+            @Mapping(target = "invoicingStreet",ignore = true),
+            @Mapping(target = "invoicingHomeNumber",ignore = true),
+            @Mapping(target = "invoicingNip",ignore = true),
+            @Mapping(target = "invoicingCompanyName",ignore = true),
+            @Mapping(target = "invoicingSurname",ignore = true),
+            @Mapping(target = "invoicingName",ignore = true),
+            @Mapping(target = "invoicing",ignore = true),
+            @Mapping(target = "inpostName",ignore = true),
+            @Mapping(target = "phoneNumber",ignore = true),
+            @Mapping(target = "email",ignore = true),
+    })
+    public abstract OrderDTO translateOrderInfo(ZMDocument zmDocument);
 }
