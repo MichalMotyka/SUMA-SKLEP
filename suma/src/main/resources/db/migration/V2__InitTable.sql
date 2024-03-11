@@ -116,6 +116,7 @@ CREATE TABLE zm_documents (
       invoicing_street VARCHAR,
       invoicing_city VARCHAR,
       invoicing_post_code VARCHAR,
+      inpost_name varchar,
       FOREIGN KEY (deliver) REFERENCES deliver(id),
       FOREIGN KEY (document_id) REFERENCES wm_documents(id)
 );

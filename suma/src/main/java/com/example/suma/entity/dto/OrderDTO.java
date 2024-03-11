@@ -36,5 +36,6 @@ public class OrderDTO extends Document {
     private DeliverDTO deliver;
     private double fullPrice;
     private long fullQuantity;
+    private String inpostName;
     private List<OrderDetailsDTO> details;
 }
