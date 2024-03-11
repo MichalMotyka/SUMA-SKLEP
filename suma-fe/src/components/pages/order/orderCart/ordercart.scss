@@ -56,3 +56,16 @@
     }
   }
 }
+
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+  .basket-summary {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 0;
+
+    .summary-price {
+      padding: 8px 0;
+    }
+  }
+}

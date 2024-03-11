@@ -87,7 +87,7 @@ function OrderCart (props) {
           {' '}
           {props.orderID !== '' && priceSummary.fullPrice
             ? priceSummary.fullPrice.toFixed(2) + ` zł`
-            : basketSummary.finalPrice + ` zł`}{' '}
+            : basketSummary.finalPrice.toFixed(2) + ` zł`}{' '}
         </span>
       </div>
     </ul>

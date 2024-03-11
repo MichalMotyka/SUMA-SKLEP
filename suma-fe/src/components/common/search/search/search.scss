@@ -1,60 +1,56 @@
 // search.scss
 
 .search {
+  display: flex;
+  align-items: center;
+  .search-input {
     display: flex;
+    padding: 10px 40px;
+    border: 1px solid rgba(0, 0, 0, 0.438);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    outline: none; // Usunięcie obramowania przy kliknięciu
+    transition: border-color 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #2ecc71;
+    }
+
+    &::placeholder {
+      color: #95a5a6;
+    }
+  }
+
+  .search-btn {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    .search-input {
-      display: flex;
-      padding: 10px 40px;
-      border: 1px solid rgba(0, 0, 0, 0.438);
-      border-radius: 4px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-      font-size: 16px;
-      outline: none; // Usunięcie obramowania przy kliknięciu
-      transition: border-color 0.3s ease-in-out; 
-    
-      &:focus {
-        border-color: #2ecc71; 
-      }
-    
-      &::placeholder {
-        color: #95a5a6; 
-      }
+    justify-content: center;
+    padding: 10px 20px;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
+    border: 1px solid rgba(0, 0, 0, 0.226);
+    cursor: pointer;
+    &:hover {
+      background-color: #2ecc707c;
     }
-    
-    .search-btn {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 20px;  
-      color: #000000;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      transition: background-color 0.3s ease-in-out; 
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.205);
-      border: 1px solid rgba(0, 0, 0, 0.226);
-      cursor: pointer;
-      &:hover {
-          background-color: #2ecc707c;
-      }
-      &:disabled{
-        background-color: rgba(172, 171, 171, 0.5);
-      }
-    }
-    
-  }
-  
-  
-
-  @media only screen and (max-width: 599px) {
-
-    .search{
-      padding: 10px 0;
-    }
-   
-    .search-input{
-      max-width: 200px;
+    &:disabled {
+      background-color: rgba(172, 171, 171, 0.5);
     }
   }
+}
+
+@media only screen and (max-width: 599px) {
+  .search {
+    padding: 10px 0;
+  }
+
+  .search-input {
+    max-width: 200px;
+  }
+}
