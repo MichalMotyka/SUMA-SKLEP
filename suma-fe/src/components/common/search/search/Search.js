@@ -25,7 +25,7 @@ function Search () {
       <button
         className='search-btn'
         type='submit'
-        disabled={searchValue.length === 0}
+        disabled={searchValue.length === 0 && searchValue === ""}
       >
         <IoSearchSharp />
         Szukaj

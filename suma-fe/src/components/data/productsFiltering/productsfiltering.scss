@@ -89,3 +89,19 @@
         }
     }
 }
+
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+    .filtering {
+        display: flex;
+        flex-direction: row;
+        padding: 10px 0;
+        .filtering-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slider-btn {
+            margin: 5px 0 !important;
+        }
+    }
+}
