@@ -44,7 +44,6 @@ public class BasketMediator {
         basketService.editBasketItem(basketItem,basket);
     }
 
-
     private String getBasketUuid(HttpServletRequest request){
         final String[] uuid = {null};
         if (request.getCookies() != null){
@@ -53,6 +52,8 @@ public class BasketMediator {
                     uuid[0] = value.getValue();
                 }
             });
+        }else{
+            uuid[0] = basketService.getBasket(null).getUuid();
         }
         return uuid[0];
     }
