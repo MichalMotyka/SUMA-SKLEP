@@ -112,6 +112,7 @@ public class ZMDocumentService {
             if (value.getState() == State.PROJECT ||value.getState() == State.TOPAY){
                 if (notify.getOrder().getStatus() == Status.COMPLETED){
                     value.setState(State.CREATED);
+                    value.getDocument().setState(State.COMPLETED);
                     value.getDocument().getWmProductsList().forEach(wmProducts -> {
                        productRepository.findById(wmProducts.getProduct().getId()).ifPresent(product -> {
                            product.setCount(product.getCount() - wmProducts.getQuantity());
@@ -121,6 +122,7 @@ public class ZMDocumentService {
                     });
                 }else if(notify.getOrder().getStatus() == Status.CANCELED){
                     value.setState(State.REJECTED);
+                    value.getDocument().setState(State.REJECTED);
                 }
                 if (notify.getOrder().getStatus() == Status.COMPLETED ||
                         notify.getOrder().getStatus() == Status.CANCELED){
