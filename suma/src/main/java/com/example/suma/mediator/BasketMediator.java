@@ -53,6 +53,8 @@ public class BasketMediator {
                     uuid[0] = value.getValue();
                 }
             });
+        }else{
+            uuid[0] = basketService.getBasket(uuid[0]).getUuid();
         }
         return uuid[0];
     }
