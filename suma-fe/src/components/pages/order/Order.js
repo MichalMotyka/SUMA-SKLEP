@@ -11,6 +11,8 @@ import Inpost from '../../data/inpost/Inpost'
 function Order () {
   const modalRef = useRef() // Utwórz referencję do modala
 
+  const inpostID = '321312321'
+
   const [orderUUID, setOrderUUID] = useState('')
 
   const [isInvoicing, setIsInvoicing] = useState(false)
@@ -104,7 +106,8 @@ function Order () {
     info: '',
     deliver: {
       uuid: deliveryUUID
-    }
+    },
+    parcelLocker: getInpostLocation.name
   }
 
   const handleSubmit = values => {
@@ -145,8 +148,9 @@ function Order () {
     handleInpostModal()
   }
 
+  // TUTAJ W STRINMGU JEST DELIVERY UUID PACZKOMATU - testowy 321312321
   const handleInpostModal = () => {
-    if (deliveryUUID === '321312321') {
+    if (deliveryUUID === inpostID) {
       setDeliveryModal(true)
     } else {
       setDeliveryModal(false)
