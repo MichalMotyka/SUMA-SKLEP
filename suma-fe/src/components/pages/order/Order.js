@@ -1,5 +1,5 @@
 import { FaSpinner } from 'react-icons/fa'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import OrderValidation from '../../auth/validation/OrderValidation'
 import OrderCart from './orderCart/OrderCart'
@@ -7,11 +7,13 @@ import { Link } from 'react-router-dom'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import './order.scss'
 import Inpost from '../../data/inpost/Inpost'
+import { CategoryContext } from '../../auth/context/productContext'
 
 function Order () {
   const modalRef = useRef() // Utwórz referencję do modala
 
-  const [orderUUID, setOrderUUID] = useState('')
+  const { orderUUID, setOrderUUID } = useContext(CategoryContext)
+
   const [isInvoicing, setIsInvoicing] = useState(false)
   const [invoiceType, setInvoiceType] = useState('private')
   const [packageReceiverType, setpackageReceiverType] =
@@ -48,14 +50,19 @@ function Order () {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
+
         const orderID = response.headers.get('order')
         setOrderUUID(orderID)
+        localStorage.setItem('orderUUID', orderUUID)
+
         return response.json()
       })
       .catch(error => {
         console.error('Error:', error)
       })
-  }, [])
+  }, [setOrderUUID, orderUUID])
+
+  console.log('ORDER UUID: ', orderUUID)
 
   // DELIVERY TYPE:
 
@@ -672,8 +679,6 @@ function Order () {
                         <p>{getInpostLocation.name}</p>
                       </div>
                     ) : null}
-
-                    {console.log(deliveryUUID)}
 
                     <button
                       className='form-btn'

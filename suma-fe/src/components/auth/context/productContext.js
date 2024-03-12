@@ -7,6 +7,7 @@ export const CategoryProvider = ({ children }) => {
   const [searchValue, setSearchValue] = useState('')
   const [productUuid, setProductUuid] = useState('')
   const [basketItems, setBasketItems] = useState(0)
+  const [orderUUID, setOrderUUID] = useState('')
 
   return (
     <CategoryContext.Provider
@@ -18,7 +19,9 @@ export const CategoryProvider = ({ children }) => {
         setProductUuid,
         productUuid,
         basketItems,
-        setBasketItems
+        setBasketItems,
+        orderUUID,
+        setOrderUUID
       }}
     >
       {children}

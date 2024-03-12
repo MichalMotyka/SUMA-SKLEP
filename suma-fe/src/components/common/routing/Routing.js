@@ -5,6 +5,7 @@ import ProductsData from '../../pages/products/Products'
 import SearchResults from '../search/searchresults/SearchResults'
 import Card from '../../data/products/card/Card'
 import Order from '../../pages/order/Order'
+import OrderSummary from '../../data/ordersummary/OrderSummary'
 
 function Routing () {
   return (
@@ -16,6 +17,7 @@ function Routing () {
         <Route path='/produkt' element={<Card />} />
         <Route path='/koszyk' element={<Cart />} />
         <Route path='/zamowienie' element={<Order />} />
+        <Route path='/podsumowanie' element={<OrderSummary />} />
       </Routes>
     </>
   )
