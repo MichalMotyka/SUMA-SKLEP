@@ -25,6 +25,11 @@ public class DocumentsController {
 
     private final DocumentsMediator documentsMediator;
 
+    @GetMapping("order/info/{order}")
+    public ResponseEntity<OrderDTO> getOrder(@PathVariable String order){
+        return ResponseEntity.ok(documentsMediator.getOrderInfo(order));
+    }
+
     @PostMapping("order")
     public ResponseEntity<Response> makeOrder(HttpServletRequest request, HttpServletResponse response){
         documentsMediator.makeOrder(request.getCookies(),response);

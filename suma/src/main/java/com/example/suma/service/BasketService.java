@@ -7,10 +7,12 @@ import com.example.suma.exceptions.MinimumQuantityException;
 import com.example.suma.repository.BasketItemRepository;
 import com.example.suma.repository.BasketRepository;
 import com.example.suma.repository.ReservationRepository;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -81,6 +83,9 @@ public class BasketService {
                     break;
                 }
             }
+        }
+        if (basket.getBasketItem() == null){
+            basket.setBasketItem(new ArrayList<>());
         }
         if (!itemExist && basketItem.getQuantity() != 0) {
             if (basketItem.getQuantity() > productService.getProductByUuid(basketItem.getProduct().getUuid()).getAvailable()) {

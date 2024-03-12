@@ -22,7 +22,7 @@ public class BasketMediator {
     private final BasketService basketService;
     private final BasketTranslator basketTranslator;
     public BasketDTO getBasket(HttpServletResponse response, HttpServletRequest request) {
-        Basket basket = basketService.getBasket(getBasketUuid(request));
+        Basket basket = basketService.getBasket(getBasketUuid(request,response));
         int size = 0;
         if(basket.getBasketItem() != null){
             for (BasketItem basketItem:basket.getBasketItem()){
@@ -39,13 +39,12 @@ public class BasketMediator {
 
     public void editBasket(BasketItemDTO basketItemDTO, HttpServletResponse response, HttpServletRequest request) {
         BasketItem basketItem = basketTranslator.translateBasketItemDTOToBasketItem(basketItemDTO);
-        String basket = getBasketUuid(request);
+        String basket = getBasketUuid(request,response);
         if (basket == null) basket = getBasket(response, request).getUuid();
         basketService.editBasketItem(basketItem,basket);
     }
 
-
-    private String getBasketUuid(HttpServletRequest request){
+    private String getBasketUuid(HttpServletRequest request,HttpServletResponse response){
         final String[] uuid = {null};
         if (request.getCookies() != null){
             Arrays.stream(request.getCookies()).toList().forEach(value->{
@@ -53,6 +52,9 @@ public class BasketMediator {
                     uuid[0] = value.getValue();
                 }
             });
+        }else{
+            uuid[0] = basketService.getBasket(null).getUuid();
+            response.addCookie(new Cookie("basket-uuid",uuid[0]));
         }
         return uuid[0];
     }
