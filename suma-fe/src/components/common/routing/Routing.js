@@ -5,7 +5,8 @@ import ProductsData from '../../pages/products/Products'
 import SearchResults from '../search/searchresults/SearchResults'
 import Card from '../../data/products/card/Card'
 import Order from '../../pages/order/Order'
-import OrderSummary from '../../data/ordersummary/OrderSummary'
+import OrderSummary from '../../pages/ordersummary/OrderSummary'
+import NotFound from '../notfound/NotFound'
 
 function Routing () {
   return (
@@ -17,7 +18,10 @@ function Routing () {
         <Route path='/produkt' element={<Card />} />
         <Route path='/koszyk' element={<Cart />} />
         <Route path='/zamowienie' element={<Order />} />
-        <Route path='/podsumowanie' element={<OrderSummary />} />
+
+        <Route path='/podsumowanie/:token' element={<OrderSummary />} />
+
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )
