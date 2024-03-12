@@ -13,8 +13,8 @@ services:
     suma:
       build:
         context: ./suma
-      environment:
-        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+#      environment:
+#        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       ports:
         - "8080:8080"
       depends_on:

@@ -95,6 +95,7 @@ public class ZMDocumentService {
 
             PayuResponse response = payuService.createOrder(value);
             value.setExtUuid(response.getOrderId());
+            value.setState(State.TOPAY);
             zmDocumentRepository.save(value);
             url.set(response);
         },()-> {throw new OrderDontExistException();});
@@ -108,7 +109,7 @@ public class ZMDocumentService {
 
     public void changeStatus(Notify notify) {
         zmDocumentRepository.findZMDocumentByUuid(notify.getOrder().getExtOrderId()).ifPresentOrElse(value->{
-            if (value.getState() == State.PROJECT){
+            if (value.getState() == State.PROJECT ||value.getState() == State.TOPAY){
                 if (notify.getOrder().getStatus() == Status.COMPLETED){
                     value.setState(State.CREATED);
                     value.getDocument().getWmProductsList().forEach(wmProducts -> {
