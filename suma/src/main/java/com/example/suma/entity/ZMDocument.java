@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -44,6 +48,7 @@ public class ZMDocument extends Document{
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private WMDocuments document;
     private String inpostName;
+    private String ParcelLocker;
 
 
     public ZMDocument(long id,
