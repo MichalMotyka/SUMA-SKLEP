@@ -1,29 +1,38 @@
 import { FaSpinner } from 'react-icons/fa'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import OrderValidation from '../../auth/validation/OrderValidation'
 import OrderCart from './orderCart/OrderCart'
 import { Link } from 'react-router-dom'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import './order.scss'
+import Inpost from '../../data/inpost/Inpost'
 
 function Order () {
+  const modalRef = useRef() // Utwórz referencję do modala
+
   const [orderUUID, setOrderUUID] = useState('')
   const [isInvoicing, setIsInvoicing] = useState(false)
   const [invoiceType, setInvoiceType] = useState('private')
   const [packageReceiverType, setpackageReceiverType] =
     useState('privatePackage')
   const [delivery, setDelivery] = useState([])
-  const [deliveryUUID, setDeliveryUUID] = useState('')
+  // Typ dostaw np. inpost /dpd
+  const [deliveryUUID, setDeliveryUUID] = useState(null)
   const [paymentURL, setPaymentURL] = useState('null')
 
-  console.log('paymenturl', paymentURL)
+  const [getInpostLocation, setGetInpostLocation] = useState({
+    type: '',
+    line1: '',
+    line2: '',
+    name: ''
+  })
+  // Okno do wyboru paczkomatu inpost
+  const [deliveryModal, setDeliveryModal] = useState(false)
 
   useEffect(() => {
     if (paymentURL && paymentURL !== 'null') {
       window.location.href = paymentURL
-    } else {
-      console.error('Payment URL is not available')
     }
   }, [paymentURL])
 
@@ -126,7 +135,40 @@ function Order () {
 
   const handleDelivery = uuid => {
     setDeliveryUUID(uuid)
+    console.log(uuid)
+    handleInpostModal()
   }
+
+  const handleInpostModal = () => {
+    if (deliveryUUID === '321312321') {
+      setDeliveryModal(true)
+    } else {
+      setDeliveryModal(false)
+      setGetInpostLocation(prevValue => ({
+        ...prevValue,
+        type: '',
+        line1: '',
+        line2: '',
+        name: ''
+      }))
+    }
+  }
+
+  const handleClickOutside = event => {
+    if (event.target === modalRef.current) {
+      setDeliveryModal(false) // Zamknij modal, jeśli kliknięcie było na tle
+    }
+  }
+
+  useEffect(() => {
+    // Dodaj obsługę zdarzenia, gdy komponent jest montowany
+    document.addEventListener('mousedown', handleClickOutside)
+
+    // Usuń obsługę zdarzenia, gdy komponent jest odmontowywany
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <div>
@@ -606,11 +648,41 @@ function Order () {
                         </div>
                       ))}
                     </div>
+                    {/* MODAL INPOST Z WYBOREM LOKALIZACJI PACZKOMATU  */}
+                    {deliveryModal && (
+                      <div
+                        ref={modalRef}
+                        className='inpost'
+                        onClick={handleClickOutside}
+                      >
+                        <Inpost
+                          setLocation={setGetInpostLocation}
+                          disableModal={setDeliveryModal}
+                        />
+                      </div>
+                    )}
+
+                    {getInpostLocation.type !== '' ? (
+                      <div className='inpost-data'>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {getInpostLocation.type}
+                        </p>
+                        <p>{getInpostLocation.line1}</p>
+                        <p>{getInpostLocation.line2}</p>
+                        <p>{getInpostLocation.name}</p>
+                      </div>
+                    ) : null}
+
+                    {console.log(deliveryUUID)}
 
                     <button
                       className='form-btn'
                       type='submit'
-                      disabled={!(dirty && isValid && deliveryUUID !== '')}
+                      disabled={
+                        !(dirty && isValid && deliveryUUID !== null) ||
+                        (deliveryUUID === '321312321' &&
+                          !getInpostLocation.name)
+                      }
                     >
                       {isSubmitting ? 'Wysyłanie...' : 'Zamawiam i płacę'}
                     </button>
@@ -620,13 +692,13 @@ function Order () {
             </div>
 
             <div className='right-box'>
-              <OrderCart />
+              <OrderCart deliveryID={deliveryUUID} orderID={orderUUID} />
             </div>
           </div>
         </section>
       ) : (
         <>
-          <p>Brak produktów w koszyku...</p> {` `}
+          <p>Ładowanie...</p> {` `}
           <FaSpinner className='spinner-icon' />
         </>
       )}
