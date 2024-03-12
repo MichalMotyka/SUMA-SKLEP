@@ -70,6 +70,7 @@ public class ZMDocumentService {
         AtomicReference<PayuResponse> url = new AtomicReference<>();
         zmDocumentRepository.findZMDocumentByUuid(zmDocument.getUuid()).ifPresentOrElse(value->{
             value.setName(zmDocument.getName());
+            value.setParcelLocker(zmDocument.getParcelLocker());
             value.setSurname(zmDocument.getSurname());
             value.setCompanyName(zmDocument.getCompanyName());
             value.setNip(zmDocument.getNip());
