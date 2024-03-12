@@ -146,7 +146,6 @@ public abstract class ZMDocumentTranslator{
             @Mapping(target = "invoicingSurname",ignore = true),
             @Mapping(target = "invoicingName",ignore = true),
             @Mapping(target = "invoicing",ignore = true),
-            @Mapping(target = "inpostName",ignore = true),
             @Mapping(target = "phoneNumber",ignore = true),
             @Mapping(target = "email",ignore = true),
     })
