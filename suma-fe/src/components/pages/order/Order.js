@@ -11,7 +11,10 @@ import Inpost from '../../data/inpost/Inpost'
 function Order () {
   const modalRef = useRef() // Utwórz referencję do modala
 
+  const inpostID = '321312321'
+
   const [orderUUID, setOrderUUID] = useState('')
+
   const [isInvoicing, setIsInvoicing] = useState(false)
   const [invoiceType, setInvoiceType] = useState('private')
   const [packageReceiverType, setpackageReceiverType] =
@@ -29,6 +32,8 @@ function Order () {
   })
   // Okno do wyboru paczkomatu inpost
   const [deliveryModal, setDeliveryModal] = useState(false)
+
+  console.log('TUTAJ MASZ KURWA DELIVERY ID', delivery)
 
   useEffect(() => {
     if (paymentURL && paymentURL !== 'null') {
@@ -48,14 +53,19 @@ function Order () {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
+
         const orderID = response.headers.get('order')
         setOrderUUID(orderID)
+        localStorage.setItem('orderUUID', orderUUID)
+
         return response.json()
       })
       .catch(error => {
         console.error('Error:', error)
       })
-  }, [])
+  }, [setOrderUUID, orderUUID])
+
+  console.log('ORDER UUID: ', orderUUID)
 
   // DELIVERY TYPE:
 
@@ -98,7 +108,8 @@ function Order () {
     info: '',
     deliver: {
       uuid: deliveryUUID
-    }
+    },
+    parcelLocker: getInpostLocation.name
   }
 
   const handleSubmit = values => {
@@ -139,8 +150,9 @@ function Order () {
     handleInpostModal()
   }
 
+  // TUTAJ W STRINGU JEST DELIVERY UUID PACZKOMATU - testowy 321312321
   const handleInpostModal = () => {
-    if (deliveryUUID === '321312321') {
+    if (deliveryUUID === inpostID) {
       setDeliveryModal(true)
     } else {
       setDeliveryModal(false)
@@ -161,10 +173,8 @@ function Order () {
   }
 
   useEffect(() => {
-    // Dodaj obsługę zdarzenia, gdy komponent jest montowany
     document.addEventListener('mousedown', handleClickOutside)
 
-    // Usuń obsługę zdarzenia, gdy komponent jest odmontowywany
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
@@ -672,8 +682,6 @@ function Order () {
                         <p>{getInpostLocation.name}</p>
                       </div>
                     ) : null}
-
-                    {console.log(deliveryUUID)}
 
                     <button
                       className='form-btn'
