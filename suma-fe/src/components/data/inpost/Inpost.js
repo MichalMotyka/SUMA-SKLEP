@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 function Inpost (props) {
   const onPointCallback = e => {
-    console.log(e)
     props.setLocation(prevValue => ({
       ...prevValue,
       type: e.opening_hours,

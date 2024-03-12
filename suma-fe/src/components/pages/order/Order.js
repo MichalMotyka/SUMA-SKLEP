@@ -112,14 +112,23 @@ function Order () {
     parcelLocker: getInpostLocation.name
   }
 
+  console.log('ID PACZKOMATU', getInpostLocation.name)
+
+  console.log(initialValues)
+
   const handleSubmit = values => {
+    const updatedValues = {
+      ...values,
+      parcelLocker: getInpostLocation.name
+    }
+
     fetch('http://localhost:8080/api/v1/document/order', {
       method: 'PATCH',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(updatedValues)
     })
       .then(response => {
         if (!response.ok) {
@@ -658,7 +667,9 @@ function Order () {
                         </div>
                       ))}
                     </div>
+
                     {/* MODAL INPOST Z WYBOREM LOKALIZACJI PACZKOMATU  */}
+
                     {deliveryModal && (
                       <div
                         ref={modalRef}

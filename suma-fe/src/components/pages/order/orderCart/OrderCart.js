@@ -41,13 +41,11 @@ function OrderCart (props) {
       .then(response => response.json())
       .then(data => setPriceSummary(data))
       .catch(error => {
-        // Tutaj obsłuż błąd
         console.error('Wystąpił błąd:', error)
       })
   }, [props.orderID, props.deliveryID])
 
-  return Object.keys(basketSummary).length > 0 &&
-    Object.keys(priceSummary).length > 0 ? (
+  return Object.keys(basketSummary).length > 0 ? (
     <ul className='basket-summary'>
       <p className='order-summary'>Podsumowanie zamówienia</p>
       {basketSummary.basketItem.map(basketItem => (
