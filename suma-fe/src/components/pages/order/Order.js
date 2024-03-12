@@ -33,6 +33,8 @@ function Order () {
   // Okno do wyboru paczkomatu inpost
   const [deliveryModal, setDeliveryModal] = useState(false)
 
+  console.log('TUTAJ MASZ KURWA DELIVERY ID', delivery)
+
   useEffect(() => {
     if (paymentURL && paymentURL !== 'null') {
       window.location.href = paymentURL
@@ -148,7 +150,7 @@ function Order () {
     handleInpostModal()
   }
 
-  // TUTAJ W STRINMGU JEST DELIVERY UUID PACZKOMATU - testowy 321312321
+  // TUTAJ W STRINGU JEST DELIVERY UUID PACZKOMATU - testowy 321312321
   const handleInpostModal = () => {
     if (deliveryUUID === inpostID) {
       setDeliveryModal(true)
@@ -171,10 +173,8 @@ function Order () {
   }
 
   useEffect(() => {
-    // Dodaj obsługę zdarzenia, gdy komponent jest montowany
     document.addEventListener('mousedown', handleClickOutside)
 
-    // Usuń obsługę zdarzenia, gdy komponent jest odmontowywany
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
