@@ -47,7 +47,6 @@ public class ZMDocument extends Document{
     private Deliver deliver;
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private WMDocuments document;
-    private String inpostName;
     private String ParcelLocker;
 
 
@@ -68,7 +67,7 @@ public class ZMDocument extends Document{
                       String phoneNumber,
                       String info,
                       WMDocuments document,
-                      String inpostName) {
+                      String ParcelLocker) {
         super(uuid, createDate, state);
         this.id = id;
         this.name = name;
@@ -84,7 +83,7 @@ public class ZMDocument extends Document{
         this.phoneNumber = phoneNumber;
         this.info = info;
         this.document = document;
-        this.inpostName = inpostName;
+        this.ParcelLocker = ParcelLocker;
     }
 
     public ZMDocument() {
