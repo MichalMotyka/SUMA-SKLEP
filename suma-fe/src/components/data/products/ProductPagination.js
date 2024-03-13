@@ -1,5 +1,4 @@
 import { HiArrowSmallLeft } from 'react-icons/hi2'
-
 import { HiArrowSmallRight } from 'react-icons/hi2'
 
 function ProductPagination (props) {

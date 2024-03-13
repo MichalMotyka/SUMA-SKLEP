@@ -6,11 +6,11 @@ import { FiMoreHorizontal } from 'react-icons/fi'
 function SearchResults () {
   const { searchValue } = useContext(CategoryContext)
   const [searchResults, setSearchResults] = useState([])
-  const { setProductUuid } = useContext(CategoryContext)
+  const { setProductUuid, ipMan } = useContext(CategoryContext)
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/product?search=${searchValue}&page=1&limit=8&sort=NAME&order=DESC`,
+      `http://${ipMan}/api/v1/product?search=${searchValue}&page=1&limit=8&sort=NAME&order=DESC`,
       {
         method: 'GET',
         credentials: 'include',
@@ -22,7 +22,7 @@ function SearchResults () {
       .then(response => response.json())
       .then(data => setSearchResults(data))
       .catch(error => console.log(error))
-  }, [searchValue])
+  }, [searchValue, ipMan])
 
   const handleProductDetails = uuid => {
     setProductUuid(uuid)

@@ -10,7 +10,7 @@ import './productsdata.scss'
 
 function ProductsData () {
   const [productsList, setProductsList] = useState([])
-  const { passCategory } = useContext(CategoryContext)
+  const { passCategory, ipMan } = useContext(CategoryContext)
   const [xTotalCount, setXTotalCount] = useState(0)
   const [page, setPage] = useState(1)
   const productLimit = 8
@@ -31,7 +31,7 @@ function ProductsData () {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/product?page=${page}&limit=${productLimit}&sort=${filterType.sortType}&order=${filterType.orderType}&category=${passCategory}&price_min=${priceMin}&price_max=${priceMax}`,
+      `http://${ipMan}/api/v1/product?page=${page}&limit=${productLimit}&sort=${filterType.sortType}&order=${filterType.orderType}&category=${passCategory}&price_min=${priceMin}&price_max=${priceMax}`,
       {
         credentials: 'include',
         headers: {
@@ -51,7 +51,7 @@ function ProductsData () {
       })
       .then(data => setProductsList(data))
       .catch(error => console.log(error))
-  }, [passCategory, page, priceMin, priceMax, filterType])
+  }, [passCategory, page, priceMin, priceMax, filterType, ipMan])
 
   const handleProductDetails = uuid => {
     setProductUuid(uuid)

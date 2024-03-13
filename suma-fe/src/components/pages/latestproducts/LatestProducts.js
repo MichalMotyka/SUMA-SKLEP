@@ -5,13 +5,13 @@ import { FiMoreHorizontal } from 'react-icons/fi'
 
 function LatestProducts () {
   const [latestProducts, setLatestProducts] = useState([])
-  const { setProductUuid } = useContext(CategoryContext)
+  const { setProductUuid, ipMan } = useContext(CategoryContext)
   // const page = 1
   // const limit = 8
 
   useEffect(() => {
     fetch(
-      'http://localhost:8080/api/v1/product?page=1&limit=8&sort=DATE&order=DESC',
+      `http://${ipMan}/api/v1/product?page=1&limit=8&sort=DATE&order=DESC`,
       {
         method: 'GET',
         credentials: 'include',
@@ -23,7 +23,7 @@ function LatestProducts () {
       .then(response => response.json())
       .then(data => setLatestProducts(data))
       .catch(error => console.log(error))
-  }, [])
+  }, [ipMan])
 
   const handleProductDetails = uuid => {
     setProductUuid(uuid)

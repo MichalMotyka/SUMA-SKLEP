@@ -8,6 +8,10 @@ export const CategoryProvider = ({ children }) => {
   const [productUuid, setProductUuid] = useState('')
   const [basketItems, setBasketItems] = useState(0)
 
+  // zakomentuj ip przed publikacja
+  const ipMan = 'localhost:8080'
+  // const ipMan = "89.168.65.36"
+
   return (
     <CategoryContext.Provider
       value={{
@@ -18,7 +22,8 @@ export const CategoryProvider = ({ children }) => {
         setProductUuid,
         productUuid,
         basketItems,
-        setBasketItems
+        setBasketItems,
+        ipMan
       }}
     >
       {children}
