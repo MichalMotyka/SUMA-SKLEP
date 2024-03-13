@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react'
-
+import { useState, useEffect, useContext } from 'react'
+import { CategoryContext } from '../../auth/context/productContext'
 import Nav from '../../common/nav/Nav'
 
 // lista katerorii z api do wstawienia do menu
 function MenuCategory () {
   const [data, setData] = useState([])
+  const { ipMan } = useContext(CategoryContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `http://localhost:8080/api/v1/category?type=CATEGORY&bySupercategory=false`
+        const url = `http://${ipMan}/api/v1/category?type=CATEGORY&bySupercategory=false`
 
         const response = await fetch(url, {
           method: 'GET',
@@ -34,7 +35,7 @@ function MenuCategory () {
     }
 
     fetchData()
-  }, [])
+  }, [ipMan])
 
   return (
     <>

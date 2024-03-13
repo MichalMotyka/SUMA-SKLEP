@@ -1,5 +1,5 @@
 import { FaSpinner } from 'react-icons/fa'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import OrderValidation from '../../auth/validation/OrderValidation'
 import OrderCart from './orderCart/OrderCart'
@@ -7,14 +7,22 @@ import { Link } from 'react-router-dom'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import './order.scss'
 import Inpost from '../../data/inpost/Inpost'
+import { CategoryContext } from '../../auth/context/productContext'
 
 function Order () {
-  const modalRef = useRef() // Utwórz referencję do modala
-
+  const { ipMan } = useContext(CategoryContext)
+  const modalRef = useRef()
+  // ID INPOSTU DO MIANY NA PRODUKCJI!
   const inpostID = '321312321'
+  // obiekt przechowujace dane paczkomatu
+  const [getInpostLocation, setGetInpostLocation] = useState({
+    type: '',
+    line1: '',
+    line2: '',
+    name: ''
+  })
 
   const [orderUUID, setOrderUUID] = useState('')
-
   const [isInvoicing, setIsInvoicing] = useState(false)
   const [invoiceType, setInvoiceType] = useState('private')
   const [packageReceiverType, setpackageReceiverType] =
@@ -22,18 +30,11 @@ function Order () {
   const [delivery, setDelivery] = useState([])
   // Typ dostaw np. inpost /dpd
   const [deliveryUUID, setDeliveryUUID] = useState(null)
+
   const [paymentURL, setPaymentURL] = useState('null')
 
-  const [getInpostLocation, setGetInpostLocation] = useState({
-    type: '',
-    line1: '',
-    line2: '',
-    name: ''
-  })
   // Okno do wyboru paczkomatu inpost
   const [deliveryModal, setDeliveryModal] = useState(false)
-
-  console.log('TUTAJ MASZ KURWA DELIVERY ID', delivery)
 
   useEffect(() => {
     if (paymentURL && paymentURL !== 'null') {
@@ -42,7 +43,7 @@ function Order () {
   }, [paymentURL])
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/document/order', {
+    fetch(`http://${ipMan}/api/v1/document/order`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -63,14 +64,12 @@ function Order () {
       .catch(error => {
         console.error('Error:', error)
       })
-  }, [setOrderUUID, orderUUID])
-
-  console.log('ORDER UUID: ', orderUUID)
+  }, [setOrderUUID, orderUUID, ipMan])
 
   // DELIVERY TYPE:
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/deliver', {
+    fetch(`http://${ipMan}/api/v1/deliver`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -80,7 +79,7 @@ function Order () {
       .then(response => response.json())
       .then(data => setDelivery(data))
       .catch(error => console.log(error))
-  }, [])
+  }, [ipMan])
 
   // BASKET INFO:
 
@@ -113,13 +112,18 @@ function Order () {
   }
 
   const handleSubmit = values => {
-    fetch('http://localhost:8080/api/v1/document/order', {
+    const updatedValues = {
+      ...values,
+      parcelLocker: getInpostLocation.name
+    }
+
+    fetch(`http://${ipMan}/api/v1/document/order`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(updatedValues)
     })
       .then(response => {
         if (!response.ok) {
@@ -146,7 +150,6 @@ function Order () {
 
   const handleDelivery = uuid => {
     setDeliveryUUID(uuid)
-    console.log(uuid)
     handleInpostModal()
   }
 
@@ -658,7 +661,9 @@ function Order () {
                         </div>
                       ))}
                     </div>
+
                     {/* MODAL INPOST Z WYBOREM LOKALIZACJI PACZKOMATU  */}
+
                     {deliveryModal && (
                       <div
                         ref={modalRef}

@@ -6,10 +6,6 @@ const OrderValidation = (
 ) => {
   const errors = {}
 
-  console.log('packageReceiverType:', packageReceiverType)
-  console.log('isInvoicing:', isInvoicing)
-  console.log('invoiceType:', invoiceType)
-
   if (packageReceiverType === 'privatePackage') {
     if (!values.name) {
       errors.name = 'Pole wymagane'
