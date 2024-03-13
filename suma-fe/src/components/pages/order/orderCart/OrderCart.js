@@ -1,14 +1,16 @@
 import { FaSpinner } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { CategoryContext } from '../../../auth/context/productContext'
 import './ordercart.scss'
 
 function OrderCart (props) {
   const [basketSummary, setBasketSummary] = useState([])
   const [priceSummary, setPriceSummary] = useState([])
   const [totalProductCount, setTotalProductCount] = useState(0)
+  const { ipMan } = useContext(CategoryContext)
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/basket', {
+    fetch(`http://${ipMan}/api/v1/basket`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -24,26 +26,26 @@ function OrderCart (props) {
         return response.json()
       })
       .then(data => setBasketSummary(data))
-  }, [])
+  }, [ipMan])
 
   useEffect(() => {
-    fetch(
-      `http://localhost:8080/api/v1/document/order/deliver/${props.orderID}`,
-      {
+    if (props.orderID && props.deliveryID) {
+      fetch(`http://${ipMan}/api/v1/document/order/deliver/${props.orderID}`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ uuid: props.deliveryID })
-      }
-    )
-      .then(response => response.json())
-      .then(data => setPriceSummary(data))
-      .catch(error => {
-        console.error('Wystąpił błąd:', error)
       })
-  }, [props.orderID, props.deliveryID])
+        .then(response => response.json())
+        .then(data => setPriceSummary(data))
+        .catch(error => {
+          // Tutaj obsłuż błąd
+          console.error('Wystąpił błąd:', error)
+        })
+    }
+  }, [props.orderID, props.deliveryID, ipMan])
 
   return Object.keys(basketSummary).length > 0 ? (
     <ul className='basket-summary'>

@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
+import { CategoryContext } from '../../auth/context/productContext'
 import './ordersummary.scss'
 
 // Komponent jest re-renderowany i state trafi swój stan
 //  dlatego trzeba będzie przechować orderUUID w localstorage
 
 function OrderSummary () {
+  const { ipMan } = useContext(CategoryContext)
   const [orderSummary, setOrderSummary] = useState([])
 
   const { token } = useParams()
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/document/order/info/${token}`, {
+    fetch(`http://${ipMan}/api/v1/document/order/info/${token}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -22,7 +23,7 @@ function OrderSummary () {
       .then(response => response.json())
       .then(data => setOrderSummary(data))
       .catch(error => console.log(error))
-  }, [token])
+  }, [token, ipMan])
 
   return Object.keys(orderSummary).length > 0 ? (
     <section>

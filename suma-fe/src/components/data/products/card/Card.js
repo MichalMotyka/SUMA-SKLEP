@@ -10,8 +10,7 @@ import { BsCartCheck } from 'react-icons/bs'
 import './card.scss'
 
 function Card () {
-  const { productUuid } = useContext(CategoryContext)
-  const { setPassCategory } = useContext(CategoryContext)
+  const { productUuid, setPassCategory, ipMan } = useContext(CategoryContext)
   const [mainImg, setMainImg] = useState('')
   const [productDetails, setProductDetails] = useState([])
   const [productCounter, setProductCounter] = useState(1)
@@ -21,7 +20,7 @@ function Card () {
   const [productAddedStatus, setProductAddedStatus] = useState(false)
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/product/${productUuid}`, {
+    fetch(`http://${ipMan}/api/v1/product/${productUuid}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -34,7 +33,7 @@ function Card () {
         setMainImg(data.mainImg)
       })
       .catch(error => console.log(error))
-  }, [productUuid])
+  }, [productUuid, ipMan])
 
   const handleProductAmountMinus = () => {
     setProductCounter(prevValue => prevValue - 1)
@@ -77,7 +76,7 @@ function Card () {
       quantity: productCounter
     }
 
-    fetch('http://localhost:8080/api/v1/basket', {
+    fetch(`http://${ipMan}/api/v1/basket`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {

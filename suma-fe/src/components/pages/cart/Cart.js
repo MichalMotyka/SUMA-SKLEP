@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { FaRegTrashCan } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
-
+import { CategoryContext } from '../../auth/context/productContext'
 import './cart.scss'
 
 function Cart () {
   const [basketData, setBasketData] = useState([])
   const [productAmounts, setProductAmounts] = useState({})
+  const { ipMan } = useContext(CategoryContext)
 
   const [totalProductCount, setTotalProductCount] = useState(null)
 
   // Pobieranie danych z koszyka
   const fetchBasketData = () => {
-    fetch(`http://localhost:8080/api/v1/basket`, {
+    fetch(`http://${ipMan}/api/v1/basket`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -36,7 +37,7 @@ function Cart () {
 
   useEffect(() => {
     fetchBasketData()
-  }, [])
+  }, [ipMan])
 
   // Obsługa zmiany ilości produktu
   const handleProductAmountChange = (e, productUUID) => {
@@ -53,7 +54,7 @@ function Cart () {
       quantity: productAmounts.amount
     }
 
-    fetch('http://localhost:8080/api/v1/basket', {
+    fetch(`http://${ipMan}/api/v1/basket`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -71,7 +72,7 @@ function Cart () {
       })
 
       .catch(error => console.log(error))
-  }, [productAmounts])
+  }, [productAmounts, ipMan])
 
   return Object.keys(basketData).length > 0 ? (
     <section>
