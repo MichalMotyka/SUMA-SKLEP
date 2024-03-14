@@ -76,14 +76,16 @@
                 }
                 .product-img {
                     width: 100%;
+                    height: 360px;
 
-                    height: 360px; /* Ustaw wysokość */
                     border-top-left-radius: 8px;
                     border-top-right-radius: 8px;
                     margin-bottom: 5px;
                     background-position: center;
-                    object-fit: contain; /* Dopasuj obraz do kontenera */
-                    object-position: center; /* Wyśrodkuj obraz */
+
+                    // zmień na fill bądź contain cover:
+                    object-fit: contain;
+                    object-position: center;
                 }
             }
 
@@ -139,8 +141,5 @@
     }
 }
 
-
-
 @media only screen and (max-width: 599px) {
-
 }
