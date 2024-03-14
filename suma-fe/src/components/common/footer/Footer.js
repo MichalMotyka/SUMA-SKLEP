@@ -42,7 +42,7 @@ function Footer () {
       </div>
 
       <div className='footer-bottom'>
-        <p>&copy; 2024 e-wianki | Coding Raccoons |</p>
+        <p>&copy; {new Date().getFullYear()} e-wianki | Coding Raccoons |</p>
       </div>
     </footer>
   )

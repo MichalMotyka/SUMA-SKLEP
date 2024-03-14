@@ -80,6 +80,7 @@ function OrderCart (props) {
         </span>
       </div>
       <hr></hr>
+
       <div className='summary-price'>
         <span> Do zapłaty </span>
 

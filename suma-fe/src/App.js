@@ -10,7 +10,7 @@ import CreateBasket from './components/auth/context/createBasket'
 function App () {
   return (
     <CategoryProvider>
-      <div className='wrapper app-wrapp'>
+      <div className='wrapper'>
         <CreateBasket />
         <NavMenuCategory />
         <Routing />

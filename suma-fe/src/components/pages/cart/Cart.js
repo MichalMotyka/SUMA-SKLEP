@@ -76,9 +76,14 @@ function Cart () {
 
   return Object.keys(basketData).length > 0 ? (
     <section>
-      <h2 className='section-title'>
-        Przedmioty w koszyku {totalProductCount}
-      </h2>
+    {totalProductCount <= 0 ? 
+    <h2 className='section-title'>
+    Twój koszyk jest pusty.
+  </h2> :    <h2 className='section-title'>
+    Przedmioty w koszyku {totalProductCount}
+  </h2> 
+  
+  }
       <div className='cart'>
         <ul className='cart-list'>
           {basketData.basketItem.map(product => (
@@ -139,30 +144,34 @@ function Cart () {
           ))}
         </ul>
 
-        <div className='summary-list'>
-          <p className='summary-desc'>
-            Do zapłaty{' '}
-            <span className='summary-price'>
-              {' '}
-              {basketData.finalPrice.toFixed(2)} zł
-            </span>
-          </p>
-          <p className='summary-desc'>Ilość przedmiotów: {totalProductCount}</p>
-          <Link
-            to='/zamowienie'
-            className={`${
-              basketData.basketItem.length <= 0
-                ? 'summary-btn-disabled'
-                : 'summary-btn'
-            }`}
-          >
-            {basketData.basketItem.length <= 0 ? (
-              <p>Koszyk jest pusty</p>
-            ) : (
-              <p>Przejdź do zamówienia</p>
-            )}
-          </Link>
-        </div>
+        {totalProductCount > 0 ? (
+          <div className='summary-list'>
+            <p className='summary-desc'>
+              Do zapłaty{' '}
+              <span className='summary-price'>
+                {' '}
+                {basketData.finalPrice.toFixed(2)} zł
+              </span>
+            </p>
+            <p className='summary-desc'>
+              Ilość przedmiotów: {totalProductCount}
+            </p>
+            <Link
+              to='/zamowienie'
+              className={`${
+                basketData.basketItem.length <= 0
+                  ? 'summary-btn-disabled'
+                  : 'summary-btn'
+              }`}
+            >
+              {basketData.basketItem.length <= 0 ? (
+                <p>Koszyk jest pusty</p>
+              ) : (
+                <p>Przejdź do zamówienia</p>
+              )}
+            </Link>
+          </div>
+        ) : null}
       </div>
     </section>
   ) : (

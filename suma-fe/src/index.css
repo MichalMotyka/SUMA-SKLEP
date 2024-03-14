@@ -12,6 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-y: scroll;
   font-size: 0.9rem;
+  
 }
 
 .section-title{
@@ -22,7 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height:100vh;
   max-width: 1280px;
   padding: 0 10px;
 }

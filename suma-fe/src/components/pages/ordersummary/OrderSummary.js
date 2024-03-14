@@ -25,18 +25,62 @@ function OrderSummary () {
       .catch(error => console.log(error))
   }, [token, ipMan])
 
+  console.log(orderSummary)
+
   return Object.keys(orderSummary).length > 0 ? (
-    <section>
-      <h2>Podsumowanie zamówienia</h2>
-      <div>
-        <p>Data zamówienia: {orderSummary.createDate}</p>
-        <p>Dostawa: {orderSummary.deliver.type}</p>
-        <p>Dostawa img: {orderSummary.deliver.image}</p>
-        <p>Dostawa cena: {orderSummary.deliver.price}</p>
+    <section className='summary-section'>
+      <h2 style={{ textAlign: 'center', margin: '20px 0' }}>
+        Podsumowanie zamówienia
+      </h2>
+      <div className='summary'>
+        <div className='summary-top'>
+          <div className='summary-info'>
+            <span>Data zamówienia </span>
+            <span>{orderSummary.createDate}</span>
+          </div>
+          <div className='summary-info'>
+            <span>Status: </span>
+            <span>{orderSummary.state}</span>
+          </div>
+          <div className='summary-info'>
+            <span>Sposób dostawy </span>
+            <span>{orderSummary.deliver.type}</span>
+          </div>
 
-        <p>Pełna cena: {orderSummary.fullPrice}</p>
+          <div className='summary-info'>
+            <span>Ilość przedmiotów </span>
+            <span>{orderSummary.fullQuantity}</span>
+          </div>
 
-        <p>Ilość przedmiotów: {orderSummary.fullPrice}</p>
+          <div className='summary-info'>
+            <span>Cena za dostawę </span>
+            <span>{orderSummary.deliver.price} zł</span>
+          </div>
+          <div className='summary-info'>
+            <span>Cena z dostawą </span>
+            <span>{orderSummary.fullPrice} zł</span>
+          </div>
+        </div>
+        <div className='summary-bot'>
+          <ul className='summary-ul'>
+            {orderSummary.details.map(product => (
+              <li className='summary-info'>
+                <img
+                  width={100}
+                  height={110}
+                  src={product.product.mainImg}
+                  alt={product.product.name}
+                  style={{ paddingRight: '5px' }}
+                />
+                <div className='summary-info-bot'>
+                  <p style={{ fontWeight: 'bold' }}>{product.product.name}</p>
+                  <p>Ilość: {product.quantity}</p>
+                  <p>Cena: {product.price.toFixed(2)} zł</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   ) : (
