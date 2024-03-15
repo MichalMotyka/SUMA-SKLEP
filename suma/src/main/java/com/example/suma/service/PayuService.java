@@ -52,6 +52,7 @@ public class PayuService {
                         PayUAuth.class);
         if (response.getStatusCode().isError()) throw new PayUException();
         token = "Bearer " + response.getBody().getAccess_token();
+        System.out.println(token);
     }
 
 
