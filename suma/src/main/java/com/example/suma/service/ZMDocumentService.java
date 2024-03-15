@@ -98,9 +98,12 @@ public class ZMDocumentService {
             PayuResponse response = payuService.createOrder(value);
             value.setExtUuid(response.getOrderId());
             value.setState(State.TOPAY);
-            zmDocumentRepository.save(value);
             url.set(response);
+            value.setMessage("Oczekiwanie na opłacenie zamówienia.");
             value.setPayuUrl(url.get().getRedirectUri());
+            zmDocumentRepository.save(value);
+
+
         },()-> {throw new OrderDontExistException();});
         return new URI(url.get().getRedirectUri());
     }
@@ -116,6 +119,7 @@ public class ZMDocumentService {
                 if (notify.getOrder().getStatus() == Status.COMPLETED){
                     value.setState(State.CREATED);
                     value.getDocument().setState(State.COMPLETED);
+                    value.setMessage("Zamówienie w trakcie realizacji.");
                     value.getDocument().getWmProductsList().forEach(wmProducts -> {
                        productRepository.findById(wmProducts.getProduct().getId()).ifPresent(product -> {
                            product.setCount(product.getCount() - wmProducts.getQuantity());
@@ -126,6 +130,7 @@ public class ZMDocumentService {
                 }else if(notify.getOrder().getStatus() == Status.CANCELED){
                     value.setState(State.REJECTED);
                     value.getDocument().setState(State.REJECTED);
+                    value.setMessage("Zamówienie zostało anulowane przez klienta.");
                 }
                 if (notify.getOrder().getStatus() == Status.COMPLETED ||
                         notify.getOrder().getStatus() == Status.CANCELED){

@@ -37,5 +37,7 @@ public class OrderDTO extends Document {
     private double fullPrice;
     private long fullQuantity;
     private String ParcelLocker;
+    private String message;
+    private String payuUrl;
     private List<OrderDetailsDTO> details;
 }
