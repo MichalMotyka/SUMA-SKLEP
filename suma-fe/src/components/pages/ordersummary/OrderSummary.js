@@ -31,6 +31,10 @@ function OrderSummary () {
     <section className='summary-section'>
       <h2 style={{ textAlign: 'center', margin: '20px 0' }}>
         Podsumowanie zamówienia
+        {/* - dodaj , 
+      .message
+      payuUrl
+      .parcellocker */}
       </h2>
       <div className='summary'>
         <div className='summary-top'>
@@ -54,7 +58,7 @@ function OrderSummary () {
 
           <div className='summary-info'>
             <span>Cena za dostawę </span>
-            <span>{orderSummary.deliver.price} zł</span>
+            <span>{orderSummary.deliver.price.toFixed(2)} zł</span>
           </div>
           <div className='summary-info'>
             <span>Cena z dostawą </span>
