@@ -118,7 +118,7 @@ CREATE TABLE zm_documents (
       invoicing_post_code VARCHAR,
       parcel_locker varchar default null,
       message varchar,
-      payuUrl varchar,
+      payu_url varchar,
       FOREIGN KEY (deliver) REFERENCES deliver(id),
       FOREIGN KEY (document_id) REFERENCES wm_documents(id)
 );
