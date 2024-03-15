@@ -69,6 +69,7 @@ public class ZMDocumentService {
     public URI setDataOrder(ZMDocument zmDocument) throws URISyntaxException {
         AtomicReference<PayuResponse> url = new AtomicReference<>();
         zmDocumentRepository.findZMDocumentByUuid(zmDocument.getUuid()).ifPresentOrElse(value->{
+            System.out.println(zmDocument.getParcelLocker());
             value.setName(zmDocument.getName());
             value.setParcelLocker(zmDocument.getParcelLocker());
             value.setSurname(zmDocument.getSurname());
@@ -99,6 +100,7 @@ public class ZMDocumentService {
             value.setState(State.TOPAY);
             zmDocumentRepository.save(value);
             url.set(response);
+            value.setPayuUrl(url.get().getRedirectUri());
         },()-> {throw new OrderDontExistException();});
         return new URI(url.get().getRedirectUri());
     }
@@ -110,7 +112,7 @@ public class ZMDocumentService {
 
     public void changeStatus(Notify notify) {
         zmDocumentRepository.findZMDocumentByUuid(notify.getOrder().getExtOrderId()).ifPresentOrElse(value->{
-            if (value.getState() == State.PROJECT ||value.getState() == State.TOPAY){
+            if (value.getState() == State.PROJECT || value.getState() == State.TOPAY){
                 if (notify.getOrder().getStatus() == Status.COMPLETED){
                     value.setState(State.CREATED);
                     value.getDocument().setState(State.COMPLETED);
@@ -127,6 +129,7 @@ public class ZMDocumentService {
                 }
                 if (notify.getOrder().getStatus() == Status.COMPLETED ||
                         notify.getOrder().getStatus() == Status.CANCELED){
+                    value.setPayuUrl(null);
                     wmDocumentsService.removeReservation(value);
                 }
             }

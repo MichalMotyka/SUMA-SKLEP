@@ -48,6 +48,8 @@ public class ZMDocument extends Document{
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private WMDocuments document;
     private String ParcelLocker;
+    private String message;
+    private String payuUrl;
 
 
     public ZMDocument(long id,
