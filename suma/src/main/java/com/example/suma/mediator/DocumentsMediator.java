@@ -107,7 +107,6 @@ public class DocumentsMediator {
         ZMDocument zmDocument = zmDocumentService.getZzmByUuid(order);
         if (zmDocument.getState() != State.PROJECT){
             zmDocument.getDocument().setWmProductsList(wmProductsRepository.findAllByWmDocuments(zmDocument.getDocument()));
-            System.out.println(zmDocument.getDocument().getWmProductsList().size());
             return zmDocumentTranslator.translateOrderInfo(zmDocument);
         }
         throw new OrderDontExistException();
