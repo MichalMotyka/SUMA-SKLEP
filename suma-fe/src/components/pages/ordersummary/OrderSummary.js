@@ -3,9 +3,6 @@ import { useParams } from 'react-router-dom'
 import { CategoryContext } from '../../auth/context/productContext'
 import './ordersummary.scss'
 
-// Komponent jest re-renderowany i state trafi swój stan
-//  dlatego trzeba będzie przechować orderUUID w localstorage
-
 function OrderSummary () {
   const { ipMan } = useContext(CategoryContext)
   const [orderSummary, setOrderSummary] = useState([])
@@ -42,14 +39,18 @@ function OrderSummary () {
             <span>Data zamówienia </span>
             <span>{orderSummary.createDate}</span>
           </div>
-          <div className='summary-info'>
-            <span>Status: </span>
-            <span>{orderSummary.state}</span>
-          </div>
+
           <div className='summary-info'>
             <span>Sposób dostawy </span>
             <span>{orderSummary.deliver.type}</span>
           </div>
+
+          {orderSummary.parcelLocker !== '' ? (
+            <div className='summary-info'>
+              <span>Numer paczkomatu </span>
+              <span>{orderSummary.parcelLocker}</span>
+            </div>
+          ) : null}
 
           <div className='summary-info'>
             <span>Ilość przedmiotów </span>
@@ -57,13 +58,30 @@ function OrderSummary () {
           </div>
 
           <div className='summary-info'>
-            <span>Cena za dostawę </span>
-            <span>{orderSummary.deliver.price.toFixed(2)} zł</span>
-          </div>
-          <div className='summary-info'>
             <span>Cena z dostawą </span>
             <span>{orderSummary.fullPrice} zł</span>
           </div>
+
+          <div className='summary-info'>
+            <span>Status</span>
+            <span>{orderSummary.message}</span>
+          </div>
+
+          {console.log(orderSummary.payUrl)}
+
+          {orderSummary.payUrl !== null  ? (
+            <div className='summary-info'>
+              <span>Dokończ płatność za zamówienie </span>
+              <a
+                href={orderSummary.payuUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='summary-a'
+              >
+                opłać tutaj
+              </a>
+            </div>
+          ) : null}
         </div>
         <div className='summary-bot'>
           <ul className='summary-ul'>
