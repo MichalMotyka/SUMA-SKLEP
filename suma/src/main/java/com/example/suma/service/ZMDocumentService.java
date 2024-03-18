@@ -1,14 +1,12 @@
 package com.example.suma.service;
 
 import com.example.suma.entity.*;
-import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.Notify;
 import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
 import com.example.suma.repository.ProductRepository;
-import com.example.suma.repository.ReservationRepository;
 import com.example.suma.repository.ZMDocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ZMDocumentService {
     private final ZMDocumentRepository zmDocumentRepository;
     private final ProductRepository productRepository;
-    private final ReservationRepository reservationRepository;
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
     private final PayuService payuService;
@@ -69,7 +66,6 @@ public class ZMDocumentService {
     public URI setDataOrder(ZMDocument zmDocument) throws URISyntaxException {
         AtomicReference<PayuResponse> url = new AtomicReference<>();
         zmDocumentRepository.findZMDocumentByUuid(zmDocument.getUuid()).ifPresentOrElse(value->{
-            System.out.println(zmDocument.getParcelLocker());
             value.setName(zmDocument.getName());
             value.setParcelLocker(zmDocument.getParcelLocker());
             value.setSurname(zmDocument.getSurname());
@@ -120,13 +116,11 @@ public class ZMDocumentService {
                     value.setState(State.CREATED);
                     value.getDocument().setState(State.COMPLETED);
                     value.setMessage("Zamówienie w trakcie realizacji.");
-                    value.getDocument().getWmProductsList().forEach(wmProducts -> {
-                       productRepository.findById(wmProducts.getProduct().getId()).ifPresent(product -> {
-                           product.setCount(product.getCount() - wmProducts.getQuantity());
-                           product.setAvailable(product.getAvailable() - wmProducts.getQuantity());
-                           productRepository.save(product);
-                       });
-                    });
+                    value.getDocument().getWmProductsList().forEach(wmProducts -> productRepository.findById(wmProducts.getProduct().getId()).ifPresent(product -> {
+                        product.setCount(product.getCount() - wmProducts.getQuantity());
+                        product.setAvailable(product.getAvailable() - wmProducts.getQuantity());
+                        productRepository.save(product);
+                    }));
                 }else if(notify.getOrder().getStatus() == Status.CANCELED){
                     value.setState(State.REJECTED);
                     value.getDocument().setState(State.REJECTED);
@@ -143,13 +137,11 @@ public class ZMDocumentService {
     }
 
     public void setDeliverOrder(Deliver deliver,String uuid) {
-        zmDocumentRepository.findZMDocumentByUuid(uuid).ifPresentOrElse(zmDocument -> {
-            deliverRepository.findDeliverByUuid(deliver.getUuid()).ifPresentOrElse(zmDocument::setDeliver,
-                    ()->{throw new DeliverDontExistException();});
-        },()->{throw new OrderDontExistException();});
+        zmDocumentRepository.findZMDocumentByUuid(uuid).ifPresentOrElse(zmDocument -> deliverRepository.findDeliverByUuid(deliver.getUuid()).ifPresentOrElse(zmDocument::setDeliver,
+                ()->{throw new DeliverDontExistException();}),()->{throw new OrderDontExistException();});
     }
 
     public ZMDocument getZzmByUuid(String order) {
-        return zmDocumentRepository.findZMDocumentByUuid(order).orElseThrow(()->{throw new OrderDontExistException();});
+        return zmDocumentRepository.findZMDocumentByUuid(order).orElseThrow(OrderDontExistException::new);
     }
 }

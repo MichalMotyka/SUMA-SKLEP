@@ -31,8 +31,6 @@ public class SignatureValidator {
             hexString.append(String.format("%02x", b));
         }
         if (!hexString.toString().equals(signature.get("signature"))){
-            System.out.println(hexString);
-            System.out.println(signature.get("signature"));
             throw new BadSignatureException();
         }
     }

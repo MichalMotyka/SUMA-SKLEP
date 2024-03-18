@@ -55,6 +55,7 @@ public class DocumentsController {
 
     @RequestMapping(method = RequestMethod.POST,value = "/notification")
     public ResponseEntity<Response> notifyOrder(@RequestBody String notify, HttpServletRequest request){
+        System.out.println("Test");
         return documentsMediator.handleNotify(notify,request);
     }
 
