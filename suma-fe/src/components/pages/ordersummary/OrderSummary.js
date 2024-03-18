@@ -3,6 +3,14 @@ import { useParams } from 'react-router-dom'
 import { CategoryContext } from '../../auth/context/productContext'
 import './ordersummary.scss'
 
+import { MdOutlineDateRange } from 'react-icons/md'
+import { MdOutlineDeliveryDining } from 'react-icons/md'
+import { TbNumber } from 'react-icons/tb'
+import { ImListNumbered } from 'react-icons/im'
+import { IoPricetagsOutline } from 'react-icons/io5'
+import { MdOutlineInfo } from 'react-icons/md'
+import { MdOutlinePayment } from 'react-icons/md'
+
 function OrderSummary () {
   const { ipMan } = useContext(CategoryContext)
   const [orderSummary, setOrderSummary] = useState([])
@@ -22,66 +30,118 @@ function OrderSummary () {
       .catch(error => console.log(error))
   }, [token, ipMan])
 
-  console.log(orderSummary)
+  function OrderStatus ({ status }) {
+    let translation = ''
+
+    switch (status) {
+      case 'PROJECT':
+        translation = 'Projekt'
+        break
+      case 'TOPAY':
+        translation = 'Do zapłaty'
+        break
+      case 'CREATED':
+        translation = 'Utworzony'
+        break
+      case 'REALIZATION':
+        translation = 'Realizacja'
+        break
+      case 'COMPLETED':
+        translation = 'Zakończony'
+        break
+      case 'REJECTED':
+        translation = 'Odrzucony'
+        break
+      default:
+        translation = 'Nieznany status'
+    }
+
+    return <span>{translation}</span>
+  }
 
   return Object.keys(orderSummary).length > 0 ? (
     <section className='summary-section'>
       <h2 style={{ textAlign: 'center', margin: '20px 0' }}>
         Podsumowanie zamówienia
-        {/* - dodaj , 
-      .message
-      payuUrl
-      .parcellocker */}
       </h2>
       <div className='summary'>
         <div className='summary-top'>
           <div className='summary-info'>
-            <span>Data zamówienia </span>
+            <span className='summary-span'>
+              <MdOutlineDateRange className='summary-icon' />
+              Data zamówienia{' '}
+            </span>
             <span>{orderSummary.createDate}</span>
           </div>
 
           <div className='summary-info'>
-            <span>Sposób dostawy </span>
-            <span>{orderSummary.deliver.type}</span>
+            <span className='summary-span'>
+              <MdOutlineDeliveryDining className='summary-icon' />
+              Status zamówienia{' '}
+            </span>
+            <OrderStatus status={orderSummary.state} />
           </div>
 
-          {orderSummary.parcelLocker !== '' ? (
+          <div className='summary-info'>
+            <span className='summary-span'>
+              <MdOutlineDeliveryDining className='summary-icon' />
+              Sposób dostawy{' '}
+            </span>
+            <span>{orderSummary.deliver.type || 'Brak informacji'}</span>
+          </div>
+
+          {orderSummary.parcelLocker !== null ? (
             <div className='summary-info'>
-              <span>Numer paczkomatu </span>
-              <span>{orderSummary.parcelLocker}</span>
+              <span className='summary-span'>
+                <TbNumber className='summary-icon' />
+                Numer paczkomatu{' '}
+              </span>
+              <span>{orderSummary.parcelLocker || 'Brak informacji'}</span>
             </div>
           ) : null}
 
           <div className='summary-info'>
-            <span>Ilość przedmiotów </span>
+            <span className='summary-span'>
+              <ImListNumbered className='summary-icon' />
+              Ilość przedmiotów{' '}
+            </span>
             <span>{orderSummary.fullQuantity}</span>
           </div>
 
           <div className='summary-info'>
-            <span>Cena z dostawą </span>
-            <span>{orderSummary.fullPrice} zł</span>
+            <span className='summary-span'>
+              <IoPricetagsOutline className='summary-icon' />
+              Cena z dostawą{' '}
+            </span>
+            <span>{orderSummary.fullPrice.toFixed(2)} zł</span>
           </div>
 
-          <div className='summary-info'>
-            <span>Status</span>
-            <span>{orderSummary.message}</span>
-          </div>
-
-          {console.log(orderSummary.payUrl)}
-
-          {orderSummary.payUrl !== null  ? (
+          {orderSummary.payuUrl !== null ? (
             <div className='summary-info'>
-              <span>Dokończ płatność za zamówienie </span>
+              <span className='summary-span'>
+                <MdOutlinePayment className='summary-icon' />
+                Dokończ płatność za zamówienie{' '}
+              </span>
               <a
                 href={orderSummary.payuUrl}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='summary-a'
               >
-                opłać tutaj
+                Opłać tutaj
               </a>
             </div>
           ) : null}
+
+          <div className='summary-info summary-message'>
+            <span className='summary-span'>
+              <MdOutlineInfo className='summary-icon' />
+              Wiadomość
+            </span>
+            <span style={{ color: 'green', fontWeight: 'bold' }}>
+              {orderSummary.message}
+            </span>
+          </div>
         </div>
         <div className='summary-bot'>
           <ul className='summary-ul'>
