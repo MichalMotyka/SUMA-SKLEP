@@ -4,6 +4,8 @@ import { CategoryContext } from '../../auth/context/productContext'
 import './ordersummary.scss'
 
 import { MdOutlineDateRange } from 'react-icons/md'
+import { GrStatusUnknown } from 'react-icons/gr'
+
 import { MdOutlineDeliveryDining } from 'react-icons/md'
 import { TbNumber } from 'react-icons/tb'
 import { ImListNumbered } from 'react-icons/im'
@@ -76,7 +78,7 @@ function OrderSummary () {
 
           <div className='summary-info'>
             <span className='summary-span'>
-              <MdOutlineDeliveryDining className='summary-icon' />
+              <GrStatusUnknown className='summary-icon' />
               Status zamówienia{' '}
             </span>
             <OrderStatus status={orderSummary.state} />
@@ -138,7 +140,10 @@ function OrderSummary () {
               <MdOutlineInfo className='summary-icon' />
               Wiadomość
             </span>
-            <span style={{ color: 'green', fontWeight: 'bold' }}>
+            <span
+              className='summary-msg-span'
+              style={{ color: 'green', fontWeight: 'bold' }}
+            >
               {orderSummary.message}
             </span>
           </div>

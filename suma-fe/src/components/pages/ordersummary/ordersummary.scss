@@ -12,6 +12,9 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            .summary-msg-span{
+                padding-top: 5px;
+            }
         }
 
         .summary-info {
@@ -33,7 +36,8 @@
                 align-items: center;
                 justify-content: center;
                 .summary-icon {
-                    margin-right: 5px;
+                    font-size: 1.1rem;
+                    margin: 0 5px;
                 }
             }
             .summary-a {
