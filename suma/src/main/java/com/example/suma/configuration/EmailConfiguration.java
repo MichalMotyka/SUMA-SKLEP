@@ -1,5 +1,8 @@
 package com.example.suma.configuration;
 
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -9,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
 import java.util.Properties;
 
 @Configuration
@@ -47,7 +51,7 @@ public class EmailConfiguration {
         session = Session.getInstance(properties,auth);
     }
 
-    public void sendMail(String recipientEmail, String content,String subject,boolean onCreate){
+    public void sendMail(String recipientEmail, String content, String subject, boolean onCreate){
         if (session == null){
             refreshSession();
         }
