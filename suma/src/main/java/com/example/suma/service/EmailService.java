@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -23,8 +24,9 @@ public class EmailService {
     @Value("${front.url}")
     private String fontendUrl;
 
-    @Value("classpath:static/mail-aktywuj.html")
+    @Value("classpath:static/mail-order.html")
     private Resource orderTemplate;
+
 
     public void sendOrder(ZMDocument zmDocument){
         log.info("--START sendActivation");
