@@ -25,6 +25,7 @@ public class ZMDocumentService {
     private final WMDocumentsService wmDocumentsService;
     private final DeliverRepository deliverRepository;
     private final PayuService payuService;
+    private final EmailService emailService;
 
 
     public void create(ZMDocument zmDocument) {
@@ -96,6 +97,7 @@ public class ZMDocumentService {
             value.setState(State.TOPAY);
             url.set(response);
             value.setMessage("Oczekiwanie na opłacenie zamówienia.");
+            emailService.sendOrder(zmDocument);
             value.setPayuUrl(url.get().getRedirectUri());
             zmDocumentRepository.save(value);
 
