@@ -704,7 +704,18 @@ function Order () {
                     >
                       {isSubmitting ? 'Wysyłanie...' : 'Zamawiam i płacę'}
                     </button>
-                    {errorHandle && <p>{errorHandle}</p>}
+                    {errorHandle && (
+                      <p
+                        style={{
+                          color: 'tomato',
+                          fontWeight: 'bold',
+                          marginBottom: '20px',
+                          fontSize: '1.05rem'
+                        }}
+                      >
+                        {errorHandle}
+                      </p>
+                    )}
                   </Form>
                 )}
               </Formik>
