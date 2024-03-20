@@ -46,7 +46,7 @@ function OrderSummary () {
         translation = 'Utworzony'
         break
       case 'REALIZATION':
-        translation = 'Realizacja'
+        translation = 'W realizacji'
         break
       case 'COMPLETED':
         translation = 'Zakończony'
