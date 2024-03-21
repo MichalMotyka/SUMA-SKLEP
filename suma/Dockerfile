@@ -9,7 +9,6 @@ RUN mvn clean install -Dmaven.test.skip=true
 FROM openjdk:17
 WORKDIR /app
 COPY --from=builder /app/target/suma-0.0.1-SNAPSHOT.jar .
-COPY src/main/resources/mail ./mail
 
 EXPOSE 8080
 CMD ["java", "-jar" ,"suma-0.0.1-SNAPSHOT.jar"]
