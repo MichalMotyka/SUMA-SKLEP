@@ -7,11 +7,14 @@ import com.google.common.io.Files;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 
 @Service
@@ -24,16 +27,14 @@ public class EmailService {
     @Value("${front.url}")
     private String fontendUrl;
 
-    @Value("classpath:static/mail-order.html")
-    private Resource orderTemplate;
-
-
     public void sendOrder(ZMDocument zmDocument){
         log.info("--START sendActivation");
         try{
-            String html = Files.toString(orderTemplate.getFile(), Charsets.UTF_8);
-            html = html.replace("https://google.com",fontendUrl+"/podsumowanie/"+zmDocument.getUuid());
-            emailConfiguration.sendMail(zmDocument.getEmail(), html,"Złożono zamówienie",true);
+            ClassPathResource resource = new ClassPathResource("/static/mail-order.html");
+            InputStream inputStream = resource.getInputStream();
+            String content = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            content = content.replace("https://google.com",fontendUrl+"/podsumowanie/"+zmDocument.getUuid());
+            emailConfiguration.sendMail(zmDocument.getEmail(), content,"Złożono zamówienie",true);
         }catch (IOException e){
             log.info("Cant send mail");
             throw new RuntimeException(e);
