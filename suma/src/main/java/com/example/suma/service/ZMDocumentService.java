@@ -91,11 +91,14 @@ public class ZMDocumentService {
             value.setDeliver(new Deliver(zmDocument.getDeliver().getUuid()));
             setDeliver(value);
             value = zmDocumentRepository.saveAndFlush(value);
-
-            PayuResponse response = payuService.createOrder(value);
-            value.setExtUuid(response.getOrderId());
             value.setState(State.TOPAY);
-            url.set(response);
+            if (value.getPayuUrl() == null){
+                PayuResponse response = payuService.createOrder(value);
+                value.setExtUuid(response.getOrderId());
+                url.set(response);
+            }else{
+                url.set(new PayuResponse(null,value.getPayuUrl(),value.getExtUuid(),value.getUuid()));
+            }
             value.setMessage("Oczekiwanie na opłacenie zamówienia.");
             emailService.sendOrder(zmDocument);
             value.setPayuUrl(url.get().getRedirectUri());
