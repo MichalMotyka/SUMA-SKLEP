@@ -22,6 +22,10 @@ function Order () {
     name: ''
   })
 
+  // DODAJ OBSŁUGE BŁĘDÓW PO WCISNIECIU GUZIKA WYŚLIJ
+
+  const [errorHandle, setErrorHandle] = useState('')
+
   const [orderUUID, setOrderUUID] = useState('')
   const [isInvoicing, setIsInvoicing] = useState(false)
   const [invoiceType, setInvoiceType] = useState('private')
@@ -127,7 +131,8 @@ function Order () {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          // jesli jest 400 lub 500 to - Wystąpił błąd system, spróbuj ponowne.
+          setErrorHandle('Wystąpił błąd systemu, spróbuj ponowne.')
         }
 
         const orderURL = response.headers.get('x-location')
@@ -699,6 +704,18 @@ function Order () {
                     >
                       {isSubmitting ? 'Wysyłanie...' : 'Zamawiam i płacę'}
                     </button>
+                    {errorHandle && (
+                      <p
+                        style={{
+                          color: 'tomato',
+                          fontWeight: 'bold',
+                          marginBottom: '20px',
+                          fontSize: '1.05rem'
+                        }}
+                      >
+                        {errorHandle}
+                      </p>
+                    )}
                   </Form>
                 )}
               </Formik>
