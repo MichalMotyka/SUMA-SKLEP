@@ -38,32 +38,34 @@ function SearchResults () {
         <div className='products-list'>
           <ul className='product-ul'>
             {searchResults.map(product => (
-              <li key={product.uuid} className='product-box'>
-                <Link
-                  className='product-info'
-                  to='/produkt'
-                  onClick={() => handleProductDetails(product.uuid)}
-                >
-                  <FiMoreHorizontal className='product-info-icon' />
-                  <img
-                    className='product-img'
-                    src={product.mainImg}
-                    alt={product.name}
-                  />
-                </Link>
+              <Link
+                key={product.uuid}
+                className='product-link'
+                to='/produkt'
+                onClick={() => handleProductDetails(product.uuid)}
+              >
+                <li className='product-box'>
+                  <div className='product-info'>
+                    <FiMoreHorizontal className='product-info-icon' />
+                    <img
+                      className='product-img'
+                      src={product.mainImg}
+                      alt={product.name}
+                    />
+                  </div>
 
-                <div className='product-desc'>
-                  <span className='product-name'>{product.name}</span>
-                </div>
-                <hr className='hr-line product-line'></hr>
-                <div className='product-buy'>
-                  <span className='product-available'>
-                    Dostępnych: {product.available}
-                  </span>
-                  <span className='product-price'>{product.price} zł</span>
-                  {/* <button className='product-btn'>Dodaj do koszyka</button> */}
-                </div>
-              </li>
+                  <div className='product-desc'>
+                    <span className='product-name'>{product.name}</span>
+                  </div>
+                  <hr className='hr-line product-line' />
+                  <div className='product-buy'>
+                    <span className='product-available'>
+                      Dostępnych: {product.available}
+                    </span>
+                    <span className='product-price'>{product.price} zł</span>
+                  </div>
+                </li>
+              </Link>
             ))}
           </ul>
         </div>

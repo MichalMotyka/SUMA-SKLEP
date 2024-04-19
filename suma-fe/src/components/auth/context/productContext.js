@@ -10,7 +10,7 @@ export const CategoryProvider = ({ children }) => {
 
   // zakomentuj ip przed publikacja
   // const ipMan = 'localhost:8080'
-  const ipMan = "89.168.65.36:8080"
+  const ipMan = '89.168.65.36:8080'
 
   return (
     <CategoryContext.Provider
