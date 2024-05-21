@@ -95,7 +95,20 @@ export class ProductFormComponent {
   }
 
   edit(){
-    this.productService.editProduct(this.getProduct())
+    this.productService.editProduct(this.getProduct()).subscribe(res=>{
+      this.toaster.success("Pomyślnie zmieniono produkt", "Sukces", {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: "decreasing"
+      })
+      this.dialog.close(this);
+    },error => {
+      this.toaster.error(error.message, "Błąd", {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: "decreasing"
+      })
+    })
   }
 
   commit() {
@@ -109,9 +122,8 @@ export class ProductFormComponent {
 
   getProduct(){
     const category = new Category(this.formGroup.controls.category.value,null,null,null)
-    console.log(this.formGroup.controls.category.value)
     return new Product(
-      "",
+      this.formGroup.controls.uuid.value,
       this.formGroup.controls.name.value,
       this.formGroup.controls.description.value,
       category,

@@ -9,6 +9,7 @@ import {ProductFormComponent} from "./product-form/product-form.component";
 import {MatDialog} from "@angular/material/dialog";
 import {SharedService} from "../../core/utils/shared/shared.service";
 import {Product, ProductService} from "../../core/service/product.service";
+import {ImageFormComponent} from "./image-form/image-form.component";
 
 @Component({
   selector: 'app-product',
@@ -64,7 +65,9 @@ export class ProductComponent {
   view(row:any) {
     this.dialog.open(ProductFormComponent,{data:{row:row,viewMode:true,editMode:false}})
   }
-
+  addImage(row:any){
+    this.dialog.open(ImageFormComponent,{data:{row:row}})
+  }
   edit(row:any) {
     this.dialog.open(ProductFormComponent,{data:{row:row,viewMode:false,editMode:true}})
   }

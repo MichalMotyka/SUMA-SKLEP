@@ -34,6 +34,7 @@ import { ProductFormComponent } from './modules/product/product-form/product-for
 import {MatButtonModule} from "@angular/material/button";
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import { ImageFormComponent } from './modules/product/image-form/image-form.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -51,7 +52,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     CategoryFormComponent,
     CategoryDeleteComponent,
     ProductComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ImageFormComponent
   ],
   imports: [
     CommonModule,

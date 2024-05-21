@@ -10,15 +10,24 @@ services:
       ports:
         - "5432:5432"
 
+    ftp:
+      image: delfer/alpine-ftp-server
+      ports:
+        - "8001:21"
+        - "21000-21010:21000-21010"
+      environment:
+        - USERS=sklep|12345678|/home/sklep|10000
+
     suma:
       build:
         context: ./suma
-#      environment:
-#        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       ports:
         - "8080:8080"
       depends_on:
         - postgres
+        - ftp
     
     suma-scheduler:
       build:
