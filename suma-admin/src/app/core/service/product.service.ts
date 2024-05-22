@@ -19,7 +19,8 @@ export class Product{
               public price: string | null,
               public mainImg: string | null,
               public images: string[],
-              public active: boolean | null) {
+              public active: boolean | null,
+              public properties :string[]) {
   }
 }
 
@@ -55,5 +56,11 @@ export class ProductService {
 
   getImage(produkt:string | null) {
     return this.http.get<Product>(`${environment.url}/api/v1/product/${produkt}/image`,{withCredentials:true})
+  }
+  updateProperties(produkt:Product | null){
+    return this.http.patch<Product>(`${environment.url}/api/v1/product`,produkt,{withCredentials:true})
+  }
+  deleteProduct(uuid:string | null){
+    return this.http.delete(`${environment.url}/api/v1/product/${uuid}`,{withCredentials:true})
   }
 }

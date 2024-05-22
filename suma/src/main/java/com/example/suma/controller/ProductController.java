@@ -94,6 +94,11 @@ public class ProductController {
         return productMediator.updateProperties(productDTO);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Response> deleteProduct(@PathVariable String uuid){
+        return productMediator.deleteProduct(uuid);
+    }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ProductMaxSixPropertiesException.class)
     public Response handleProductMaxSixPropertiesException(

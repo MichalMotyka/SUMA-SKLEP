@@ -23,7 +23,7 @@ export class ProductFormComponent {
     description: new FormControl('',Validators.required),
     category: new FormControl('',Validators.required),
     active: new FormControl(true),
-    mainImage: new FormControl('',Validators.required)
+    mainImage: new FormControl('')
   })
   viewMode: boolean;
   editMode:boolean;
@@ -132,6 +132,7 @@ export class ProductFormComponent {
       this.formGroup.controls.price.value,
       this.formGroup.controls.mainImage.value,
       [],
-      this.formGroup.controls.active.value)
+      this.formGroup.controls.active.value,
+      [])
   }
 }

@@ -136,7 +136,7 @@ public class ProductMediator {
 
     public ResponseEntity<Response> updateProperties(ProductDTO productDTO) {
         Product product = productService.getProductByUuid(productDTO.getUuid());
-        product.setProperties(productDTO.getProperties().stream().map(value-> Map.of(value.getName(),value.getValue())).toList());
+        product.setProperties(productDTO.getProperties().stream().map(value-> Map.of("name",value.getName(),"value",value.getValue(),"uuid","")).toList());
         productRepository.save(product);
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
@@ -145,5 +145,13 @@ public class ProductMediator {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<>(ftpService.getFile(uuid).toByteArray(),headers, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Response> deleteProduct(String uuid) {
+        productRepository.findProductByUuid(uuid).ifPresentOrElse(value->{
+            value.setActive(false);
+            productRepository.save(value);
+        },()->{throw new ProductDontExistException();});
+        return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 }
