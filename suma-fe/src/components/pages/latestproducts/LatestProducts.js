@@ -39,7 +39,7 @@ function LatestProducts () {
             <Link
               key={product.uuid}
               className='product-link'
-              to='/produkt'
+              to={`/produkt/${product.uuid}`}
               onClick={() => handleProductDetails(product.uuid)}
             >
               <li className='product-box'>

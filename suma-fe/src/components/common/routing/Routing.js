@@ -15,7 +15,9 @@ function Routing () {
         <Route path='/' element={<Home />} />
         <Route path='/kategoria' element={<ProductsData />} />
         <Route path='/szukaj' element={<SearchResults />} />
-        <Route path='/produkt' element={<Card />} />
+
+        <Route path='/produkt/:productId' element={<Card />} />
+
         <Route path='/koszyk' element={<Cart />} />
         <Route path='/zamowienie' element={<Order />} />
 
