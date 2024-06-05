@@ -1,7 +1,6 @@
 import ProductsFiltering from '../productsFiltering/ProductsFiltering'
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { CategoryContext } from '../../auth/context/productContext'
 import ProductPagination from './ProductPagination'
 import { FiMoreHorizontal } from 'react-icons/fi'
@@ -27,7 +26,7 @@ function ProductsData () {
   })
 
   // product uuid
-  const { setProductUuid } = useContext(CategoryContext)
+  // const { setProductUuid } = useContext(CategoryContext)
 
   useEffect(() => {
     fetch(
@@ -53,17 +52,12 @@ function ProductsData () {
       .catch(error => console.log(error))
   }, [passCategory, page, priceMin, priceMax, filterType, ipMan])
 
-  const handleProductDetails = uuid => {
-    setProductUuid(uuid)
-  }
-
   return (
     <section>
       <ProductsFiltering
         data={passCategory}
         props={{ setPriceMin, setPriceMax, filterType, setFilterType }}
       />
-
       {productsList.length > 0 ? (
         <h2 style={{ textAlign: 'center' }}>
           Kategoria:{' '}
@@ -71,7 +65,6 @@ function ProductsData () {
             productsList[0].category.name.slice(1).toLowerCase()}
         </h2>
       ) : null}
-
       {xTotalCount ? (
         <ProductPagination
           props={{ page, setPage, xTotalCount, productLimit }}
@@ -81,15 +74,13 @@ function ProductsData () {
           W tej kategorii obecnie nie ma produktów.
         </p>
       )}
-
       <div className='products-list'>
         <ul className='product-ul'>
           {productsList.map(product => (
             <Link
               key={product.uuid}
               className='product-link'
-              to='/produkt'
-              onClick={() => handleProductDetails(product.uuid)}
+              to={`/produkt/${product.uuid}`}
             >
               <li className='product-box'>
                 <div className='product-info'>
@@ -116,7 +107,6 @@ function ProductsData () {
           ))}
         </ul>
       </div>
-
       {xTotalCount > 9 ? (
         <ProductPagination
           props={{ page, setPage, xTotalCount, productLimit }}

@@ -1,7 +1,7 @@
 import { CategoryContext } from '../../../auth/context/productContext'
 import { useContext, useEffect, useState } from 'react'
 import { BsZoomIn } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { TbArrowBackUp } from 'react-icons/tb'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { MdOutlineArrowBackIos } from 'react-icons/md'
@@ -10,17 +10,17 @@ import { BsCartCheck } from 'react-icons/bs'
 import './card.scss'
 
 function Card () {
-  const { productUuid, setPassCategory, ipMan } = useContext(CategoryContext)
+  const { productId } = useParams() // Pobierz productId z URL
+  const { setPassCategory, ipMan } = useContext(CategoryContext)
   const [mainImg, setMainImg] = useState('')
   const [productDetails, setProductDetails] = useState([])
   const [productCounter, setProductCounter] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  // Products data
   const [productAddedStatus, setProductAddedStatus] = useState(false)
 
   useEffect(() => {
-    fetch(`http://${ipMan}/api/v1/product/${productUuid}`, {
+    fetch(`http://${ipMan}/api/v1/product/${productId}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -33,7 +33,7 @@ function Card () {
         setMainImg(data.mainImg)
       })
       .catch(error => console.log(error))
-  }, [productUuid, ipMan])
+  }, [productId, ipMan])
 
   const handleProductAmountMinus = () => {
     setProductCounter(prevValue => prevValue - 1)
@@ -71,7 +71,7 @@ function Card () {
   const handleProductBuy = () => {
     const requestedBasketData = {
       product: {
-        uuid: productUuid
+        uuid: productId
       },
       quantity: productCounter
     }
@@ -114,7 +114,7 @@ function Card () {
           <p>{productDetails.description}</p>
           <ul className='product-properties'>
             {productDetails.properties.map(properties => (
-              <li className='product-properties-item'>
+              <li key={properties.name} className='product-properties-item'>
                 <span className='product-prop-span'>
                   {' '}
                   {properties.name.charAt(0).toUpperCase() +
@@ -180,14 +180,14 @@ function Card () {
         </div>
 
         <div className='prod-top mobile-order'>
-          <h2 className='prod-name desktop-show'>{productDetails.name}</h2>
+          <h2 className='prod-name desktop-show'>{productDetails.name} </h2>
         </div>
 
         <figure className='mobile-order'>
           <img
             className='prod-main-img'
             src={mainImg}
-            alt='main product'
+            alt={productDetails.name}
             onClick={openModal}
             style={{ cursor: 'zoom-in' }}
           />
@@ -203,7 +203,7 @@ function Card () {
               key={image}
               className='prod-side-img'
               src={image}
-              alt='product'
+              alt={productDetails.name}
               onClick={() => {
                 setMainImg(image)
                 setCurrentImageIndex(index)

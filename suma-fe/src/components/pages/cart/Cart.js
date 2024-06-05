@@ -76,14 +76,14 @@ function Cart () {
 
   return Object.keys(basketData).length > 0 ? (
     <section>
-    {totalProductCount <= 0 ? 
-    <h2 className='section-title'>
-    Twój koszyk jest pusty.
-  </h2> :    <h2 className='section-title'>
-    Przedmioty w koszyku {totalProductCount}
-  </h2> 
-  
-  }
+
+      {totalProductCount <= 0 ? (
+        <h2 className='section-title'>Twój koszyk jest pusty.</h2>
+      ) : (
+        <h2 className='section-title'>
+          Przedmioty w koszyku {totalProductCount}
+        </h2>
+      )}
       <div className='cart'>
         <ul className='cart-list'>
           {basketData.basketItem.map(product => (
