@@ -59,6 +59,7 @@ function ProductsData () {
 
   return (
     <section>
+      
       <ProductsFiltering
         data={passCategory}
         props={{ setPriceMin, setPriceMax, filterType, setFilterType }}

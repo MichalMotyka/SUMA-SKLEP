@@ -6,6 +6,7 @@ import { TbArrowBackUp } from 'react-icons/tb'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { MdOutlineArrowBackIos } from 'react-icons/md'
 import { BsCartCheck } from 'react-icons/bs'
+import { useParams } from 'react-router-dom'
 
 import './card.scss'
 
