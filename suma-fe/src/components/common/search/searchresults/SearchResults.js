@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { FiMoreHorizontal } from 'react-icons/fi'
 
 function SearchResults () {
-  const { searchValue, setSearchValue } = useContext(CategoryContext)
+  const { searchValue } = useContext(CategoryContext)
   const [searchResults, setSearchResults] = useState([])
   const { setProductUuid, ipMan } = useContext(CategoryContext)
 

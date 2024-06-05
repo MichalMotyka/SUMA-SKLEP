@@ -180,14 +180,14 @@ function Card () {
         </div>
 
         <div className='prod-top mobile-order'>
-          <h2 className='prod-name desktop-show'>{productDetails.name}</h2>
+          <h2 className='prod-name desktop-show'>{productDetails.name} </h2>
         </div>
 
         <figure className='mobile-order'>
           <img
             className='prod-main-img'
             src={mainImg}
-            alt='main product'
+            alt={productDetails.name}
             onClick={openModal}
             style={{ cursor: 'zoom-in' }}
           />
@@ -203,7 +203,7 @@ function Card () {
               key={image}
               className='prod-side-img'
               src={image}
-              alt='product'
+              alt={productDetails.name}
               onClick={() => {
                 setMainImg(image)
                 setCurrentImageIndex(index)

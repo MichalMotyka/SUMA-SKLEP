@@ -76,6 +76,7 @@ function Cart () {
 
   return Object.keys(basketData).length > 0 ? (
     <section>
+
       {totalProductCount <= 0 ? (
         <h2 className='section-title'>Twój koszyk jest pusty.</h2>
       ) : (
