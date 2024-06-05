@@ -1,6 +1,7 @@
 package com.example.suma.service;
 
 
+import com.example.suma.entity.ImageEntity;
 import com.example.suma.entity.Product;
 import com.example.suma.entity.dto.Sort;
 import com.example.suma.exceptions.CategoryDontExistException;
@@ -93,5 +94,11 @@ public class ProductService {
 
     public Product getProductByUuid(String uuid) {
        return productRepository.findProductByUuid(uuid).orElseThrow();
+    }
+    public void addImage(ImageEntity imageEntity,String uuid){
+        productRepository.findProductByUuid(uuid).ifPresentOrElse(value->{
+            value.getImages().add(imageEntity.getUuid());
+            productRepository.save(value);
+        },()->{throw new ProductDontExistException();});
     }
 }

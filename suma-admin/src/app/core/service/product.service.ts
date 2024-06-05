@@ -5,19 +5,22 @@ import {environment} from "../../../environments/environment";
 import {Response} from "../model/response.model";
 
 
-
+export class Image{
+  constructor(public uuid:string){}
+}
 
 export class Product{
-    constructor(public uuid: string,
-                public name: string | null,
-                public description: string | null,
-                public category: Category | null,
-                public available: number,
-                public count: number,
-                public price: string | null,
-                public mainImg: string | null,
-                public images: string[],
-                public active: boolean | null) {
+  constructor(public uuid: string | null,
+              public name: string | null,
+              public description: string | null,
+              public category: Category | null,
+              public available: number,
+              public count: number,
+              public price: string | null,
+              public mainImg: string | null,
+              public images: string[],
+              public active: boolean | null,
+              public properties :string[]) {
   }
 }
 
@@ -42,5 +45,22 @@ export class ProductService {
 
   editProduct(product:Product){
     return this.http.put<Response>(`${environment.url}/api/v1/product`,product,{withCredentials:true})
+  }
+
+  addImage(image:FormData,uuid:string | null){
+    return this.http.post<Response>(`${environment.url}/api/v1/product/${uuid}/image`,image,{withCredentials:true})
+  }
+  removeImage(produkt:string | null,uuid:string | null){
+    return this.http.delete<Response>(`${environment.url}/api/v1/product/${produkt}/image/${uuid}`,{withCredentials:true})
+  }
+
+  getImage(produkt:string | null) {
+    return this.http.get<Product>(`${environment.url}/api/v1/product/${produkt}/image`,{withCredentials:true})
+  }
+  updateProperties(produkt:Product | null){
+    return this.http.patch<Product>(`${environment.url}/api/v1/product`,produkt,{withCredentials:true})
+  }
+  deleteProduct(uuid:string | null){
+    return this.http.delete(`${environment.url}/api/v1/product/${uuid}`,{withCredentials:true})
   }
 }

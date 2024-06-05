@@ -2,16 +2,13 @@
 FROM node:14 as build
 
 # Ustawiamy katalog roboczy
-WORKDIR /app
+WORKDIR /usr/local/app
 
 # Kopiujemy pliki package.json i package-lock.json do katalogu roboczego
-COPY package*.json ./
+COPY ./ /usr/local/app/
 
 # Instalujemy zależności
 RUN npm install
-
-# Kopiujemy pozostałe pliki do katalogu roboczego
-COPY . .
 
 # Budujemy aplikację Angular
 RUN npm run build
@@ -20,10 +17,12 @@ RUN npm run build
 FROM nginx:latest
 
 # Kopiujemy pliki z etapu budowy "build" do katalogu, gdzie Nginx będzie szukać plików do serwowania
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /usr/local/app/dist/suma-admin /usr/share/nginx/html
+
+RUN sed -i -e 's/80/4200/g' /etc/nginx/conf.d/default.conf
 
 # Expose port 80, na którym działa Nginx
-EXPOSE 80
+EXPOSE 4200
 
 # Komenda uruchamiająca serwer Nginx
 CMD ["nginx", "-g", "daemon off;"]

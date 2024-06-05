@@ -9,6 +9,9 @@ import {ProductFormComponent} from "./product-form/product-form.component";
 import {MatDialog} from "@angular/material/dialog";
 import {SharedService} from "../../core/utils/shared/shared.service";
 import {Product, ProductService} from "../../core/service/product.service";
+import {ImageFormComponent} from "./image-form/image-form.component";
+import {PropertiesFormComponent} from "./properties-form/properties-form.component";
+import {ConfirmComponent} from "./confirm/confirm.component";
 
 @Component({
   selector: 'app-product',
@@ -30,11 +33,7 @@ export class ProductComponent {
   constructor(private dialog:MatDialog, private sharedService: SharedService, private productService:ProductService) {
     this.searchSub = this.sharedService.getClieckEvent().subscribe(value => {
       if (value != '' && value != undefined) {
-        this.productService.getAllProduct().subscribe(value =>{
-          this.dataSource = new MatTableDataSource(value);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        })
+        this.filteredValue(value)
       }else {
         this.addValue()
       }
@@ -56,16 +55,31 @@ export class ProductComponent {
       }
     })
   }
+  filteredValue(search:string){
+    this.productService.getAllProduct().subscribe({
+      next: value => {
+        this.dataSource = new MatTableDataSource(value.filter(product=>product.name?.toLowerCase()?.includes(search.toLowerCase()) || product.category?.name?.toLowerCase()?.includes(search.toLowerCase())));
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
+    })
+  }
 
   remove(row:any) {
-
+    this.dialog.open(ConfirmComponent,{data:{row:row}})
   }
 
   view(row:any) {
     this.dialog.open(ProductFormComponent,{data:{row:row,viewMode:true,editMode:false}})
   }
-
+  addImage(row:any){
+    this.dialog.open(ImageFormComponent,{data:{row:row}})
+  }
   edit(row:any) {
     this.dialog.open(ProductFormComponent,{data:{row:row,viewMode:false,editMode:true}})
+  }
+
+  editProperties(row:any){
+    this.dialog.open(PropertiesFormComponent,{data:{row:row}})
   }
 }

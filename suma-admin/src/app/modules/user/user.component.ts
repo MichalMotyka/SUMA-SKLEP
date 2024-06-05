@@ -21,7 +21,7 @@ export class UserComponent {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name','actions'];
-  formModule: any;
+  formModule: any = UserForm;
   private subcription!: Subscription;
   private searchSub!: Subscription;
 

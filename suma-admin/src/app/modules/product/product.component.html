@@ -19,14 +19,23 @@
           <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
           <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
         </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill me-3"  style="cursor:pointer" viewBox="0 0 16 16" *ngIf="row.state != 'N'" (click)="edit(row)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill me-3"  style="cursor:pointer" viewBox="0 0 16 16" *ngIf="row.active == true" (click)="edit(row)">
           <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
         </svg>
-        <button class="btn btn-close me-3" *ngIf="row.state != 'N'" (click)="remove(row)"></button>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exposure me-3" viewBox="0 0 16 16" style="cursor:pointer" *ngIf="row.active == true" (click)="addImage(row)" >
+          <path d="M8.5 4a.5.5 0 0 0-1 0v2h-2a.5.5 0 0 0 0 1h2v2a.5.5 0 0 0 1 0V7h2a.5.5 0 0 0 0-1h-2zm-3 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-binary-fill me-3" style="cursor: pointer" *ngIf="row.active == true" (click)="editProperties(row)" viewBox="0 0 16 16">
+          <path d="M5.526 9.273c-.542 0-.832.563-.832 1.612q0 .133.006.252l1.56-1.143c-.126-.474-.375-.72-.733-.72zm-.732 2.508c.126.472.372.718.732.718.54 0 .83-.563.83-1.614q0-.129-.006-.25z"/>
+          <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M7.05 10.885c0 1.415-.548 2.206-1.524 2.206C4.548 13.09 4 12.3 4 10.885c0-1.412.548-2.203 1.526-2.203.976 0 1.524.79 1.524 2.203m3.805 1.52V13h-3v-.595h1.181V9.5h-.05l-1.136.747v-.688l1.19-.786h.69v3.633z"/>
+        </svg>
+        <button class="btn btn-close me-3" *ngIf="row.active == true" (click)="remove(row)"></button>
+        <b *ngIf="row.active == false">Niekatywny</b>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-selector" [ngStyle]="{'background':row.state === 'N' ? '#808080':'#FFF'}"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-selector" [ngStyle]="{'background':row.active == false ? '#808080':'#FFF'}"></tr>
   </table>
 
   <mat-paginator #paginator
