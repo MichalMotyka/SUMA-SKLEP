@@ -1,6 +1,7 @@
 package com.example.suma.service;
 
 import com.example.suma.entity.*;
+import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.Notify;
 import com.example.suma.entity.notify.Status;
 import com.example.suma.exceptions.DeliverDontExistException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -148,5 +150,30 @@ public class ZMDocumentService {
 
     public ZMDocument getZzmByUuid(String order) {
         return zmDocumentRepository.findZMDocumentByUuid(order).orElseThrow(OrderDontExistException::new);
+    }
+    public List<ZMDocument> getZmDocuments(String name,boolean all) {
+        if (name == null || name.isEmpty()){
+            if (all){
+                return zmDocumentRepository.findAll();
+            }
+            return zmDocumentRepository.findZMDocumentByStateOrState(State.CREATED,State.REALIZATION);
+        }
+        if (all){
+            return zmDocumentRepository.findAllByUuidOrEmailOrNameOrSurnameOrCompanyNameOrNip(name,name,name,name,name,name);
+        }else{
+            return zmDocumentRepository.findAllByUuidOrEmailOrNameOrSurnameOrCompanyNameOrNipAndStateOrState(name,name,name,name,name,name,State.CREATED,State.REALIZATION);
+        }
+
+
+    }
+
+    public void setMessage(OrderDTO orderDTO) throws OrderDontExistException {
+        zmDocumentRepository.findZMDocumentByUuid(orderDTO.getUuid()).ifPresentOrElse(value->{
+            if (!value.getMessage().equals(orderDTO.getMessage())){
+                value.setMessage(orderDTO.getMessage());
+                zmDocumentRepository.save(value);
+                //TODO WYSYLANIE MAILA
+            }
+        },()->{throw new OrderDontExistException();});
     }
 }

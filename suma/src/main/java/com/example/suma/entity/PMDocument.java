@@ -7,20 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
-//@Getter
-//@Setter
-//@Entity
-//@Table
-//@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-//@MappedSuperclass
+@Getter
+@Setter
+@Entity
+@Table(name = "pm_documents",schema = "suma")
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class PMDocument extends Document{
-
-//    public PMDocument(long id, String uuid, LocalDate createDate, Document document, State state) {
-//        super(id, uuid, createDate, document, state);
-//    }
-//
-//    public PMDocument() {
-//    }
+    @Id
+    @GeneratedValue(generator = "pm_documents_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "pm_documents_id_seq",sequenceName = "pm_documents_id_seq",allocationSize = 1,schema = "suma")
+    private long id;
+    @OneToMany(mappedBy = "pmDocuments",fetch = FetchType.EAGER)
+    private List<PMProducts> pmProductsList;
 }

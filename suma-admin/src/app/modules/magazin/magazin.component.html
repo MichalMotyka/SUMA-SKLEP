@@ -1,0 +1,51 @@
+<app-utils [module]="formModule" [check]="true"></app-utils>
+<div class="mat-elevation-z8">
+  <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+    <!-- Name Column -->
+
+    <ng-container matColumnDef="typ">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Typ</th>
+      <td mat-cell *matCellDef="let row">{{row.type}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let row">{{row.state}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="uuid">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Numer</th>
+      <td mat-cell *matCellDef="let row">{{row.uuid}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="data">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+      <td mat-cell *matCellDef="let row">{{row.createDate}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill me-3" style="cursor: pointer" viewBox="0 0 16 16" (click)="view(row)">
+          <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+          <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill me-3" viewBox="0 0 16 16" style="cursor: pointer" *ngIf="row.state == 'PROJECT'" (click)="update(row)">
+          <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+        </svg>
+        <button class="btn btn-close me-3" *ngIf="row.state == 'PROJECT'" (click)="remove(row)"></button>
+        <b *ngIf="row.active == false">Niekatywny</b>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-selector" [ngStyle]="{'background':row.active == false ? '#808080':'#FFF'}"></tr>
+  </table>
+
+  <mat-paginator #paginator
+                 [length]="dataSource?.data?.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 aria-label="Select page">
+  </mat-paginator>
+</div>

@@ -2,6 +2,7 @@ package com.example.suma.service;
 
 import com.example.suma.entity.*;
 import com.example.suma.exceptions.NoEnoughProductException;
+import com.example.suma.exceptions.WMDontExist;
 import com.example.suma.repository.ProductRepository;
 import com.example.suma.repository.ReservationRepository;
 import com.example.suma.repository.WMDocumentsRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -65,6 +67,19 @@ public class WMDocumentsService{
         });
     }
 
+    public void removeProducts(WMDocuments wmDocuments) throws NoEnoughProductException{
+        wmDocuments.getWmProductsList().forEach(value->{
+            if (value.getProduct().getAvailable()-value.getQuantity()<0 || value.getProduct().getCount()-value.getQuantity()<0){
+                throw new NoEnoughProductException();
+            }
+        });
+        wmDocuments.getWmProductsList().forEach(wmProducts -> {
+            wmProducts.getProduct().setAvailable(wmProducts.getProduct().getAvailable()-wmProducts.getQuantity());
+            wmProducts.getProduct().setCount(wmProducts.getProduct().getCount()-wmProducts.getQuantity());
+            productRepository.save(wmProducts.getProduct());
+        });
+    }
+
     public void deleteWm(WMDocuments wmDocuments){
         wmDocumentsRepository.delete(wmDocuments);
     }
@@ -77,5 +92,23 @@ public class WMDocumentsService{
         AtomicReference<ZMDocument> zmDocuments = new AtomicReference<>();
         reservationRepository.findReservationByBasket(basket).ifPresentOrElse(reservation -> zmDocuments.set(reservation.getZm()),()->zmDocuments.set(null));
         return zmDocuments.get();
+    }
+
+    public List<WMDocuments> findAllByStatusAndName(State state, String name) {
+        if (name != null) {
+            return wmDocumentsRepository.findAllByStateAndUuid(state, name);
+        }
+        return wmDocumentsRepository.findAllByState(state);
+    }
+
+    public List<WMDocuments> findallByName(String name) {
+        if (name != null){
+            return wmDocumentsRepository.findAllByUuid(name);
+        }
+        return wmDocumentsRepository.findAll();
+    }
+
+    public WMDocuments findByUuid(String uuid) {
+        return wmDocumentsRepository.findByUuid(uuid).orElseThrow(()->new WMDontExist("Dokument nie istnieje"));
     }
 }

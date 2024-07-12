@@ -1,0 +1,9 @@
+<div class="container p-3" style="min-width: 400px;">
+  <div class="form-group mb-3">
+    <label for="exampleFormControlTextarea1">Wiadomość do klienta</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="message" rows="3" style="min-height:400px"></textarea>
+  </div>
+  <button class="btn btn-danger mt-3 ms-3" mat-dialog-close="order-message">Anuluj</button>
+  <button class="btn btn-success ms-3 mt-3" (click)="send()">Wyślij</button>
+</div>
+

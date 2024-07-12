@@ -37,6 +37,14 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import { ImageFormComponent } from './modules/product/image-form/image-form.component';
 import { PropertiesFormComponent } from './modules/product/properties-form/properties-form.component';
 import { ConfirmComponent } from './modules/product/confirm/confirm.component';
+import { MagazinComponent } from './modules/magazin/magazin.component';
+import { MagazinFormComponent } from './modules/magazin/magazin-form/magazin-form.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { MagazinPickerComponent } from './modules/magazin/magazin-picker/magazin-picker.component';
+import { OrderComponent } from './modules/order/order.component';
+import { OrderFormComponent } from './modules/order/order-form/order-form.component';
+import { OrderMessageComponent } from './modules/order/order-message/order-message.component';
+import { OrderDeliverComponent } from './modules/order/order-deliver/order-deliver.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -57,7 +65,14 @@ import { ConfirmComponent } from './modules/product/confirm/confirm.component';
     ProductFormComponent,
     ImageFormComponent,
     PropertiesFormComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    MagazinComponent,
+    MagazinFormComponent,
+    MagazinPickerComponent,
+    OrderComponent,
+    OrderFormComponent,
+    OrderMessageComponent,
+    OrderDeliverComponent
   ],
   imports: [
     CommonModule,
@@ -82,7 +97,8 @@ import { ConfirmComponent } from './modules/product/confirm/confirm.component';
     MatButtonModule,
     CdkVirtualScrollViewport,
     CdkVirtualForOf,
-    CdkFixedSizeVirtualScroll
+    CdkFixedSizeVirtualScroll,
+    MatAutocompleteModule
   ],
   providers: []
 })

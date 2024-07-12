@@ -88,6 +88,8 @@ public class CategoryService {
     public void deleteCategory(String uuid) {
         categoryRepository.findCategoryByUuid(uuid).ifPresentOrElse(value->{
             if (categoryRepository.findCategoryBySupercategoryId(value.getId()).isEmpty()){
+                value.setSupercategory(null);
+                categoryRepository.save(value);
                 categoryRepository.delete(value);
             }else{
                 throw new SupercategoryNotEmptyException();

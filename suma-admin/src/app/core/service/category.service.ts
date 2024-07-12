@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {UserClass} from "./users.service";
 import {Response} from "../model/response.model";
 
 
@@ -42,14 +41,14 @@ export class CategoryService {
   }
 
   saveCategory(category:Category){
-    return this.http.post<Response>(`${environment.url}/api/v1/category`,category,{withCredentials:true})
+    return this.http.post<Response>(`${environment.url}/api/v1/admin/category`,category,{withCredentials:true})
   }
 
   editCategory(category:Category){
-    return this.http.patch<Response>(`${environment.url}/api/v1/category`,category,{withCredentials:true})
+    return this.http.patch<Response>(`${environment.url}/api/v1/admin/category`,category,{withCredentials:true})
   }
 
   deleteCategory(uuid:string){
-    return this.http.delete<Response>(`${environment.url}/api/v1/category/`+uuid,{withCredentials:true})
+    return this.http.delete<Response>(`${environment.url}/api/v1/admin/category/`+uuid,{withCredentials:true})
   }
 }

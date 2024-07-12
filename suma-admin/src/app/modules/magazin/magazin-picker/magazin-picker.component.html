@@ -1,0 +1,20 @@
+<form class="example-form" [formGroup]="formGroup">
+  <mat-form-field style="width: 90%">
+    <mat-label>Produkt</mat-label>
+    <input type="text"
+           matInput
+           [formControl]="formGroup.controls.uuid"
+           [matAutocomplete]="auto"
+           [value]="getOptionName()">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event.option.value)">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.uuid">
+        {{option.name || 'Unknown'}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="input-group flex-nowrap mb-3">
+    <label class="input-group-text">Ilość</label>
+    <input class="form-control" type="number" formControlName="quantity"/>
+  </div>
+  <button class="btn btn-success mb-3 ms-3" (click)="closeDialog()" [disabled]="!formGroup.valid">Dodaj</button>
+</form>

@@ -80,6 +80,23 @@ CREATE TABLE IF NOT EXISTS wm_products (
       FOREIGN KEY (wmDocuments_id) REFERENCES wm_documents(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS pm_documents (
+        id serial PRIMARY KEY,
+        uuid VARCHAR,
+        create_date DATE,
+        state VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS pm_products (
+       id serial PRIMARY KEY,
+       uuid VARCHAR,
+       product_id BIGINT,
+       pmdocuments_id BIGINT,
+       quantity BIGINT,
+       FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE,
+       FOREIGN KEY (pmdocuments_id) REFERENCES pm_documents(id) ON DELETE CASCADE
+);
+
 CREATE TABLE deliver(
     id serial primary key,
     uuid varchar,

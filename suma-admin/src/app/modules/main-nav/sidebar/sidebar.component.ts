@@ -23,7 +23,9 @@ export class SidebarComponent implements OnInit {
     new MenuElements("Użytkownicy", "uzytkownicy"),
     new MenuElements("Kategorie", "kategorie"),
     new MenuElements("Produkty", "produkty"),
-];
+    new MenuElements("Wydania/Przyjęcia", 'magazyn'),
+    new MenuElements("Zamówienia", 'zam')
+  ];
   name!: string
   roleName!: string;
 
@@ -47,24 +49,22 @@ export class SidebarComponent implements OnInit {
   }
 
   runModule(operaion: string) {
-    if (operaion == "Użytkownicy") {
-      this.router.navigate(["panel/uzytkownicy"])
-    } else if (operaion == "Kategorie1") {
-      //this.dialog.open(AdministratorComponent)
-    } else if (operaion == "Kategorie") {
-      this.router.navigate(["panel/kategorie"])
-    } else if (operaion == "Produkty") {
-      this.router.navigate(["panel/produkty"])
-    } else if (operaion == "Cennik") {
-      this.router.navigate(["main/price"])
-    } else if (operaion == "Umowy") {
-      this.router.navigate(["main/contract"])
-    } else if (operaion == "Zlecenie OT") {
-      this.router.navigate(["main/ot_list"])
-    } else if (operaion == "Odczyty") {
-      this.router.navigate(["main/readings"])
+    switch (operaion){
+      case "Użytkownicy":
+        this.router.navigate(["panel/uzytkownicy"])
+        break
+      case "Kategorie":
+        this.router.navigate(["panel/kategorie"])
+        break
+      case "Produkty":
+        this.router.navigate(["panel/produkty"])
+        break
+      case "Wydania/Przyjęcia":
+        this.router.navigate(["panel/magazyn"])
+        break
+      case "Zamówienia":
+        this.router.navigate(["panel/zamowienia"])
+        break
     }
   }
-
-
 }

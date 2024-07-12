@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,8 @@ public class AuthMediator {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getLogin(), authRequest.getPassword()));
             if (authentication.isAuthenticated()) {
                 User user = userService.findByLogin(authRequest.getLogin());
+                List<String> roles = new ArrayList<>();
+                user.getRole().forEach(val -> roles.add(String.valueOf(val.getRole())));
                 Cookie cookie = cookiService.generateCookie("Authorization",jwtService.generateToken(authRequest.getLogin()),40000);
                 response.addCookie(cookie);
                 return userDtoToUser.userToUserDto(user);

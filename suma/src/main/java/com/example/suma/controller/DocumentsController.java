@@ -3,6 +3,7 @@ package com.example.suma.controller;
 import com.example.suma.entity.Code;
 import com.example.suma.entity.Response;
 import com.example.suma.entity.dto.DeliverDTO;
+import com.example.suma.entity.dto.DocumentDTO;
 import com.example.suma.entity.dto.OrderDTO;
 import com.example.suma.entity.notify.*;
 import com.example.suma.exceptions.*;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
@@ -55,7 +57,6 @@ public class DocumentsController {
 
     @RequestMapping(method = RequestMethod.POST,value = "/notification")
     public ResponseEntity<Response> notifyOrder(@RequestBody String notify, HttpServletRequest request){
-        System.out.println("Test");
         return documentsMediator.handleNotify(notify,request);
     }
 
