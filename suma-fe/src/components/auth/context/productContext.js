@@ -9,8 +9,8 @@ export const CategoryProvider = ({ children }) => {
   const [basketItems, setBasketItems] = useState(0)
 
   // zakomentuj ip przed publikacja
-  const ipMan = 'localhost:8080'
-  // const ipMan = '89.168.65.36:8080'
+  // const ipMan = 'localhost:8080'
+  const ipMan = '20.229.114.122:8080'
 
   return (
     <CategoryContext.Provider
