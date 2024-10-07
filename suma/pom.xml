@@ -141,7 +141,7 @@
                             <version>${lombok.version}</version>
                         </path>
                         <path>
-                            <groupId>org.mapstructmapstruct</groupId>
+                            <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>1.5.0.Final</version>
                         </path>
