@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 public class EmailService {
 
     private final EmailConfiguration emailConfiguration;
+    private final UserService userService;
 
     @Value("${front.url}")
     private String fontendUrl;
@@ -40,5 +41,36 @@ public class EmailService {
             throw new RuntimeException(e);
         }
         log.info("--STOP sendActivation");
+    }
+
+    public void sendMessageNotification(ZMDocument zmDocument){
+        log.info("--START sendMessageNotification");
+        try {
+            ClassPathResource resource = new ClassPathResource("/static/mail-message.html");
+            InputStream inputStream = resource.getInputStream();
+            String content = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            content = content.replace("https://google.com",fontendUrl+"/podsumowanie/"+zmDocument.getUuid());
+            emailConfiguration.sendMail(zmDocument.getEmail(), content,"Nowa wiadomość",true);
+        }catch (IOException e){
+            log.info("Cant send admin notification");
+            throw new RuntimeException(e);
+        }
+        log.info("--STOP sendMessageNotification");
+    }
+
+    public void sendOrderAdminNotification(ZMDocument zmDocument){
+        log.info("--START sendAdminNotification");
+        try {
+            ClassPathResource resource = new ClassPathResource("/static/mail-order-admin.html");
+            InputStream inputStream = resource.getInputStream();
+            String content = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8).replace("{order}",zmDocument.getUuid()).replace("{frontend}",fontendUrl);
+            userService.getAllUsers().forEach(v->{
+                emailConfiguration.sendMail(v.getEmail(), content,"Złożono zamówienie "+zmDocument.getUuid(),true);
+            });
+        }catch (IOException e){
+            log.info("Cant send admin notification");
+            throw new RuntimeException(e);
+        }
+        log.info("--STOP sendAdminNotification");
     }
 }

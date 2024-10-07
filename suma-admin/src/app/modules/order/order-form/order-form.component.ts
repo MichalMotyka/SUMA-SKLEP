@@ -4,6 +4,8 @@ import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {DocumentService, OrderDTO} from "../../../core/service/document.service";
 import {OrderMessageComponent} from "../order-message/order-message.component";
 import {OrderDeliverComponent} from "../order-deliver/order-deliver.component";
+import {OrderProductsComponent} from "../order-products/order-products.component";
+import {OrderConfirmComponent} from "../order-confirm/order-confirm.component";
 
 @Component({
   selector: 'app-order-form',
@@ -50,5 +52,13 @@ export class OrderFormComponent {
   }
   getDeliver(){
     this.dialog.open(OrderDeliverComponent,{data:{order:this.order},disableClose:true})
+  }
+
+  getProduct() {
+    this.dialog.open(OrderProductsComponent,{data:{products:this.order.details},disableClose:true})
+  }
+
+  pushState() {
+    this.dialog.open(OrderConfirmComponent,{data:{order:this.order},disableClose:true})
   }
 }

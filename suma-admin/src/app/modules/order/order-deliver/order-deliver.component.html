@@ -1,1 +1,33 @@
-<p>order-deliver works!</p>
+<form [formGroup]="formGroup">
+  <div class="container mt-3">
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Typ</span>
+      <input class="form-control" type="text" formControlName="typ"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3" *ngIf="order.parcelLocker">
+      <span class="input-group-text">Paczkomat</span>
+      <input class="form-control" type="text" formControlName="parcel"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3" *ngIf="order.parcelLocker">
+      <span class="input-group-text">Numer telefonu</span>
+      <input class="form-control" type="text" formControlName="number"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Numer domu</span>
+      <input class="form-control" type="text" formControlName="home"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Ulica</span>
+      <input class="form-control" type="text" formControlName="street"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Miasto</span>
+      <input class="form-control" type="text" formControlName="city"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Kod pocztowy</span>
+      <input class="form-control" type="text" formControlName="post"/>
+    </div>
+    <button class="btn btn-danger m-3" mat-dialog-close="kontrahent-form">Anuluj</button>
+  </div>
+</form>

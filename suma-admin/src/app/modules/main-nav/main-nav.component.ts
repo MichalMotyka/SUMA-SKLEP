@@ -26,12 +26,9 @@ export class MainNavComponent {
   constructor(private breakpointObserver: BreakpointObserver,private dialogRef: MatDialog,private http:HttpClient,private route:Router,private cookieService:CookieService) {}
 
   logout() {
-      // this.http.get<CountryCreateResponse>(`${environment.url}/api/logout`).subscribe(value => {
-      //   this.route.navigate(["/"])
-      // })
+      this.http.get<any>(`${environment.url}/api/v1/auth/logout`,{withCredentials:true}).subscribe(value => {
+      })
+      this.route.navigate(["/"])
   }
 
-  add() {
-    // this.dialogRef.open(KontrahentFormComponent,{disableClose:true})
-  }
 }

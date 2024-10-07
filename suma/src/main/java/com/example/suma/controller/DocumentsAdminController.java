@@ -69,6 +69,13 @@ public class DocumentsAdminController {
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PatchMapping("status/orders")
+    public ResponseEntity<Response> changeStatus(@RequestBody OrderDTO orderDTO){
+        documentsMediator.changeStatus(orderDTO);
+        return ResponseEntity.ok(new Response(Code.SUCCESS));
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(PMDontExist.class)
     public Response handlePMDontExistException(

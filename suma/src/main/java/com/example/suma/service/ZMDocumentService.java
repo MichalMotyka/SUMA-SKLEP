@@ -128,6 +128,7 @@ public class ZMDocumentService {
                         product.setAvailable(product.getAvailable() - wmProducts.getQuantity());
                         productRepository.save(product);
                     }));
+                    emailService.sendOrderAdminNotification(value);
                 }else if(notify.getOrder().getStatus() == Status.CANCELED){
                     value.setState(State.REJECTED);
                     value.getDocument().setState(State.REJECTED);
@@ -172,8 +173,18 @@ public class ZMDocumentService {
             if (!value.getMessage().equals(orderDTO.getMessage())){
                 value.setMessage(orderDTO.getMessage());
                 zmDocumentRepository.save(value);
-                //TODO WYSYLANIE MAILA
+                emailService.sendMessageNotification(value);
             }
+
         },()->{throw new OrderDontExistException();});
+    }
+
+    public void updateStatus(OrderDTO orderDTO) throws OrderDontExistException {
+        zmDocumentRepository.findZMDocumentByUuid(orderDTO.getUuid()).ifPresentOrElse(
+                value->{
+                    value.setState(orderDTO.getState());
+                    zmDocumentRepository.save(value);
+                },()->{throw new OrderDontExistException();}
+        );
     }
 }

@@ -5,7 +5,6 @@ import com.example.suma.entity.User;
 import com.example.suma.entity.dto.UserDTO;
 import com.example.suma.exceptions.UserAlreadyExistException;
 import com.example.suma.exceptions.UserDontExistException;
-import com.example.suma.repository.UserRepository;
 import com.example.suma.security.CustomUserDetailsService;
 import com.example.suma.security.JwtService;
 import com.example.suma.service.CookiService;
@@ -62,6 +61,11 @@ public class AuthMediator {
     public List<UserDTO> getUsersList() {
         List<User> users = userService.getAllUsers();
         return users.stream().map(userDtoToUser::userToUserDto).collect(Collectors.toList());
+    }
+
+    public void logout(HttpServletResponse response){
+        Cookie cookie = cookiService.generateCookie("Authorization","",1);
+        response.addCookie(cookie);
     }
 
     public UserDTO loggedIn(HttpServletRequest request) {

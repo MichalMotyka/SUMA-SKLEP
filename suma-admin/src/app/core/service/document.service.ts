@@ -57,7 +57,7 @@ export class OrderDTO{
     public deliver: DeliverDTO,
     public fullPrice: number,
     public fullQuantity: number,
-    public ParcelLocker: string,
+    public parcelLocker: string,
     public message: string,
     public payuUrl: string,
     public details: OrderDetailsDTO[]
@@ -98,5 +98,9 @@ export class DocumentService {
   sendMessage(uuid:string,message:string){
     let order = new OrderDTO(uuid,'',"TOPAY",'','','','','','','','',false,'','','','','','','','','','','',new DeliverDTO('','','',0),0,0,'',message,'',[])
     return this.http.patch<Response>(`${environment.url}/api/v1/admin/document/send/message/orders`,order,{withCredentials:true})
+  }
+  updateStatus(uuid:string,state:string){
+    let order = new OrderDTO(uuid,'', state,'','','','','','','','',false,'','','','','','','','','','','',new DeliverDTO('','','',0),0,0,'','','',[])
+    return this.http.patch<Response>(`${environment.url}/api/v1/admin/document/status/orders`,order,{withCredentials:true})
   }
 }

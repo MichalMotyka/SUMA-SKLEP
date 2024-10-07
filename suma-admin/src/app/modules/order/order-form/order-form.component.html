@@ -98,6 +98,7 @@
   </div>
   <button class="btn btn-danger m-3" mat-dialog-close="kontrahent-form">Anuluj</button>
   <button class="btn btn-secondary" (click)="sendMessage()">Wyślij wiadomość</button>
-  <button class="btn btn-success m-3">Produkty</button>
-  <button class="btn btn-dark">Dostawa</button>
+  <button class="btn btn-success m-3" (click)="getProduct()">Produkty</button>
+  <button class="btn btn-dark" (click)="getDeliver()">Dostawa</button>
+  <button class="btn btn-info m-3" (click)="pushState()" *ngIf="order.state == 'REALIZATION' || order.state == 'CREATED'">Zmień status</button>
 </form>

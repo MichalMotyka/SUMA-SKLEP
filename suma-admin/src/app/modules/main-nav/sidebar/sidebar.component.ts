@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
+import {UserControllerService} from "../../../core/service/user-controller.service";
+import {ToastrService} from "ngx-toastr";
 
 
 class MenuElements {
@@ -20,17 +22,22 @@ class MenuElements {
 })
 export class SidebarComponent implements OnInit {
   elements: MenuElements[] = [
-    new MenuElements("Użytkownicy", "uzytkownicy"),
+    // new MenuElements("Użytkownicy", "uzytkownicy"),
     new MenuElements("Kategorie", "kategorie"),
     new MenuElements("Produkty", "produkty"),
     new MenuElements("Wydania/Przyjęcia", 'magazyn'),
     new MenuElements("Zamówienia", 'zam')
   ];
   name!: string
-  roleName!: string;
+  roleName!: string | null;
 
-  constructor(private router: Router, private dialog: MatDialog) {
-
+  constructor(private router: Router, private dialog: MatDialog,private userController:UserControllerService,private toaster:ToastrService) {
+      if (userController.username == null || userController.roles.length == 0){
+        toaster.error("Nie jesteś zalogowany")
+        this.router.navigate(["/"])
+      }else{
+        this.name = userController.username
+      }
   }
 
   ngOnInit(): void {
@@ -50,9 +57,9 @@ export class SidebarComponent implements OnInit {
 
   runModule(operaion: string) {
     switch (operaion){
-      case "Użytkownicy":
-        this.router.navigate(["panel/uzytkownicy"])
-        break
+      // case "Użytkownicy":
+      //   this.router.navigate(["panel/uzytkownicy"])
+      //   break
       case "Kategorie":
         this.router.navigate(["panel/kategorie"])
         break

@@ -225,4 +225,8 @@ public class DocumentsMediator {
     public void sendMessage(OrderDTO orderDTO) throws OrderDontExistException {
         zmDocumentService.setMessage(orderDTO);
     }
+
+    public void changeStatus(OrderDTO orderDTO) throws OrderDontExistException {
+        zmDocumentService.updateStatus(orderDTO);
+    }
 }

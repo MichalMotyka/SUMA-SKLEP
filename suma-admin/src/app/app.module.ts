@@ -45,6 +45,9 @@ import { OrderComponent } from './modules/order/order.component';
 import { OrderFormComponent } from './modules/order/order-form/order-form.component';
 import { OrderMessageComponent } from './modules/order/order-message/order-message.component';
 import { OrderDeliverComponent } from './modules/order/order-deliver/order-deliver.component';
+import { OrderProductsComponent } from './modules/order/order-products/order-products.component';
+import {MatSortModule} from "@angular/material/sort";
+import { OrderConfirmComponent } from './modules/order/order-confirm/order-confirm.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -72,34 +75,37 @@ import { OrderDeliverComponent } from './modules/order/order-deliver/order-deliv
     OrderComponent,
     OrderFormComponent,
     OrderMessageComponent,
-    OrderDeliverComponent
+    OrderDeliverComponent,
+    OrderProductsComponent,
+    OrderConfirmComponent
   ],
-  imports: [
-    CommonModule,
-    MatListModule,
-    MatDialogModule,
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatInputModule,
-    ToastrModule.forRoot(),
-    MatButtonModule,
-    CdkVirtualScrollViewport,
-    CdkVirtualForOf,
-    CdkFixedSizeVirtualScroll,
-    MatAutocompleteModule
-  ],
+    imports: [
+        CommonModule,
+        MatListModule,
+        MatDialogModule,
+        HttpClientModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatInputModule,
+        ToastrModule.forRoot(),
+        MatButtonModule,
+        CdkVirtualScrollViewport,
+        CdkVirtualForOf,
+        CdkFixedSizeVirtualScroll,
+        MatAutocompleteModule,
+        MatSortModule
+    ],
   providers: []
 })
 export class AppModule { }
