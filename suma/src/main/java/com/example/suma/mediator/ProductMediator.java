@@ -141,10 +141,15 @@ public class ProductMediator {
         return ResponseEntity.ok(new Response(Code.SUCCESS));
     }
 
-    public ResponseEntity<?> getImage(String uuid) throws IOException {
+    public ResponseEntity<?> getImage(String uuid) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
-        return new ResponseEntity<>(ftpService.getFile(uuid).toByteArray(),headers, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(ftpService.getFile(uuid).toByteArray(),headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ResponseEntity<Response> deleteProduct(String uuid) {
