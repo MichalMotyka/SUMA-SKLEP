@@ -37,6 +37,17 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import { ImageFormComponent } from './modules/product/image-form/image-form.component';
 import { PropertiesFormComponent } from './modules/product/properties-form/properties-form.component';
 import { ConfirmComponent } from './modules/product/confirm/confirm.component';
+import { MagazinComponent } from './modules/magazin/magazin.component';
+import { MagazinFormComponent } from './modules/magazin/magazin-form/magazin-form.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { MagazinPickerComponent } from './modules/magazin/magazin-picker/magazin-picker.component';
+import { OrderComponent } from './modules/order/order.component';
+import { OrderFormComponent } from './modules/order/order-form/order-form.component';
+import { OrderMessageComponent } from './modules/order/order-message/order-message.component';
+import { OrderDeliverComponent } from './modules/order/order-deliver/order-deliver.component';
+import { OrderProductsComponent } from './modules/order/order-products/order-products.component';
+import {MatSortModule} from "@angular/material/sort";
+import { OrderConfirmComponent } from './modules/order/order-confirm/order-confirm.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -57,33 +68,44 @@ import { ConfirmComponent } from './modules/product/confirm/confirm.component';
     ProductFormComponent,
     ImageFormComponent,
     PropertiesFormComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    MagazinComponent,
+    MagazinFormComponent,
+    MagazinPickerComponent,
+    OrderComponent,
+    OrderFormComponent,
+    OrderMessageComponent,
+    OrderDeliverComponent,
+    OrderProductsComponent,
+    OrderConfirmComponent
   ],
-  imports: [
-    CommonModule,
-    MatListModule,
-    MatDialogModule,
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatInputModule,
-    ToastrModule.forRoot(),
-    MatButtonModule,
-    CdkVirtualScrollViewport,
-    CdkVirtualForOf,
-    CdkFixedSizeVirtualScroll
-  ],
+    imports: [
+        CommonModule,
+        MatListModule,
+        MatDialogModule,
+        HttpClientModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatInputModule,
+        ToastrModule.forRoot(),
+        MatButtonModule,
+        CdkVirtualScrollViewport,
+        CdkVirtualForOf,
+        CdkFixedSizeVirtualScroll,
+        MatAutocompleteModule,
+        MatSortModule
+    ],
   providers: []
 })
 export class AppModule { }

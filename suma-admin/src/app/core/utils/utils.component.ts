@@ -10,7 +10,9 @@ import {SharedService} from "./shared/shared.service";
 export class UtilsComponent implements OnInit {
 
   @Input() module!:any
+  @Input() check:boolean = false
   value!: string;
+  checkValue = true
   constructor(private dialogRef: MatDialog,private sharedService:SharedService) { }
 
   ngOnInit(): void {
@@ -19,8 +21,19 @@ export class UtilsComponent implements OnInit {
   search(){
     this.sharedService.sendClickEvent(this.value)
   }
-
+  getCheck(){
+    if (this.check){
+      return
+    }
+  }
   add() {
-    this.dialogRef.open(this.module,{data:{viewMode:false,row:this.module}})
+    if (this.module){
+      this.dialogRef.open(this.module,{data:{viewMode:false,row:this.module}})
+    }
+  }
+
+  setCheck() {
+    this.checkValue = !this.checkValue
+    this.sharedService.sendCheckEvent(this.checkValue)
   }
 }

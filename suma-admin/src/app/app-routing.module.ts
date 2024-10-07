@@ -7,6 +7,8 @@ import {PanelComponent} from "./modules/panel/panel.component";
 import {UserComponent} from "./modules/user/user.component";
 import {CategoryComponent} from "./modules/category/category.component";
 import {ProductComponent} from "./modules/product/product.component";
+import {MagazinComponent} from "./modules/magazin/magazin.component";
+import {OrderComponent} from "./modules/order/order.component";
 
 const routes: Routes = [
   {path:"",component:LoginComponent},
@@ -14,6 +16,8 @@ const routes: Routes = [
       {path:"uzytkownicy",component:UserComponent},
       {path:"kategorie",component:CategoryComponent},
       {path:"produkty",component:ProductComponent},
+      {path:"magazyn",component:MagazinComponent},
+      {path:"zamowienia",component:OrderComponent}
     ]}
 ];
 

@@ -5,7 +5,6 @@ import com.example.suma.entity.User;
 import com.example.suma.entity.dto.UserDTO;
 import com.example.suma.exceptions.UserAlreadyExistException;
 import com.example.suma.exceptions.UserDontExistException;
-import com.example.suma.repository.UserRepository;
 import com.example.suma.security.CustomUserDetailsService;
 import com.example.suma.security.JwtService;
 import com.example.suma.service.CookiService;
@@ -23,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +48,8 @@ public class AuthMediator {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getLogin(), authRequest.getPassword()));
             if (authentication.isAuthenticated()) {
                 User user = userService.findByLogin(authRequest.getLogin());
+                List<String> roles = new ArrayList<>();
+                user.getRole().forEach(val -> roles.add(String.valueOf(val.getRole())));
                 Cookie cookie = cookiService.generateCookie("Authorization",jwtService.generateToken(authRequest.getLogin()),40000);
                 response.addCookie(cookie);
                 return userDtoToUser.userToUserDto(user);
@@ -59,6 +61,11 @@ public class AuthMediator {
     public List<UserDTO> getUsersList() {
         List<User> users = userService.getAllUsers();
         return users.stream().map(userDtoToUser::userToUserDto).collect(Collectors.toList());
+    }
+
+    public void logout(HttpServletResponse response){
+        Cookie cookie = cookiService.generateCookie("Authorization","",1);
+        response.addCookie(cookie);
     }
 
     public UserDTO loggedIn(HttpServletRequest request) {

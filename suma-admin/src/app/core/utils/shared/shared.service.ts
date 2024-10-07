@@ -6,6 +6,7 @@ import {Observable, Subject} from "rxjs";
 })
 export class SharedService {
   private subject = new Subject<any>();
+  private subjectCheck = new Subject<any>()
 
   sendClickEvent(value:string){
     this.subject.next(value);
@@ -13,6 +14,14 @@ export class SharedService {
 
   getClieckEvent():Observable<any>{
     return this.subject.asObservable()
+  }
+
+  sendCheckEvent(valeu:boolean){
+    this.subjectCheck.next(valeu)
+  }
+
+  getCheckEvent():Observable<any>{
+    return this.subjectCheck.asObservable()
   }
   constructor() { }
 }

@@ -1,0 +1,104 @@
+<form [formGroup]="formGroup">
+  <div class="d-flex">
+  <div class="container mt-4">
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Imię</span>
+      <input class="form-control" type="text"  formControlName="name"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Nazwisko</span>
+      <input class="form-control" type="text"  formControlName="surname"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Nazwa firmy</span>
+      <input class="form-control" type="text"  formControlName="company"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Nip</span>
+      <input class="form-control" type="text"  formControlName="nip"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Numer domu</span>
+      <input class="form-control" type="text"  formControlName="home"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Ulica</span>
+      <input class="form-control" type="text"  formControlName="street"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Miasto</span>
+      <input class="form-control" type="text"  formControlName="city"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Kod pocztowy</span>
+      <input class="form-control" type="text"  formControlName="post"/>
+    </div>
+  </div>
+  <div class="container mt-4" *ngIf="invoicing">
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Imię</span>
+      <input class="form-control" type="text"  formControlName="fname"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Nazwisko</span>
+      <input class="form-control" type="text"  formControlName="fsurname"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Firma</span>
+      <input class="form-control" type="text"  formControlName="fcompany"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Nip</span>
+      <input class="form-control" type="text"  formControlName="fnip"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Numer Mieszkania</span>
+      <input class="form-control" type="text"  formControlName="fhome"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Ulica</span>
+      <input class="form-control" type="text"  formControlName="fstreet"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Miasto</span>
+      <input class="form-control" type="text"  formControlName="fcity"/>
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text">Faktura Kod Pocztowy</span>
+      <input class="form-control" type="text"  formControlName="fpost"/>
+    </div>
+  </div>
+    <div class="container mt-4">
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text">Numer</span>
+        <input class="form-control" type="text" formControlName="uuid"/>
+      </div>
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text">Data</span>
+        <input class="form-control" type="text"  formControlName="date"/>
+      </div>
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text">Status</span>
+        <input class="form-control" type="text"  formControlName="state"/>
+      </div>
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text">Email</span>
+        <input class="form-control" type="email"  formControlName="email"/>
+      </div>
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text">Numer Telefonu</span>
+        <input class="form-control" type="text"  formControlName="phone"/>
+      </div>
+      <div class="form-group mb-3">
+        <label for="exampleFormControlTextarea1">Dodatkowe informacje od klienta</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="description" rows="3"></textarea>
+      </div>
+    </div>
+
+  </div>
+  <button class="btn btn-danger m-3" mat-dialog-close="kontrahent-form">Anuluj</button>
+  <button class="btn btn-secondary" (click)="sendMessage()">Wyślij wiadomość</button>
+  <button class="btn btn-success m-3" (click)="getProduct()">Produkty</button>
+  <button class="btn btn-dark" (click)="getDeliver()">Dostawa</button>
+  <button class="btn btn-info m-3" (click)="pushState()" *ngIf="order.state == 'REALIZATION' || order.state == 'CREATED'">Zmień status</button>
+</form>

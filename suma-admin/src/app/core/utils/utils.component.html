@@ -1,5 +1,6 @@
 <div class="d-flex flex-row">
-  <button class="btn btn-success m-3" (click)="add()">Dodaj</button>
+  <button class="btn btn-success m-3" (click)="add()" *ngIf="module">Dodaj</button>
+  <mat-checkbox class="m-auto" *ngIf="check" (change)="setCheck()" checked>Niezrealizowane</mat-checkbox>
 <!--  <button class="btn btn-danger m-3">Anuluj</button>-->
   <div class="input-group input-group-sm m-3 me-0">
     <span class="input-group-text" id="inputGroup-sizing-sm">Wyszukaj</span>

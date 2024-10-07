@@ -24,12 +24,7 @@ public class CategoryController {
 
     private final CategoryMediator categoryMediator;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping
-    public ResponseEntity<Response> createCategory(@Valid @RequestBody CategoryDTO category){
-        categoryMediator.createCategory(category);
-        return ResponseEntity.ok(new Response(Code.SUCCESS));
-    }
+
 
     @GetMapping("{uuid}")
     public ResponseEntity<CategoryDTO> getCategory(@PathVariable String uuid){
@@ -41,19 +36,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryMediator.getCategory(type,name,bySupercategory));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PatchMapping()
-    public ResponseEntity<Response> updateCategory(@RequestBody CategoryDTO categoryDTO){
-        categoryMediator.updateCategory(categoryDTO);
-        return ResponseEntity.ok(new Response(Code.SUCCESS));
-    }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @DeleteMapping("{uuid}")
-    public ResponseEntity<Response> deleteCategory(@PathVariable String uuid){
-        categoryMediator.deleteCategory(uuid);
-        return ResponseEntity.ok(new Response(Code.SUCCESS));
-    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

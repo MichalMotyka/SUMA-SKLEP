@@ -42,6 +42,11 @@ public class AuthController {
     public ResponseEntity<UserDTO> loggedId(HttpServletRequest request){
         return ResponseEntity.ok(authMediator.loggedIn(request));
     }
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response){
+        authMediator.logout(response);
+        return ResponseEntity.ok().body("Logged out successfully");
+    }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/register")
