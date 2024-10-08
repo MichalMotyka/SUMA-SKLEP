@@ -29,13 +29,13 @@ public class BasketMediator {
     public BasketDTO getBasket(HttpServletResponse response, HttpServletRequest request) {
         Basket basket = basketService.getBasket(getBasketUuid(request,response));
         int size = 0;
-        basket.getBasketItem().forEach(basketItem -> {
-            basketItem.getProduct().setMainImg(adress + "/api/v1/product/image" + basketItem.getProduct().getMainImg());
-        });
         if(basket.getBasketItem() != null){
             for (BasketItem basketItem:basket.getBasketItem()){
                 size += (int) basketItem.getQuantity();
             }
+            basket.getBasketItem().forEach(basketItem -> {
+                basketItem.getProduct().setMainImg(adress + "/api/v1/product/image" + basketItem.getProduct().getMainImg());
+            });
         }
         response.setHeader("X-Total-Basket-Product-Count", String.valueOf(size));
         response.addCookie(new Cookie("basket-uuid",basket.getUuid()));
