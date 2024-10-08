@@ -34,7 +34,7 @@ public class BasketMediator {
                 size += (int) basketItem.getQuantity();
             }
             basket.getBasketItem().forEach(basketItem -> {
-                basketItem.getProduct().setMainImg(adress + "/api/v1/product/image" + basketItem.getProduct().getMainImg());
+                basketItem.getProduct().setMainImg(adress + "/api/v1/product/image/" + basketItem.getProduct().getMainImg());
             });
         }
         response.setHeader("X-Total-Basket-Product-Count", String.valueOf(size));
