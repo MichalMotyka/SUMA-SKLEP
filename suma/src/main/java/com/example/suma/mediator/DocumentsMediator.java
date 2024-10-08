@@ -201,8 +201,6 @@ public class DocumentsMediator {
             wmDocuments.setState(state);
             if (state == State.COMPLETED){
                 wmDocumentsService.removeProducts(wmDocuments);
-                wmDocuments.setState(State.COMPLETED);
-                wmDocumentsRepository.save(wmDocuments);
             }
             wmDocumentsRepository.save(wmDocuments);
         }catch (WMDontExist exist){
