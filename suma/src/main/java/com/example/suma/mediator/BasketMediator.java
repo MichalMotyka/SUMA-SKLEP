@@ -31,9 +31,6 @@ public class BasketMediator {
         int size = 0;
         basket.getBasketItem().forEach(basketItem -> {
             basketItem.getProduct().setMainImg(adress + "/api/v1/product/image" + basketItem.getProduct().getMainImg());
-            basketItem.getProduct().getImages().forEach(value->{
-                value = adress + "/api/v1/product/image" + value;
-            });
         });
         if(basket.getBasketItem() != null){
             for (BasketItem basketItem:basket.getBasketItem()){
