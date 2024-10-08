@@ -59,7 +59,6 @@ public class ZMDocumentService {
             zmDocument.setDocument(null);
             zmDocumentRepository.save(zmDocument);
             wmDocumentsService.deleteWm(wmToRemove);
-
         }
 
         wmDocumentsService.makeReservation(basket,zmDocument);
