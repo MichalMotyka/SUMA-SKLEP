@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,11 +20,21 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class BasketMediator {
+
+    @Value("${backend.adres}")
+    private String adress;
+
     private final BasketService basketService;
     private final BasketTranslator basketTranslator;
     public BasketDTO getBasket(HttpServletResponse response, HttpServletRequest request) {
         Basket basket = basketService.getBasket(getBasketUuid(request,response));
         int size = 0;
+        basket.getBasketItem().forEach(basketItem -> {
+            basketItem.getProduct().setMainImg(adress + "/api/v1/product/image" + basketItem.getProduct().getMainImg());
+            basketItem.getProduct().getImages().forEach(value->{
+                value = adress + "/api/v1/product/image" + value;
+            });
+        });
         if(basket.getBasketItem() != null){
             for (BasketItem basketItem:basket.getBasketItem()){
                 size += (int) basketItem.getQuantity();
