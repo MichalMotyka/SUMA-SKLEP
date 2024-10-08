@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       let err = "Hasło lub login nie jest podane proszę sprawdzić dane logowania"
       this.dialogRef.open(InfoComponent,{data:{message:err}});
     } else {
-      this.http.post<UserClass>("http://localhost:8080/api/v1/auth/login", this.user,{withCredentials:true}).subscribe(value => {
+      this.http.post<UserClass>("http://20.229.114.122:8080/api/v1/auth/login", this.user,{withCredentials:true}).subscribe(value => {
         this.usercontroller.setUserData(value);
         this.router.navigate(["/panel"])
       }, (error: HttpErrorResponse) => {
