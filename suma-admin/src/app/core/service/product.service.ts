@@ -44,7 +44,7 @@ export class ProductService {
   }
 
   editProduct(product:Product){
-    return this.http.put<Response>(`${environment.url}/api/v1/product`,product,{withCredentials:true})
+    return this.http.put<Response>(`${environment.url}/api/v1/product/update`,product,{withCredentials:true})
   }
 
   addImage(image:FormData,uuid:string | null){
@@ -58,7 +58,7 @@ export class ProductService {
     return this.http.get<Product>(`${environment.url}/api/v1/product/${produkt}/image`,{withCredentials:true})
   }
   updateProperties(produkt:Product | null){
-    return this.http.patch<Product>(`${environment.url}/api/v1/product`,produkt,{withCredentials:true})
+    return this.http.patch<Product>(`${environment.url}/api/v1/product/update`,produkt,{withCredentials:true})
   }
   deleteProduct(uuid:string | null){
     return this.http.delete(`${environment.url}/api/v1/product/${uuid}`,{withCredentials:true})
