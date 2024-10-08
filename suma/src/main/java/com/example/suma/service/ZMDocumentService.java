@@ -8,6 +8,7 @@ import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
 import com.example.suma.repository.ProductRepository;
+import com.example.suma.repository.WMDocumentsRepository;
 import com.example.suma.repository.ZMDocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ZMDocumentService {
     private final DeliverRepository deliverRepository;
     private final PayuService payuService;
     private final EmailService emailService;
+    private final WMDocumentsRepository wmDocumentsRepository;
 
 
     public void create(ZMDocument zmDocument) {
@@ -42,7 +44,13 @@ public class ZMDocumentService {
     }
 
     public String saveOrder(ZMDocument zmDocument,Basket basket){
-        WMDocuments wmDocuments = new WMDocuments();
+        WMDocuments wmDocuments = null;
+        if (zmDocument.getDocument() == null){
+            wmDocuments = new WMDocuments();
+
+        }else {
+            wmDocuments = wmDocumentsRepository.findById(zmDocument.getDocument().getId()).get();
+        }
         wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
         ZMDocument existing = wmDocumentsService.getWMByBasket(basket);
         if(basket != null && existing == null){

@@ -58,18 +58,18 @@ function Order () {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
-  
+
         const orderID = response.headers.get('order')
         setOrderUUID(orderID)
-        localStorage.setItem('orderUUID', orderID)
-  
+        localStorage.setItem('orderUUID', orderUUID)
+
         return response.json()
       })
       .catch(error => {
         console.error('Error:', error)
       })
-  
-  }, [ipMan]) 
+
+  }, [setOrderUUID, orderUUID, ipMan])
 
   // DELIVERY TYPE:
 
