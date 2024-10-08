@@ -123,9 +123,7 @@ public class ProductMediator {
             newProduct.setDescription(productDTO.getDescription());
             newProduct.setPrice(productDTO.getPrice());
             newProduct.setCreateDate(LocalDate.now());
-            product.getImages().stream().filter(value-> value.equals(productDTO.getMainImg())).findAny().ifPresentOrElse(value->{
-                newProduct.setMainImg(productDTO.getMainImg());
-            },()->{throw new ProductDontExistException();});
+            newProduct.setMainImg(product.getMainImg());
             newProduct.setImages(product.getImages());
             newProduct.setProperties(product.getProperties());
             newProduct.setCategory(categoryService.getCategoryByUuid(productDTO.getCategory().getUuid()));
