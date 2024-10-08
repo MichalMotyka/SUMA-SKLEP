@@ -58,22 +58,18 @@ function Order () {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
-
+  
         const orderID = response.headers.get('order')
         setOrderUUID(orderID)
-        localStorage.setItem('orderUUID', orderUUID)
-
+        localStorage.setItem('orderUUID', orderID)
+  
         return response.json()
       })
       .catch(error => {
         console.error('Error:', error)
       })
-
-      return () => {
-        // this will cancel the fetch request when the effect is unmounted
-        abortController.abort();
-      };
-  }, [setOrderUUID, orderUUID, ipMan])
+  
+  }, [ipMan]) 
 
   // DELIVERY TYPE:
 
