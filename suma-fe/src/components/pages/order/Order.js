@@ -23,7 +23,7 @@ function Order () {
   })
 
   // DODAJ OBSŁUGE BŁĘDÓW PO WCISNIECIU GUZIKA WYŚLIJ
-
+  const abortController = new AbortController();
   const [errorHandle, setErrorHandle] = useState('')
 
   const [orderUUID, setOrderUUID] = useState('')
@@ -68,6 +68,11 @@ function Order () {
       .catch(error => {
         console.error('Error:', error)
       })
+
+      return () => {
+        // this will cancel the fetch request when the effect is unmounted
+        abortController.abort();
+      };
   }, [setOrderUUID, orderUUID, ipMan])
 
   // DELIVERY TYPE:
