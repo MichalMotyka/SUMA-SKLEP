@@ -44,13 +44,8 @@ public class ZMDocumentService {
     }
 
     public String saveOrder(ZMDocument zmDocument,Basket basket){
-        WMDocuments wmDocuments = null;
-        if (zmDocument.getDocument() == null){
-            wmDocuments = new WMDocuments();
+        WMDocuments wmDocuments = wmDocumentsRepository.findById(zmDocument.getDocument().getId()).orElse(new WMDocuments());
 
-        }else {
-            wmDocuments = wmDocumentsRepository.findById(zmDocument.getDocument().getId()).get();
-        }
         wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
         ZMDocument existing = wmDocumentsService.getWMByBasket(basket);
         if(basket != null && existing == null){
