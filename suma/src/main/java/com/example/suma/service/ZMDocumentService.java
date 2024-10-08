@@ -8,7 +8,6 @@ import com.example.suma.exceptions.DeliverDontExistException;
 import com.example.suma.exceptions.OrderDontExistException;
 import com.example.suma.repository.DeliverRepository;
 import com.example.suma.repository.ProductRepository;
-import com.example.suma.repository.WMDocumentsRepository;
 import com.example.suma.repository.ZMDocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,6 @@ public class ZMDocumentService {
     private final DeliverRepository deliverRepository;
     private final PayuService payuService;
     private final EmailService emailService;
-    private final WMDocumentsRepository wmDocumentsRepository;
 
 
     public void create(ZMDocument zmDocument) {
@@ -44,8 +42,7 @@ public class ZMDocumentService {
     }
 
     public String saveOrder(ZMDocument zmDocument,Basket basket){
-        WMDocuments wmDocuments = wmDocumentsRepository.findById(zmDocument.getDocument().getId()).orElse(new WMDocuments());
-
+        WMDocuments wmDocuments = new WMDocuments();
         wmDocuments.setWmProductsList(zmDocument.getDocument().getWmProductsList());
         ZMDocument existing = wmDocumentsService.getWMByBasket(basket);
         if(basket != null && existing == null){
@@ -54,6 +51,7 @@ public class ZMDocumentService {
             zmDocument.setUuid(UUID.randomUUID().toString());
             zmDocument.setDocument(null);
             zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
+            zmDocument.setDocument(wmDocumentsService.create(wmDocuments));
         }else{
             zmDocument = existing;
             wmDocumentsService.removeReservation(zmDocument);
@@ -63,7 +61,7 @@ public class ZMDocumentService {
             wmDocumentsService.deleteWm(wmToRemove);
 
         }
-        zmDocument.setDocument(wmDocumentsService.create(wmDocuments));
+
         wmDocumentsService.makeReservation(basket,zmDocument);
         zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
         return zmDocument.getUuid();
