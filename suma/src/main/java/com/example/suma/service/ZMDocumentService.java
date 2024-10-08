@@ -50,8 +50,8 @@ public class ZMDocumentService {
             zmDocument.setState(State.PROJECT);
             zmDocument.setUuid(UUID.randomUUID().toString());
             zmDocument.setDocument(null);
-            zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
             zmDocument.setDocument(wmDocumentsService.create(wmDocuments));
+            zmDocument = zmDocumentRepository.saveAndFlush(zmDocument);
         }else{
             zmDocument = existing;
             wmDocumentsService.removeReservation(zmDocument);
