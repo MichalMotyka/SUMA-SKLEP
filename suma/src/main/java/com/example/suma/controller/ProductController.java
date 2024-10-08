@@ -83,13 +83,13 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PutMapping()
+    @PutMapping("update")
     public ResponseEntity<?> updateProduct(@RequestBody ProductDTO productDTO){
         return productMediator.updateProduct(productDTO);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PatchMapping()
+    @PatchMapping("/update")
     public ResponseEntity<Response> updateProductProperties(@RequestBody ProductDTO productDTO){
         return productMediator.updateProperties(productDTO);
     }
