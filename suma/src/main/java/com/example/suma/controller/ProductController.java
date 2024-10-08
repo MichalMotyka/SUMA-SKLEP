@@ -66,7 +66,7 @@ public class ProductController {
     }
 
     @GetMapping("/image/{uuid}")
-    public ResponseEntity<?> getImageByUuid(@PathVariable String uuid) {
+    public ResponseEntity<?> getImageByUuid(@PathVariable String uuid) throws IOException {
         return productMediator.getImage(uuid);
     }
 
