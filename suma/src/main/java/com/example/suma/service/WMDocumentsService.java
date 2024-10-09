@@ -81,6 +81,9 @@ public class WMDocumentsService{
     }
 
     public void deleteWm(WMDocuments wmDocuments){
+        wmDocuments.getWmProductsList().forEach(value->{
+            wmProductsRepository.delete(value);
+        });
         wmDocumentsRepository.delete(wmDocuments);
     }
 
