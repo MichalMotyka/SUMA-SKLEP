@@ -32,7 +32,7 @@ export class ImageFormComponent {
       next: value => {
         const images:Image[] = []
         value.images.forEach(image=>{
-          let new_image = image.split("/image/")[1]
+          const new_image = image.includes("/image/") ? image.split("/image/")[1] : image;
           console.log(new_image)
           images.push(new Image(new_image))
         })
