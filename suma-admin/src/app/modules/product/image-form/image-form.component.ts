@@ -32,6 +32,7 @@ export class ImageFormComponent {
       next: value => {
         const images:Image[] = []
         value.images.forEach(image=>{
+          image = image.split("/image/")[1]
           images.push(new Image(image))
         })
         this.dataSource = new MatTableDataSource(images);
